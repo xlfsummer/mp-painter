@@ -1,9 +1,11 @@
 import { promiseQueue } from "../utils/promiseQueue";
 import { delay } from "../utils/delay";
 
+type UniPlatforms =  "mp-weixin" | "mp-alipay" | "mp-baidu";
 
 interface IPanterOption {
-  upx2px?: (upx: number) => number
+  upx2px: (upx: number) => number
+  platform?: UniPlatforms
 }
 
 interface CanvasBaseObj {
@@ -106,8 +108,6 @@ interface DrawMethod {
 }
 
 
-
-
 // 开启会导致支付宝小程序报错
 const debug = (...v: any[]) => void 0; //console.log(...v);
 
@@ -117,21 +117,12 @@ export default class Painter {
 
   ctx: CanvasContext;
   upx2px: (upx: number) => number
+  platform: UniPlatforms
 
   constructor(ctx: CanvasContext, option: IPanterOption){
     this.ctx = ctx;
-
-    // #ifdef MP-ALIPAY
-    // @ts-ignore
-    this.upx2px = length => uni.upx2px(length) * 2;
-    // #endif
-
-    // #ifndef MP-ALIPAY
-    this.upx2px = uni.upx2px;
-    // #endif
-
-    this.upx2px = option.upx2px!;
-
+    this.upx2px = option.upx2px;
+    this.platform = option.platform || "mp-weixin";
   }
 
   draw(paintObj: CanvasObj){
@@ -151,7 +142,6 @@ export default class Painter {
   }
 
   async _drawObj<T extends CanvasObj>(paintObj: T){
-
     let drawMethod: ((canvasObj: any) => Promise<ISize>) = {
       "text": this._drawText,
       "image": this._drawImage,
@@ -316,13 +306,17 @@ export default class Painter {
   async _drawRect(rect: CanvasRect){
     debug("绘制矩形");
     this.setFillStyle(rect.background);
-    this.ctx.fillRect(rect.left, rect.top, rect.width, rect.height);
+    this.ctx.fillRect(
+      this.upx2px(rect.left), 
+      this.upx2px(rect.top), 
+      this.upx2px(rect.width), 
+      this.upx2px(rect.height)
+    );
     return { width: rect.width, height: rect.height };
   }
 
   async _drawContainer(container: CanvasContainer){1
     debug("绘制容器")
-
     let {
       direction,
       children,
@@ -409,43 +403,34 @@ export default class Painter {
    * 兼容设置填充样式
    */
   setFillStyle(color: string){
-    // #ifdef MP-BAIDU
-    this.ctx.setFillStyle(color);
-    // #endif
-
-    // #ifndef MP-BAIDU
-    this.ctx.fillStyle = color;
-    // #endif
+    if(this.platform == "mp-baidu"){
+      this.ctx.setFillStyle(color);
+    }else{
+      this.ctx.fillStyle = color;
+    }
   }
 
   /** 
    * 兼容设置描边样式
    */
   setStrokeStyle(color: string){
-    // #ifdef MP-BAIDU
-    this.ctx.setStrokeStyle(color);
-    // #endif
-
-    // #ifndef MP-BAIDU
-    this.ctx.strokeStyle = color;
-    // #endif
+    if(this.platform == "mp-baidu"){
+      this.ctx.setStrokeStyle(color);
+    }else{
+      this.ctx.strokeStyle = color;
+    }
   }
 
   measureText(text: string, fontSize: number){
-    let result: number;
-
-    // #ifndef MP-BAIDU
-    this.ctx.setFontSize(fontSize);
-    result = this.ctx.measureText(text).width || text.length * fontSize;
-    // #endif
-
-    // #ifdef MP-BAIDU
-    // 百度测量的字号是以 10 为基准的，不会根据字号设置而变化
-    let width = this.ctx.measureText(text).width;
-    if(width) result = width / 10 * fontSize;
-    else result = text.length * fontSize;
-    // #endif
-
-    return result;
+    if(this.platform == "mp-baidu"){
+      // 百度测量的字号是以 10 为基准的，不会根据字号设置而变化
+      let width = this.ctx.measureText(text).width;
+      if(width) return width / 10 * fontSize;
+    } else {
+      this.ctx.setFontSize(fontSize);
+      let width = this.ctx.measureText(text).width;
+      if(width) return width;
+    }
+    return text.length * fontSize;
   }
 }

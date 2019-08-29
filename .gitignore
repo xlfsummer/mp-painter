@@ -1,2 +1,5 @@
-node_modules
-src/**/*.js
+/node_modules
+/src/**/*.js
+
+# npm pack 生成的文件
+/*.tgz

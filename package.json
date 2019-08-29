@@ -2,9 +2,9 @@
   "name": "mp-painter",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/painter.js",
+  "main": "src/lib/painter.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p src"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,12 @@
   },
   "devDependencies": {
     "typescript": "^3.6.2"
-  }
+  },
+  "files": [
+    "src",
+    ".gitignore",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json"
+  ]
 }
