@@ -2,7 +2,7 @@
   "name": "mp-painter",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/painter.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,5 +19,8 @@
   "homepage": "https://github.com/xlfsummer/mp-painter#readme",
   "dependencies": {
     "@types/uni-app": "^1.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.6.2"
   }
 }

@@ -1,5 +1,12 @@
-class LineSpliterContext {
+interface ILineSpliterContextOption {
+  fontSize: number;
+  lineClamp: number;
+  width: number;
+  ctx: CanvasContext;
+  content: string;
+}
 
+class LineSpliterContext {
     fontSize: number;
     lineClamp: number;
     width: number;
@@ -11,8 +18,9 @@ class LineSpliterContext {
     endPostion: number;
     isOverflow: boolean;
     isDry: boolean;
+    isFull: boolean;
 
-    constructor(option){
+    constructor(option: ILineSpliterContextOption){
       this.fontSize = option.fontSize;
       this.lineClamp = option.lineClamp || Infinity;
       this.width = option.width;
@@ -25,6 +33,7 @@ class LineSpliterContext {
       this.endPostion = this.position;
       this.isOverflow = false;
       this.isDry = false;
+      this.isFull = false;
     }
   
     split(){
@@ -34,18 +43,20 @@ class LineSpliterContext {
       return this.lines;
     }
   
-    minCharNumberInWidth(width){
+    minCharNumberInWidth(width: number){
       return Math.ceil(width / this.fontSize);
     }
   
     freeSpaceInCurrentLine(){
       if(!this.currentLineText.length)
         return this.width;
-      else
-        return this.width - this.ctx.measureText(this.currentLineText).width;
+      else {
+        let metrics = this.ctx.measureText(this.currentLineText);
+        return this.width - (metrics.width || 0);
+      }
     }
   
-    adjustCharNumberInCurrentLine(charNumber){
+    adjustCharNumberInCurrentLine(charNumber: number){
       let before = this.currentLineText.length;
       let after = before + charNumber;
       let restLength = this.content.length;
@@ -67,7 +78,7 @@ class LineSpliterContext {
     }
   
     handleOverflow(){
-      let lastLine = this.lines.pop();
+      let lastLine = this.lines.pop()!;
       lastLine = lastLine.substring(0, Math.max(0, lastLine.length - 2)) + "...";
       this.lines.push(lastLine);
     }
