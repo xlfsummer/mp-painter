@@ -1,10 +1,11 @@
 {
   "name": "mp-painter",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "src/lib/painter.js",
   "scripts": {
-    "build": "tsc -p src"
+    "build": "tsc -p src",
+    "dev": "node ./scripts/dev.js"
   },
   "repository": {
     "type": "git",
