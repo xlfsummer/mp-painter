@@ -34,7 +34,7 @@
     "@dcloudio/uni-mp-weixin": "*",
     "@dcloudio/uni-stat": "*",
     "flyio": "^0.6.2",
-    "mp-painter": "file:mp-painter-1.0.0.tgz",
+    "mp-painter": "file:mp-painter-0.0.1.tgz",
     "regenerator-runtime": "^0.12.1",
     "vue": "^2.6.10",
     "vuex": "^3.0.1"
