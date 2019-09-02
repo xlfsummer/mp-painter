@@ -20,7 +20,7 @@ let fileName = Buffer.from(fileNameBuffer).toString().trim();
 console.timeEnd("打包文件");
 
 console.time("移动包文件");
-fs.renameSync(fileName, "example" + path.delimiter + fileName);
+fs.renameSync(fileName, "example" + path.sep + fileName);
 console.timeEnd("移动包文件");
 
 console.time("安装包");
@@ -30,5 +30,5 @@ let installResult = cp.spawnSync(npm, ["install", fileName], { cwd: "example" })
 console.timeEnd("安装包");
 
 console.time("删除已安装的包文件");
-fs.unlinkSync("example" + path.delimiter + fileName);
+fs.unlinkSync("example" + path.sep + fileName);
 console.timeEnd("删除已安装的包文件");

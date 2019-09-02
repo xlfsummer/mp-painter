@@ -166,7 +166,7 @@ export default class Painter {
         align = "left",
         fontWeight = "normal",
         fontFamily = "serial",
-        fontSize = 20,
+        fontSize = 30,
         baseline = "top",
         content = "",
         left = 0,
@@ -229,9 +229,9 @@ export default class Painter {
 
     let {
       width = 100,
-      fontSize = 20,
+      fontSize = 30,
       content = "",
-      lineHeight = 20,
+      lineHeight = 40,
       lineClamp = 0
     } = textblock;
 
