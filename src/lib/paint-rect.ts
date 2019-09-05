@@ -1,6 +1,6 @@
-import Painter, { CanvasBaseObj } from "./painter";
+import Painter, { PaintBaseOption } from "./painter";
 
-export interface CanvasRect extends CanvasBaseObj {
+export interface CanvasRect extends PaintBaseOption {
     type: "rect",
     width: number,
     height: number,

@@ -3,7 +3,7 @@ import { delay } from "../utils/delay";
 import paintLine, { CanvasLine } from "./paint-line";
 import paintRect, { CanvasRect } from "./paint-rect";
 import paintImage, { CanvasImage } from "./paint-image";
-import paintText, { CanvasText } from "./paint-text";
+import paintText, { CanvasText, PaintTextObject } from "./paint-text";
 import paintTextBlock, { CanvasTextBlock } from "./paint-text-block";
 import paintContainer, { CanvasContainer } from "./paint-container";
 
@@ -14,9 +14,8 @@ interface IPanterOption {
   platform?: UniPlatforms
 }
 
-export interface CanvasBaseObj {
-  type: string
-  position?: "static" | "absolute"
+export interface PaintBaseOption {
+  position: "static" | "absolute"
   left: number
   top: number
 }
@@ -34,15 +33,22 @@ type CanvasObjType<T extends keyof CanvasObjTypeMap> = CanvasObjTypeMap[T];
 
 export type CanvasObj = CanvasImage | CanvasText | CanvasTextBlock | CanvasLine | CanvasContainer | CanvasRect;
 
+type BasePaintObject = [string, Partial<PaintBaseOption>];
+type PaintObject = PaintTextObject;
+
 interface ISize {
   width: number,
   height: number
 }
 
+interface PaintMethod<T extends PaintBaseOption> {
+  (paintOption: T): Promise<ISize>
+}
+
 interface DrawMethod {
   (
     /** 要绘制的对象 */
-    paintObj: CanvasBaseObj,
+    paintObj: PaintBaseOption,
   ): Promise<ISize>
 }
 

@@ -1,6 +1,6 @@
-import Painter, { CanvasBaseObj } from "./painter";
+import Painter, { PaintBaseOption } from "./painter";
 
-export interface CanvasImage extends CanvasBaseObj{
+export interface CanvasImage extends PaintBaseOption{
     type: "image";
     src: string;
     width: number;

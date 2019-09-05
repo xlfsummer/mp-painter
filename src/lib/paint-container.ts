@@ -1,7 +1,7 @@
-import Painter, {CanvasBaseObj, CanvasObj} from "./painter";
+import Painter, {PaintBaseOption, CanvasObj} from "./painter";
 import { promiseQueue } from "../utils/promiseQueue";
 
-export interface CanvasContainer extends CanvasBaseObj {
+export interface CanvasContainer extends PaintBaseOption {
     type: "container"
     direction?: "vertical" | "horizontal"
     width: number | "auto"

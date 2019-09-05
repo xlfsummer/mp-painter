@@ -1,6 +1,6 @@
-import Painter, { CanvasBaseObj } from "./painter";
+import Painter, { PaintBaseOption } from "./painter";
 
-export interface CanvasLine extends CanvasBaseObj {
+export interface CanvasLine extends PaintBaseOption {
     type: "line"
     dx: number
     dy: number
@@ -10,7 +10,7 @@ export interface CanvasLine extends CanvasBaseObj {
     pixelFix: boolean
 }
 
-export default async function drawLine(this: Painter, line: CanvasLine){
+export default async function paintLine(this: Painter, line: CanvasLine){
     // this.debug("绘制直线")
 
     let {

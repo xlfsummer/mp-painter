@@ -1,4 +1,4 @@
-import Painter, {CanvasBaseObj} from "./painter";
+import Painter, {PaintBaseOption} from "./painter";
 import paintText, {CanvasText} from "./paint-text";
 import { promiseQueue } from "../utils/promiseQueue";
 
