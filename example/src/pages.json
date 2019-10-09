@@ -3,7 +3,8 @@
 		{ "path": "pages/index/index" },
 		{ "path": "pages/text/text" },
 		{ "path": "pages/rect/rect" },
-		{ "path": "pages/image/image" }
+		{ "path": "pages/image/image" },
+		{ "path": "pages/textBlock/textBlock" }
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -1,6 +1,7 @@
 import Painter, {PaintBaseOption} from "./painter";
 import paintText, {CanvasText} from "./paint-text";
 import { promiseQueue } from "../utils/promiseQueue";
+import LineSpliterContext from "./lineSpliter";
 
 type fontWeight = "normal" | "bold";
 type baseline = "top" | "middle" | "bottom" | "normal";

@@ -4,6 +4,7 @@
 		<navigator class="link" url="/pages/text/text"><button type="default">text</button></navigator>
 		<navigator class="link" url="/pages/rect/rect"><button type="default">rect</button></navigator>
 		<navigator class="link" url="/pages/image/image"><button type="default">image</button></navigator>
+		<navigator class="link" url="/pages/textBlock/textBlock"><button type="default">text-block</button></navigator>
 	</view>
 </template>
 

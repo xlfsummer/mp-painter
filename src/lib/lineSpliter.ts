@@ -6,7 +6,7 @@ interface ILineSpliterContextOption {
   content: string;
 }
 
-class LineSpliterContext {
+export default class LineSpliterContext {
     fontSize: number;
     lineClamp: number;
     width: number;
@@ -79,7 +79,7 @@ class LineSpliterContext {
   
     handleOverflow(){
       let lastLine = this.lines.pop()!;
-      lastLine = lastLine.substring(0, Math.max(0, lastLine.length - 2)) + "...";
+      lastLine = lastLine.substring(0, Math.max(0, lastLine.length - 1)) + "...";
       this.lines.push(lastLine);
     }
   
@@ -100,4 +100,3 @@ class LineSpliterContext {
       this.fillText();
     }
   }
-  
