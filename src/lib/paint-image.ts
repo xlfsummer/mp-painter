@@ -9,7 +9,6 @@ export interface CanvasImage extends PaintBaseOption{
 }
 
 export default async function paintImage(this: Painter, image: CanvasImage){
-    // this.debug("绘制图片")
 
     let {
       left,
