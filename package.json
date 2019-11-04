@@ -4,8 +4,7 @@
   "description": "",
   "main": "src/lib/painter.js",
   "scripts": {
-    "build": "tsc -p src",
-    "dev": "node ./scripts/dev.js"
+    "build": "tsc -p src"
   },
   "repository": {
     "type": "git",
