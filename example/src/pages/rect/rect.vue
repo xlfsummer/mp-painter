@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Painter from "mp-painter";
+import Painter from "../../../../src/lib/painter";
 
 export default {
     data(){
@@ -14,8 +14,7 @@ export default {
     },
     onReady(){
         new Painter(
-            uni.createCanvasContext("canvas-rect"),
-            { upx2px: uni.upx2px }
+            uni.createCanvasContext("canvas-rect")
         ).draw({
             type: "container",
             top: 5,

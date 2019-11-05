@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Painter from "mp-painter";
+import Painter from "../../../../src/lib/painter";
 
 export default {
     data(){
@@ -24,8 +24,7 @@ export default {
     },
     onReady(){
         new Painter(
-            uni.createCanvasContext("canvas-text-block-wrap"),
-            { upx2px: uni.upx2px }
+            uni.createCanvasContext("canvas-text-block-wrap")
         ).draw({
             type: "text-block",
             top: 20,
@@ -35,8 +34,7 @@ export default {
         });
 
         new Painter(
-            uni.createCanvasContext("canvas-text-block-line-height"),
-            { upx2px: uni.upx2px }
+            uni.createCanvasContext("canvas-text-block-line-height")
         ).draw({
             type: "container",
             top: 10,
@@ -70,8 +68,7 @@ export default {
         });
 
         new Painter(
-            uni.createCanvasContext("canvas-text-block-line-clamp"),
-            { upx2px: uni.upx2px }
+            uni.createCanvasContext("canvas-text-block-line-clamp")
         ).draw({
             type: "container",
             top: 10,
@@ -105,8 +102,7 @@ export default {
         });
 
         new Painter(
-            uni.createCanvasContext("canvas-text-block-font"),
-            { upx2px: uni.upx2px }
+            uni.createCanvasContext("canvas-text-block-font")
         ).draw({
             type: "container",
             top: 10,

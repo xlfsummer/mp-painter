@@ -1,7 +1,7 @@
 {
   "name": "mp-painter",
   "version": "0.0.1",
-  "description": "",
+  "description": "A declarative canvas lib using with mini-program, espacially with uniapp.",
   "main": "src/lib/painter.js",
   "scripts": {
     "build": "tsc -p src"
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/xlfsummer/mp-painter.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "https://github.com/xlfsummer",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/xlfsummer/mp-painter/issues"
@@ -22,12 +22,5 @@
   },
   "devDependencies": {
     "typescript": "^3.6.2"
-  },
-  "files": [
-    "src",
-    ".gitignore",
-    "package.json",
-    "package-lock.json",
-    "tsconfig.json"
-  ]
+  }
 }

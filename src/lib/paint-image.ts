@@ -25,9 +25,12 @@ export default async function paintImage(this: Painter, image: CanvasImage){
       objectFit = "fill"
     } = image;
 
+    // 图片内容的尺寸
     let contentSize: Rect;
     if(objectFit == "contain"){
+      // console.time("calculateContainSize");
       contentSize = await calculateContainSize(image)
+      // console.timeEnd("calculateContainSize");
     } else { // fill
       contentSize = { left, top, width, height }
     }
@@ -49,7 +52,6 @@ export default async function paintImage(this: Painter, image: CanvasImage){
 async function calculateContainSize(image: CanvasImage): Promise<Rect>{
   let { width: originWidth = 100, height: originHeight = 100 } = (await uni.getImageInfo({ src: image.src })) as unknown as GetImageInfoSuccessData;
 
-  //contain
   let originRatio = originWidth / originHeight;
   let clientRatio = image.width / image.height;
   let scale = originRatio > clientRatio

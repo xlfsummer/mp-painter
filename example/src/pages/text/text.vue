@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Painter from "mp-painter";
+import Painter from "../../../../src/lib/painter";
 
 export default {
     data(){
@@ -18,8 +18,7 @@ export default {
     },
     onReady(){
         new Painter(
-            uni.createCanvasContext("canvas-font-size"),
-            { upx2px: uni.upx2px }
+            uni.createCanvasContext("canvas-font-size")
         ).draw({
             type: "container",
             top: 5,
@@ -33,8 +32,7 @@ export default {
         });
 
         new Painter(
-            uni.createCanvasContext("canvas-font-color"),
-            { upx2px: uni.upx2px }
+            uni.createCanvasContext("canvas-font-color")
         ).draw({
             type: "container",
             top: 5,
@@ -49,8 +47,7 @@ export default {
         });
 
         new Painter(
-            uni.createCanvasContext("canvas-font-style"),
-            { upx2px: uni.upx2px }
+            uni.createCanvasContext("canvas-font-style")
         ).draw({
             type: "container",
             top: 5,

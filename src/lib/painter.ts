@@ -10,7 +10,7 @@ import paintContainer, { CanvasContainer } from "./paint-container";
 type UniPlatforms =  "mp-weixin" | "mp-alipay" | "mp-baidu";
 
 interface IPanterOption {
-  upx2px: (upx: number) => number
+  upx2px?: (upx: number) => number
   platform?: UniPlatforms
 }
 
@@ -61,10 +61,13 @@ export default class Painter {
   upx2px: (upx: number) => number
   platform: UniPlatforms
 
-  constructor(ctx: CanvasContext, option: IPanterOption){
+  constructor(ctx: CanvasContext, {
+    platform = "mp-weixin",
+    upx2px = uni ? uni.upx2px : x => x
+  }: IPanterOption = {}){
     this.ctx = ctx;
-    this.upx2px = option.upx2px;
-    this.platform = option.platform || "mp-weixin";
+    this.upx2px = upx2px;
+    this.platform = platform;
   }
 
   async draw(paintObj: CanvasObj){

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-	import Painter from "mp-painter";
+	import Painter from "../../../../src/lib/painter";
 
 	export default {
 		data() {
