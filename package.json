@@ -4,7 +4,8 @@
   "description": "A declarative canvas lib using with mini-program, espacially with uniapp.",
   "main": "src/lib/painter.js",
   "scripts": {
-    "build": "tsc -p src"
+    "build": "tsc -p src",
+    "prepublish": "build"
   },
   "repository": {
     "type": "git",
