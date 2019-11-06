@@ -45,7 +45,7 @@ export default async function paintTextBlock(this: Painter, textblock: CanvasTex
     if(!lineSplitCache[cacheKey]){
       lineSplitCache[cacheKey] = new LineSpliterContext({
         fontSize, lineClamp, width,
-        ctx: this.ctx,
+        painter: this,
         content
       }).split();
     }

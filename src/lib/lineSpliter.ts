@@ -1,8 +1,10 @@
+import Painter from "./painter";
+
 interface ILineSpliterContextOption {
   fontSize: number;
   lineClamp: number;
   width: number;
-  ctx: CanvasContext;
+  painter: Painter;
   content: string;
 }
 
@@ -10,7 +12,8 @@ export default class LineSpliterContext {
     fontSize: number;
     lineClamp: number;
     width: number;
-    ctx: CanvasContext
+    ctx: CanvasContext;
+    painter: Painter;
     content: string;
     lines: string[];
     currentLineText: string;
@@ -24,7 +27,8 @@ export default class LineSpliterContext {
       this.fontSize = option.fontSize;
       this.lineClamp = option.lineClamp || Infinity;
       this.width = option.width;
-      this.ctx = option.ctx;
+      this.ctx = option.painter.ctx;
+      this.painter = option.painter;
       this.content = option.content;
   
       this.lines = [];
@@ -51,8 +55,8 @@ export default class LineSpliterContext {
       if(!this.currentLineText.length)
         return this.width;
       else {
-        let metrics = this.ctx.measureText(this.currentLineText);
-        return this.width - (metrics.width || 0);
+        let width = this.painter.measureText(this.currentLineText, this.fontSize);
+        return this.width - (width || 0);
       }
     }
   

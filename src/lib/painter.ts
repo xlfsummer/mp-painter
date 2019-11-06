@@ -6,6 +6,7 @@ import paintImage, { CanvasImage } from "./paint-image";
 import paintText, { CanvasText, PaintTextObject } from "./paint-text";
 import paintTextBlock, { CanvasTextBlock } from "./paint-text-block";
 import paintContainer, { CanvasContainer } from "./paint-container";
+import { PLATFORM } from "../utils/platform";
 
 type UniPlatforms =  "mp-weixin" | "mp-alipay" | "mp-baidu";
 
@@ -62,9 +63,9 @@ export default class Painter {
   platform: UniPlatforms
 
   constructor(ctx: CanvasContext, {
-    platform = "mp-weixin",
-    upx2px = uni ? uni.upx2px : x => x
-  }: IPanterOption = {}){
+    platform = PLATFORM,
+    upx2px = typeof uni == "object" ? uni.upx2px : x => x
+  }: IPanterOption = {}){    
     this.ctx = ctx;
     this.upx2px = upx2px;
     this.platform = platform;
