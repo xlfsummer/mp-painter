@@ -6,9 +6,9 @@ import paintImage, { CanvasImage } from "./paint-image";
 import paintText, { CanvasText, PaintTextObject } from "./paint-text";
 import paintTextBlock, { CanvasTextBlock } from "./paint-text-block";
 import paintContainer, { CanvasContainer } from "./paint-container";
-import { PLATFORM } from "../utils/platform";
+import { PLATFORM, UniPlatforms } from "../utils/platform";
 
-type UniPlatforms =  "mp-weixin" | "mp-alipay" | "mp-baidu";
+
 
 interface IPanterOption {
   upx2px?: (upx: number) => number

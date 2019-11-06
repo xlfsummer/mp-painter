@@ -12,8 +12,8 @@ export interface CanvasContainer extends PaintBaseOption {
 export default async function _drawContainer(this: Painter, container: CanvasContainer){
     // this.debug("绘制容器")
     let {
-      direction,
-      children,
+      direction = "vertical",
+      children = [],
       left = 0,
       top = 0,
       height = "auto",
@@ -27,9 +27,6 @@ export default async function _drawContainer(this: Painter, container: CanvasCon
 
     let childrenMaxWidth = 0;
     let childrenMaxHeight = 0;
-
-    direction = direction || "vertical"
-    children = children || [];
 
     let drawChild = (child: CanvasObj) => {
 

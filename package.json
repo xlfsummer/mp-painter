@@ -2,7 +2,8 @@
   "name": "mp-painter",
   "version": "0.0.5",
   "description": "A declarative canvas lib using with mini-program, espacially with uniapp.",
-  "main": "src/lib/painter.js",
+  "main": "dist/lib/painter.js",
+  "types": "dist/lib/painter.d.ts",
   "scripts": {
     "build": "tsc -p src",
     "prepublish": "npm run build"
