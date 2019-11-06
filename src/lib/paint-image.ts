@@ -50,8 +50,8 @@ export default async function paintImage(this: Painter, image: CanvasImage){
 }
 
 async function calculateContainSize(image: CanvasImage): Promise<Rect>{
-  let { width: originWidth = 100, height: originHeight = 100 } = (await uni.getImageInfo({ src: image.src })) as unknown as GetImageInfoSuccessData;
-
+  let [, res] = await uni.getImageInfo({ src: image.src }) as unknown as [void, GetImageInfoSuccessData];
+  let { width: originWidth = 100, height: originHeight = 100 } = res;
   let originRatio = originWidth / originHeight;
   let clientRatio = image.width / image.height;
   let scale = originRatio > clientRatio
