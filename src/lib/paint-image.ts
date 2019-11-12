@@ -1,4 +1,5 @@
 import Painter, { PaintBaseOption } from "./painter";
+import { downloadFileToLocal } from "../utils/downloadFile";
 
 interface Rect {
   top: number
@@ -28,20 +29,28 @@ export default async function paintImage(this: Painter, image: CanvasImage){
     // 图片内容的尺寸
     let contentSize: Rect;
     if(objectFit == "contain"){
-      // console.time("calculateContainSize");
       contentSize = await calculateContainSize(image)
-      // console.timeEnd("calculateContainSize");
     } else { // fill
       contentSize = { left, top, width, height }
     }
 
-    this.ctx.drawImage(
-      image.src,
-      this.upx2px(contentSize.left),
-      this.upx2px(contentSize.top),
-      this.upx2px(contentSize.width),
-      this.upx2px(contentSize.height),
-    )
+    let src: string;
+    // 支付宝中需要先下载图片再绘制
+    if(this.platform == "mp-alipay" && !/^https:\/\/resource\//.test(image.src)){
+      src = await downloadFileToLocal(image.src).catch(err => console.log("下载错误: ", err)) || "";
+    }else{
+      src = image.src;
+    }
+    
+    if(src){
+      this.ctx.drawImage(
+        src,
+        this.upx2px(contentSize.left),
+        this.upx2px(contentSize.top),
+        this.upx2px(contentSize.width),
+        this.upx2px(contentSize.height),
+      )
+    }
 
     return {
       width,

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Painter from "../../../../src/lib/painter";
+import Painter from "../../../../dist/lib/painter";
 
 export default {
     data(){
