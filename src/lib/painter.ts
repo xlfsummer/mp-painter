@@ -64,11 +64,13 @@ export default class Painter {
 
   constructor(ctx: CanvasContext, {
     platform = PLATFORM,
-    upx2px = typeof uni == "object" ? uni.upx2px : x => x
   }: IPanterOption = {}){    
     this.ctx = ctx;
-    this.upx2px = upx2px;
     this.platform = platform;
+    this.upx2px = uni.upx2px;
+    if(platform == "mp-alipay"){
+      this.upx2px = (x: number) => uni.upx2px(x * 2);
+    }
   }
 
   async draw(paintObj: CanvasObj){

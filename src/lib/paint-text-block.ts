@@ -3,21 +3,9 @@ import paintText, {CanvasText} from "./paint-text";
 import { promiseQueue } from "../utils/promiseQueue";
 import LineSpliterContext from "./lineSpliter";
 
-type fontWeight = "normal" | "bold";
-type baseline = "top" | "middle" | "bottom" | "normal";
-type align = "left" | "right" | "center";
-
 export interface CanvasTextBlock extends Omit<CanvasText, "type"> {
     type: "text-block",
   
-    // color: string,
-    // fontSize: number
-    // fontWeight: fontWeight
-    // fontFamily: string
-    // baseline: baseline
-    // align: align
-    // content: string;
-
     lineHeight: number
     lineClamp: number
     

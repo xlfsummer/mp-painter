@@ -34,11 +34,11 @@ export default async function paintText(this: Painter, text: Partial<PaintTextOp
 
     let {
       color = "#000",
-      align = "left",
-      fontWeight = "normal",
+      align = "left" as align,
+      fontWeight = "normal" as fontWeight,
       fontFamily = "serial",
       fontSize = 30,
-      baseline = "top",
+      baseline = "top" as baseline,
       content = "",
       left = 0,
       top = 0,
