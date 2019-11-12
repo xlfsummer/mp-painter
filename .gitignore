@@ -1,5 +1,6 @@
 /node_modules
 /src/**/*.js
+/dist
 
 # npm pack 生成的文件
 /*.tgz
