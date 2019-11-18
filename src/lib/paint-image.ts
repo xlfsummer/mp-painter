@@ -34,8 +34,9 @@ export default async function paintImage(this: Painter, image: CanvasImage){
       contentSize = { left, top, width, height }
     }
     let src = await getDrawableImageSrc(this, image);
-    console.log("调用小程序绘制，使用:", src);
+
     if(src){
+      console.log("调用小程序drawImage，使用:", src);
       this.ctx.drawImage(
         src,
         this.upx2px(contentSize.left),
@@ -56,12 +57,19 @@ async function getDrawableImageSrc(painter: Painter, image: CanvasImage) {
   /** @expample "https://resource/1573628995676.jpg" */
   const ALIPAY_LOCAL_RESOURCE_URL_REG = /^https:\/\/resource\/\d+\.\w+$/;
   const WEIXIN_LOCAL_RESOURCE_URL_REG = /^wxfile:/;
+  /**
+   * @example "bdfile://tmp/program/bf0738...9143805.png" 开发者工具（当前百度开发者工具中会绘制失败）
+   * @example "bdfile://tmp_xxxxx" 手机预览
+   */
+  const BAIDU_LOCAL_RESOURCE_URL_REG = /^bdfile:\/\/tmp/;
+
   let shouldDownload = 
     // 支付宝中需要先下载图片再绘制
     platform == "mp-alipay" && !ALIPAY_LOCAL_RESOURCE_URL_REG.test(image.src) ||
     // 微信小程序开发者工具中不需要先下载再绘制, 但在手机中预览时需要
-    platform == "mp-weixin" && !WEIXIN_LOCAL_RESOURCE_URL_REG.test(image.src)
-    // 百度小程序开发者工具/手机中不需要下载文件即可绘制
+    platform == "mp-weixin" && !WEIXIN_LOCAL_RESOURCE_URL_REG.test(image.src) ||
+    // 百度小程序手机预览时不下载图片会导致背景变为黑色
+    platform == "mp-baidu" && !BAIDU_LOCAL_RESOURCE_URL_REG.test(image.src)
   ;
 
   if (!shouldDownload) return image.src;
