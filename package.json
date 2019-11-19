@@ -5,6 +5,7 @@
   "main": "dist/lib/painter.js",
   "types": "dist/lib/painter.d.ts",
   "scripts": {
+    "dev": "tsc -w -p src",
     "build": "tsc -p src",
     "prepublish": "npm run build"
   },

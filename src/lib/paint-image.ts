@@ -55,8 +55,11 @@ export default async function paintImage(this: Painter, image: CanvasImage){
 
 async function getDrawableImageSrc(painter: Painter, image: CanvasImage) {
   let platform = painter.platform;
-  /** @expample "https://resource/1573628995676.jpg" */
-  const ALIPAY_LOCAL_RESOURCE_URL_REG = /^https:\/\/resource\/\d+\.\w+$/;
+  /** 
+   * @expample "https://resource/1573628995676.jpg" 开发者工具
+   * @expample "https://resource/apmlxxxxx" 手机预览
+  */
+  const ALIPAY_LOCAL_RESOURCE_URL_REG = /^https:\/\/resource\//;
   const WEIXIN_LOCAL_RESOURCE_URL_REG = /^wxfile:/;
   /**
    * @example "bdfile://tmp/program/bf0738...9143805.png" 开发者工具（当前百度开发者工具中会绘制失败）
