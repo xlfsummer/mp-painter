@@ -26,6 +26,8 @@ export default async function paintImage(this: Painter, image: CanvasImage){
       objectFit = "fill"
     } = image;
 
+    if(!image.src) return { width, height };
+
     // 图片内容的尺寸
     let contentSize: Rect;
     if(objectFit == "contain"){
@@ -33,18 +35,17 @@ export default async function paintImage(this: Painter, image: CanvasImage){
     } else { // fill
       contentSize = { left, top, width, height }
     }
-    let src = await getDrawableImageSrc(this, image);
 
-    if(src){
-      console.log("调用小程序drawImage，使用:", src);
-      this.ctx.drawImage(
-        src,
-        this.upx2px(contentSize.left),
-        this.upx2px(contentSize.top),
-        this.upx2px(contentSize.width),
-        this.upx2px(contentSize.height),
-      )
-    }
+    let src = await getDrawableImageSrc(this, image);
+    if(!src) return { width, height };
+    console.log("调用小程序drawImage，使用:", src);
+    this.ctx.drawImage(
+      src,
+      this.upx2px(contentSize.left),
+      this.upx2px(contentSize.top),
+      this.upx2px(contentSize.width),
+      this.upx2px(contentSize.height),
+    )
 
     return {
       width,
@@ -75,12 +76,18 @@ async function getDrawableImageSrc(painter: Painter, image: CanvasImage) {
   if (!shouldDownload) return image.src;
 
   console.log("绘制图片: 下载图片文件:", image.src);
-  return await downloadFileToLocal(image.src).catch(err => console.log("下载错误: ", err)) || "";
+  return await downloadFileToLocal(image.src).catch(err => (console.log("下载错误: ", err), ""));
 }
 
 async function calculateContainSize(image: CanvasImage): Promise<Rect>{
-  let [, res] = await uni.getImageInfo({ src: image.src }) as unknown as [void, GetImageInfoSuccessData];
-  let { width: originWidth = 100, height: originHeight = 100 } = res;
+  let res: Partial<Record<"width"|"height", number>> = {};
+  try {
+    [, res] = await uni.getImageInfo({ src: image.src }) as unknown as [void, GetImageInfoSuccessData];
+  }catch(e){
+    console.log(e)
+  }
+
+  let { width: originWidth = 100, height: originHeight = 100 } = (res || {});
   let originRatio = originWidth / originHeight;
   let clientRatio = image.width / image.height;
   let scale = originRatio > clientRatio
