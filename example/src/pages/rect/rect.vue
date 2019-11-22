@@ -1,7 +1,7 @@
 <template>
     <view class="page">
         <view class="page-title h2">矩形</view>
-		<canvas canvas-id="canvas-rect" class="canvas" style="height: 230upx"/>
+		<canvas canvas-id="canvas-rect" id="canvas-rect" class="canvas" style="height: 230upx"/>
     </view>
 </template>
 

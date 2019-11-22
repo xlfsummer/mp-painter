@@ -66,6 +66,8 @@ async function getDrawableImageSrc(painter: Painter, image: CanvasImage) {
    * @example "bdfile://tmp_xxxxx" 手机预览
    */
   const BAIDU_LOCAL_RESOURCE_URL_REG = /^bdfile:\/\/tmp/;
+  /** 小程序本地文件路径 */
+  const LOCAL_FILE_PATH = /^\..*/;
 
   let shouldDownload = 
     // 支付宝中需要先下载图片再绘制
@@ -73,7 +75,9 @@ async function getDrawableImageSrc(painter: Painter, image: CanvasImage) {
     // 微信小程序开发者工具中不需要先下载再绘制, 但在手机中预览时需要
     platform == "mp-weixin" && !WEIXIN_LOCAL_RESOURCE_URL_REG.test(image.src) ||
     // 百度小程序手机预览时不下载图片会导致背景变为黑色
-    platform == "mp-baidu" && !BAIDU_LOCAL_RESOURCE_URL_REG.test(image.src)
+    platform == "mp-baidu" && !BAIDU_LOCAL_RESOURCE_URL_REG.test(image.src) ||
+    // 代码包中的本地文件
+    !LOCAL_FILE_PATH.test(image.src)
   ;
 
   if (!shouldDownload) return image.src;

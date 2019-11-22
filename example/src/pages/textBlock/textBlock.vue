@@ -1,16 +1,24 @@
 <template>
     <view class="page">
         <view class="page-title h2">自动换行</view>
-        <canvas canvas-id="canvas-text-block-wrap" class="canvas"
+        <canvas canvas-id="canvas-text-block-wrap"
+            id="canvas-text-block-wrap"
+            class="canvas"
             style="width: 220upx; height: 250upx"/>
         <view class="page-title h2">设置行高</view>
-        <canvas canvas-id="canvas-text-block-line-height" class="canvas"
+        <canvas canvas-id="canvas-text-block-line-height"
+            id="canvas-text-block-line-height"
+            class="canvas"
             style="height: 500upx"/>
         <view class="page-title h2">多行截断</view>
-        <canvas canvas-id="canvas-text-block-line-clamp" class="canvas"
+        <canvas canvas-id="canvas-text-block-line-clamp"
+            id="canvas-text-block-line-clamp"
+            class="canvas"
             style="height: 400upx"/>
         <view class="page-title h2">字体设置</view>
-        <canvas canvas-id="canvas-text-block-font" class="canvas"
+        <canvas canvas-id="canvas-text-block-font"
+            id="canvas-text-block-font"
+            class="canvas"
             style="height: 250upx"/>
     </view>
 </template>

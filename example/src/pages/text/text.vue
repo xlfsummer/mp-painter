@@ -1,11 +1,11 @@
 <template>
     <view class="page">
         <view class="page-title h2">字号</view>
-        <canvas canvas-id="canvas-font-size" class="canvas" style="height: 200upx"/>
+        <canvas id="canvas-font-size" canvas-id="canvas-font-size" class="canvas" style="height: 200upx"/>
         <view class="page-title h2">文字颜色</view>
-        <canvas canvas-id="canvas-font-color" class="canvas" style="height: 220upx"/>
+        <canvas id="canvas-font-color" canvas-id="canvas-font-color" class="canvas" style="height: 220upx"/>
         <view class="page-title h2">文字样式</view>
-        <canvas canvas-id="canvas-font-style" class="canvas" style="height: 90upx"/>
+        <canvas id="canvas-font-style" canvas-id="canvas-font-style" class="canvas" style="height: 90upx"/>
     </view>
 </template>
 

@@ -1,9 +1,11 @@
 <template>
     <view class="page">
 		<view class="page-title h2">图片</view>
-		<canvas canvas-id="canvas-image" class="canvas" style="height: 230upx"/>
+		<canvas id="canvas-image"
+            canvas-id="canvas-image" class="canvas" style="height: 230upx"/>
         <view class="page-title h2">图片 - 自适应(contain)</view>
-		<canvas canvas-id="canvas-image-contain" class="canvas" style="height: 430upx"/>
+		<canvas id="canvas-image-contain"
+            canvas-id="canvas-image-contain" class="canvas" style="height: 430upx"/>
     </view>
 </template>
 
