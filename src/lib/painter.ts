@@ -8,8 +8,6 @@ import paintTextBlock, { CanvasTextBlock } from "./paint-text-block";
 import paintContainer, { CanvasContainer } from "./paint-container";
 import { PLATFORM, UniPlatforms } from "../utils/platform";
 
-
-
 interface IPanterOption {
   upx2px?: (upx: number) => number
   platform?: UniPlatforms
@@ -55,6 +53,9 @@ interface DrawMethod {
 
 // 开启会导致支付宝小程序报错
 const debug = (...v: any[]) => void 0; //console.log(...v);
+
+/** 从 0x20 开始到 0x80 的字符宽度数据 */
+const CHAR_WIDTH_SCALE_MAP = [0.296, 0.313, 0.436, 0.638, 0.586, 0.89, 0.87, 0.256, 0.334, 0.334, 0.455, 0.742, 0.241, 0.433, 0.241, 0.427, 0.586, 0.586, 0.586, 0.586, 0.586, 0.586, 0.586, 0.586, 0.586, 0.586, 0.241, 0.241, 0.742, 0.742, 0.742, 0.483, 1.031, 0.704, 0.627, 0.669, 0.762, 0.55, 0.531, 0.744, 0.773, 0.294, 0.396, 0.635, 0.513, 0.977, 0.813, 0.815, 0.612, 0.815, 0.653, 0.577, 0.573, 0.747, 0.676, 1.018, 0.645, 0.604, 0.62, 0.334, 0.416, 0.334, 0.742, 0.448, 0.295, 0.553, 0.639, 0.501, 0.64, 0.567, 0.347, 0.64, 0.616, 0.266, 0.267, 0.544, 0.266, 0.937, 0.616, 0.636, 0.639, 0.64, 0.382, 0.463, 0.373, 0.616, 0.525, 0.79, 0.507, 0.529, 0.492, 0.334, 0.269, 0.334, 0.742, 0.296];
 
 export default class Painter {
 
@@ -130,6 +131,14 @@ export default class Painter {
       // 百度测量的字号是以 10 为基准的，不会根据字号设置而变化
       let width = this.ctx.measureText(text).width;
       if(width) return width / 10 * fontSize;
+    } if(this.platform == "mp-alipay") {
+      // 在支付宝 iOS 中获取字符串宽度时, 如果字符串数量较多，可能获取不到正确的宽度
+      // 获取到的宽度会始终比换行所需的宽度小，无法正确换行。
+      return text.split("").reduce((widthScaleSum, char) => {
+        let code = char.charCodeAt(0);
+        let widthScale = CHAR_WIDTH_SCALE_MAP[code - 0x20] || 1;
+        return widthScaleSum + widthScale;
+      }, 0) * fontSize;
     } else {
       this.ctx.setFontSize(fontSize);
       let width = this.ctx.measureText(text).width;
