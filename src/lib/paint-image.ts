@@ -67,20 +67,19 @@ async function getDrawableImageSrc(painter: Painter, image: CanvasImage) {
    */
   const BAIDU_LOCAL_RESOURCE_URL_REG = /^bdfile:\/\/tmp/;
   /** 小程序本地文件路径 */
-  const LOCAL_FILE_PATH = /^\..*/;
+  const LOCAL_FILE_PATH_REG = /^\./;
 
-  let shouldDownload = 
-    // 支付宝中需要先下载图片再绘制
-    platform == "mp-alipay" && !ALIPAY_LOCAL_RESOURCE_URL_REG.test(image.src) ||
-    // 微信小程序开发者工具中不需要先下载再绘制, 但在手机中预览时需要
-    platform == "mp-weixin" && !WEIXIN_LOCAL_RESOURCE_URL_REG.test(image.src) ||
-    // 百度小程序手机预览时不下载图片会导致背景变为黑色
-    platform == "mp-baidu" && !BAIDU_LOCAL_RESOURCE_URL_REG.test(image.src) ||
-    // 代码包中的本地文件
-    !LOCAL_FILE_PATH.test(image.src)
-  ;
-
-  if (!shouldDownload) return image.src;
+  let isLocalFile =
+      // 本地图片
+      LOCAL_FILE_PATH_REG.test(image.src) ||
+      // 支付宝中需要先下载图片再绘制
+      platform == "mp-alipay" && ALIPAY_LOCAL_RESOURCE_URL_REG.test(image.src) ||
+      // 微信小程序开发者工具中不需要先下载再绘制, 但在手机中预览时需要
+      platform == "mp-weixin" && WEIXIN_LOCAL_RESOURCE_URL_REG.test(image.src) ||
+      // 百度小程序手机预览时不下载图片会导致背景变为黑色
+      platform == "mp-baidu" && BAIDU_LOCAL_RESOURCE_URL_REG.test(image.src);
+  
+  if (isLocalFile) return image.src;
 
   console.log("绘制图片: 下载图片文件:", image.src);
   return await downloadFileToLocal(image.src).catch(err => (console.log("下载错误: ", err), ""));
