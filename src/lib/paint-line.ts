@@ -18,7 +18,7 @@ export default async function paintLine(this: Painter, line: CanvasLine){
       top,
       dx = 0,
       dy = 0,
-      dashPattern = [1],
+      dashPattern = [1, 0],
       pixelFix = false,
       lineWidth = 1
     } = line;
