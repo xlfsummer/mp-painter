@@ -24,6 +24,9 @@
     "@types/uni-app": "^1.4.1"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0",
     "typescript": "^3.6.2"
   }
 }
