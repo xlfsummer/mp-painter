@@ -1,8 +1,8 @@
 import { delay } from "./delay";
 
 describe("delay", () => {
-    it("resolve", async () => {
-        expect(await delay()).toBe(undefined);
+    it("resolve", () => {
+        expect(delay(100)).resolves.toBe(undefined);
     });
 
     it("resolve after time", async () => {
