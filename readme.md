@@ -33,6 +33,7 @@ await painter.draw({
     content: "Hello World" //绘制的文本
 });
 ```
+更多示例可参考 example 文件夹
 
 API
 ===
