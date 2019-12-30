@@ -76,7 +76,7 @@ left|number|0
 - `type` 表示要绘制的元素的类型
 - `position` 定位模式
 - `top`/`left` 在 'absolute' 定位模式中表示距离父级 container 或 canvas 顶/左边的距离，
-在 'static' 定位模式中，表示距离前一个 'static' 元素最下/右边的距离，有关元素排列方向，请参考 container
+在 'static' 定位模式中，表示距离前一个 'static' 元素最下/右边的距离，有关元素排列方向，请参考 [container](https://github.com/xlfsummer/mp-painter#container)
 
 text
 ---
