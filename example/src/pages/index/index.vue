@@ -1,6 +1,6 @@
 <template>
 	<view class="page">
-		<view class="page-title">mp-painter 示例</view>
+		<canvas canvas-id="canvas"></canvas>
 		<navigator class="link" url="/pages/text/text"><button type="default">text</button></navigator>
 		<navigator class="link" url="/pages/rect/rect"><button type="default">rect</button></navigator>
 		<navigator class="link" url="/pages/image/image"><button type="default">image</button></navigator>
@@ -16,7 +16,17 @@
 			return {};
 		},
 		onLoad() {
-
+			new Painter(uni.createCanvasContext("canvas")).draw({
+				type: "text",
+				top: 100,
+				left: 350,
+				color: "#fc6000",
+				fontWeight: "bold",
+				fontFamily: "Times",
+				fontSize: 60, // = 60rpx
+				align: "center",
+				content: "mp-painter DEMO",
+			});
 		},
 		onReady(){
 
