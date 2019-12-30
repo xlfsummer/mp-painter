@@ -1,4 +1,4 @@
-import Painter, { PaintBaseOption } from "./painter";
+import Painter, { PaintBaseOption } from "../painter";
 
 export interface CanvasRect extends PaintBaseOption {
     type: "rect",

@@ -1,12 +1,12 @@
-import Painter, {PaintBaseOption, CanvasObj} from "./painter";
-import { promiseQueue } from "../utils/promiseQueue";
+import Painter, {PaintBaseOption, PainterElement} from "../painter";
+import { promiseQueue } from "../../utils/promiseQueue";
 
 export interface CanvasContainer extends PaintBaseOption {
     type: "container"
     direction?: "vertical" | "horizontal"
     width: number | "auto"
     height: number | "auto"
-    children: CanvasObj[]
+    children: PainterElement[]
 };
 
 export default async function _drawContainer(this: Painter, container: CanvasContainer){
@@ -28,7 +28,7 @@ export default async function _drawContainer(this: Painter, container: CanvasCon
     let childrenMaxWidth = 0;
     let childrenMaxHeight = 0;
 
-    let drawChild = (child: CanvasObj) => {
+    let drawChild = (child: PainterElement) => {
 
       setChildPositionOffset(child);
 
@@ -52,7 +52,7 @@ export default async function _drawContainer(this: Painter, container: CanvasCon
         });
     }
 
-    function setChildPositionOffset(child: CanvasObj){
+    function setChildPositionOffset(child: PainterElement){
 
       let position = child.position = child.position || "static";
 

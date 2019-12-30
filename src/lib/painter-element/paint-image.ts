@@ -1,5 +1,5 @@
-import Painter, { PaintBaseOption } from "./painter";
-import { downloadFileToLocal } from "../utils/downloadFile";
+import Painter, { PaintBaseOption } from "../painter";
+import { downloadFileToLocal } from "../../utils/downloadFile";
 
 interface Rect {
   top: number

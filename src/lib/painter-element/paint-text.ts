@@ -1,17 +1,14 @@
-import Painter, { PaintBaseOption } from "./painter";
-
-type fontWeight = "normal" | "bold";
-type baseline = "top" | "middle" | "bottom" | "normal";
-type align = "left" | "right" | "center";
+import Painter, { PaintBaseOption } from "../painter";
+import { FontWeight, BaseLine, TextAlign, Color } from "../value";
 
 export interface CanvasText extends PaintBaseOption {
     type: "text";
     color: string
     fontSize: number;
-    fontWeight: fontWeight;
+    fontWeight: FontWeight;
     fontFamily: string;
-    baseline: baseline;
-    align: align;
+    baseline: BaseLine;
+    align: TextAlign;
     content: string;
     width?: number;
 }
@@ -21,10 +18,10 @@ export type PaintTextObject = ["text", Partial<PaintTextOption>];
 export interface PaintTextOption extends PaintBaseOption {
     color: string
     fontSize: number;
-    fontWeight: fontWeight;
+    fontWeight: FontWeight;
     fontFamily: string;
-    baseline: baseline;
-    align: align;
+    baseline: BaseLine;
+    align: TextAlign;
     content: string;
     width: number;
 }
@@ -33,12 +30,12 @@ export default async function paintText(this: Painter, text: Partial<PaintTextOp
     // this.debug("绘制文本")
 
     let {
-      color = "#000",
-      align = "left" as align,
-      fontWeight = "normal" as fontWeight,
+      color = "#000" as Color,
+      align = "left" as TextAlign,
+      fontWeight = "normal" as FontWeight,
       fontFamily = "serial",
       fontSize = 30,
-      baseline = "top" as baseline,
+      baseline = "top" as BaseLine,
       content = "",
       left = 0,
       top = 0,
@@ -51,10 +48,10 @@ export default async function paintText(this: Painter, text: Partial<PaintTextOp
     top = this.upx2px(top);
 
     this.ctx.font = [
-      ...(fontWeight == "normal" ? [] : [fontWeight]),
+      fontWeight != "normal" && fontWeight,
       this.upx2px(fontSize) + "px",
       fontFamily
-    ].join(" ");
+    ].filter(Boolean).join(" ");
 
     this.setFillStyle(color);
     this.ctx.setFontSize(this.upx2px(fontSize));
@@ -62,7 +59,6 @@ export default async function paintText(this: Painter, text: Partial<PaintTextOp
     this.ctx.setTextAlign(align);
     this.ctx.fillText(content, left, top);
 
-    
     let textWidth = width || this.measureText(content, fontSize);
     
     return {

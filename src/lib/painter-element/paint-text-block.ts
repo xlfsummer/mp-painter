@@ -1,7 +1,7 @@
-import Painter, {PaintBaseOption} from "./painter";
+import Painter, {PaintBaseOption} from "../painter";
 import paintText, {CanvasText} from "./paint-text";
-import { promiseQueue } from "../utils/promiseQueue";
-import LineSpliterContext from "./lineSpliter";
+import { promiseQueue } from "../../utils/promiseQueue";
+import LineSpliterContext from "../line-spliter";
 
 export interface CanvasTextBlock extends Omit<CanvasText, "type"> {
     type: "text-block",
