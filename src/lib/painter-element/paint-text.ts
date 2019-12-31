@@ -1,7 +1,7 @@
-import Painter, { PaintBaseOption } from "../painter";
+import Painter, { PainterElementBaseOption } from "../painter";
 import { FontWeight, BaseLine, TextAlign, Color } from "../value";
 
-export interface CanvasText extends PaintBaseOption {
+export interface PainterTextElementOption extends PainterElementBaseOption {
     type: "text";
     color: string
     fontSize: number;
@@ -13,20 +13,7 @@ export interface CanvasText extends PaintBaseOption {
     width?: number;
 }
 
-export type PaintTextObject = ["text", Partial<PaintTextOption>];
-
-export interface PaintTextOption extends PaintBaseOption {
-    color: string
-    fontSize: number;
-    fontWeight: FontWeight;
-    fontFamily: string;
-    baseline: BaseLine;
-    align: TextAlign;
-    content: string;
-    width: number;
-}
-
-export default async function paintText(this: Painter, text: Partial<PaintTextOption>){
+export default async function paintText(this: Painter, text: Partial<PainterTextElementOption>){
     // this.debug("绘制文本")
 
     let {

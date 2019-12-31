@@ -1,7 +1,7 @@
 import Painter from "./painter";
-import { Size } from "./value";
+import PainterElement from "./painter-element/paint-element";
 
-interface PainterElementOption {
+export interface PainterElementOption {
     position: "static" | "absolute"
     left: number
     top: number
@@ -12,20 +12,6 @@ interface PainterRectangleElementOption extends PainterElementOption {
     width: number,
     height: number,
     background: string
-}
-
-abstract class PainterElement {
-    protected x = 0
-    protected y = 0
-    protected width = 0
-    protected height = 0
-    protected layoutInfo = {}
-    painter: Painter
-    constructor(painter: Painter, option: PainterElementOption){
-        this.painter = painter
-    }
-    abstract layout(): Promise<Size> | Size;
-    abstract paint(): void
 }
 
 class PainterRectangleElement extends PainterElement {

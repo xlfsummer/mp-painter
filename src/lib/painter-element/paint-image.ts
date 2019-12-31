@@ -1,5 +1,7 @@
-import Painter, { PaintBaseOption } from "../painter";
+import Painter, { PainterElementBaseOption } from "../painter";
 import { downloadFileToLocal } from "../../utils/downloadFile";
+import PainterElement from "./paint-element";
+import { ObjectFit } from "../value";
 
 interface Rect {
   top: number
@@ -8,52 +10,68 @@ interface Rect {
   height: number
 }
 
-export interface CanvasImage extends PaintBaseOption{
+export interface PainterImageElementOption extends PainterElementBaseOption{
     type: "image";
     src: string;
     width: number;
     height: number;
-    objectFit?: "fill" | "contain"; //| "cover" | "scale-down" | "none";
+    objectFit?: ObjectFit;
 }
 
-export default async function paintImage(this: Painter, image: CanvasImage){
+export default async function paintImage(this: Painter, image: PainterImageElementOption){
+  let el = new PainterImageElement(this, image);
+  await el.paint();
+  return el.layout();
+}
 
-    let {
-      left,
-      top,
-      width,
-      height,
-      objectFit = "fill"
-    } = image;
-
-    if(!image.src) return { width, height };
+export class PainterImageElement extends PainterElement{
+  option: Required<PainterImageElementOption>
+  constructor(painter: Painter, option: PainterImageElementOption){
+    super(painter);
+    this.option = {
+      type:       option.type                   ,
+      position:   option.position   ?? "static" ,
+      left:       option.left       ?? 0        ,
+      top:        option.top        ?? 0        ,
+      width:      option.width      ?? 100      ,
+      height:     option.height     ?? 100      ,
+      objectFit:  option.objectFit  ?? "fill"   ,
+      src:        option.src
+    };
+  }
+  layout(){
+    return { width: this.option.width, height: this.option.height }
+  }
+  async paint(){
+    if(!this.option.src) return;
 
     // 图片内容的尺寸
     let contentSize: Rect;
-    if(objectFit == "contain"){
-      contentSize = await calculateContainSize(image);
+    if(this.option.objectFit == "contain"){
+      contentSize = await calculateContainSize(this.option);
     } else { // fill
-      contentSize = { left, top, width, height }
+      contentSize = { 
+        left:   this.option.left, 
+        top:    this.option.top, 
+        width:  this.option.width,
+        height: this.option.height
+      }
     }
 
-    let src = await getDrawableImageSrc(this, image);
-    if(!src) return { width, height };
+    let src = await normalizeImageSrc(this.painter, this.option);
+    if(!src) return ;
     console.log("调用小程序drawImage，使用:", src);
-    this.ctx.drawImage(
+    this.painter.ctx.drawImage(
       src,
-      this.upx2px(contentSize.left),
-      this.upx2px(contentSize.top),
-      this.upx2px(contentSize.width),
-      this.upx2px(contentSize.height),
+      this.painter.upx2px(contentSize.left),
+      this.painter.upx2px(contentSize.top),
+      this.painter.upx2px(contentSize.width),
+      this.painter.upx2px(contentSize.height),
     )
-
-    return {
-      width,
-      height
-    };
+  }
 }
 
-async function getDrawableImageSrc(painter: Painter, image: CanvasImage) {
+async function normalizeImageSrc(painter: Painter, image: PainterImageElementOption) {
   let platform = painter.platform;
   /** 
    * @expample "https://resource/1573628995676.jpg" 开发者工具
@@ -85,7 +103,7 @@ async function getDrawableImageSrc(painter: Painter, image: CanvasImage) {
   return await downloadFileToLocal(image.src).catch(err => (console.log("下载错误: ", err), ""));
 }
 
-async function calculateContainSize(image: CanvasImage): Promise<Rect>{
+async function calculateContainSize(image: PainterImageElementOption): Promise<Rect>{
   let res: Partial<Record<"width"|"height", number>> = {};
   try {
     [, res] = await uni.getImageInfo({ src: image.src }) as unknown as [void, GetImageInfoSuccessData];

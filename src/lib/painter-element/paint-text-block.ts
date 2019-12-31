@@ -1,9 +1,9 @@
-import Painter, {PaintBaseOption} from "../painter";
-import paintText, {CanvasText} from "./paint-text";
+import Painter, {PainterElementBaseOption} from "../painter";
+import paintText, {PainterTextElementOption} from "./paint-text";
 import { promiseQueue } from "../../utils/promiseQueue";
 import LineSpliterContext from "../line-spliter";
 
-export interface CanvasTextBlock extends Omit<CanvasText, "type"> {
+export interface PainterTextBlockElementOption extends Omit<PainterTextElementOption, "type"> {
     type: "text-block",
   
     lineHeight: number
@@ -16,7 +16,7 @@ export interface CanvasTextBlock extends Omit<CanvasText, "type"> {
 
 let lineSplitCache: Record<string, string[]> = {};
 
-export default async function paintTextBlock(this: Painter, textblock: CanvasTextBlock){
+export default async function paintTextBlock(this: Painter, textblock: PainterTextBlockElementOption){
     // this.debug("绘制文本块");
 
     let {

@@ -1,11 +1,11 @@
 import { delay } from "../utils/delay";
 
-import paintLine, { CanvasLine } from "./painter-element/paint-line";
-import paintRect, { CanvasRect } from "./painter-element/paint-rect";
-import paintImage, { CanvasImage } from "./painter-element/paint-image";
-import paintText, { CanvasText, PaintTextObject } from "./painter-element/paint-text";
-import paintTextBlock, { CanvasTextBlock } from "./painter-element/paint-text-block";
-import paintContainer, { CanvasContainer } from "./painter-element/paint-container";
+import paintLine, { PainterLineElementOption } from "./painter-element/paint-line";
+import paintRect, { PainterRectagleElementOption } from "./painter-element/paint-rect";
+import paintImage, { PainterImageElementOption } from "./painter-element/paint-image";
+import paintText, { PainterTextElementOption } from "./painter-element/paint-text";
+import paintTextBlock, { PainterTextBlockElementOption } from "./painter-element/paint-text-block";
+import paintContainer, { PainterContainerElementOption } from "./painter-element/paint-container";
 import { PLATFORM, UniPlatforms } from "../utils/platform";
 import { Size } from "./value";
 import { CHAR_WIDTH_SCALE_MAP } from "./const";
@@ -15,30 +15,20 @@ interface IPanterOption {
   platform?: UniPlatforms
 }
 
-export interface PaintBaseOption {
+export interface PainterElementBaseOption {
+  type: string
   position: "static" | "absolute"
   left: number
   top: number
 }
 
-interface CanvasObjTypeMap {
-  "text": CanvasText,
-  "text-block": CanvasTextBlock,
-  "image": CanvasImage,
-  "line": CanvasLine,
-  "rect": CanvasRect,
-  "container": CanvasContainer
-}
-
-type CanvasObjType<T extends keyof CanvasObjTypeMap> = CanvasObjTypeMap[T];
-export type PainterElement = CanvasImage | CanvasText | CanvasTextBlock | CanvasLine | CanvasContainer | CanvasRect;
-
-type BasePaintObject = [string, Partial<PaintBaseOption>];
-type PaintObject = PaintTextObject;
-
-interface PaintMethod<T extends PaintBaseOption> {
-  (paintOption: T): Promise<Size>
-}
+export type PainterElementOption =
+  PainterTextElementOption |
+  PainterTextBlockElementOption |
+  PainterImageElementOption |
+  PainterLineElementOption |
+  PainterRectagleElementOption |
+  PainterContainerElementOption;
 
 // 开启会导致支付宝小程序报错
 const debug = (...v: any[]) => void 0; //console.log(...v);
@@ -60,7 +50,7 @@ export default class Painter {
     }
   }
 
-  async draw(element: PainterElement){
+  async draw(element: PainterElementOption){
     let size = await this._drawObj(element);
 
     // debug("call context draw method");
@@ -73,21 +63,16 @@ export default class Painter {
     return size;
   }
 
-  async _drawObj<T extends PainterElement>(paintObj: T){
-    let drawMethod: ((canvasObj: any) => Promise<Size>) = {
-      "text": paintText,
-      "image": paintImage,
-      "text-block": paintTextBlock,
-      "line": paintLine,
-      "rect": paintRect,
-      "container": paintContainer
-    }[paintObj.type];
-
-    if(!drawMethod){
-      throw new TypeError("Unkown painter element type: " + paintObj.type);
+  async _drawObj(paintObj: PainterElementOption){
+    switch(paintObj.type){
+      case "text":        return paintText      .call(this, paintObj);
+      case "text-block":  return paintTextBlock .call(this, paintObj);
+      case "image":       return paintImage     .call(this, paintObj);
+      case "line":        return paintLine      .call(this, paintObj);
+      case "rect":        return paintRect      .call(this, paintObj);
+      case "container":   return paintContainer .call(this, paintObj);
+      default: throw new TypeError("Unkown painter element type");
     }
-    
-    return await drawMethod.call(this, paintObj);
   }
 
   /**

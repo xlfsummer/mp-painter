@@ -1,15 +1,15 @@
-import Painter, {PaintBaseOption, PainterElement} from "../painter";
+import Painter, { PainterElementBaseOption, PainterElementOption } from "../painter";
 import { promiseQueue } from "../../utils/promiseQueue";
 
-export interface CanvasContainer extends PaintBaseOption {
+export interface PainterContainerElementOption extends PainterElementBaseOption {
     type: "container"
     direction?: "vertical" | "horizontal"
     width: number | "auto"
     height: number | "auto"
-    children: PainterElement[]
+    children: PainterElementOption[]
 };
 
-export default async function _drawContainer(this: Painter, container: CanvasContainer){
+export default async function _drawContainer(this: Painter, container: PainterContainerElementOption){
     // this.debug("绘制容器")
     let {
       direction = "vertical",
@@ -28,7 +28,7 @@ export default async function _drawContainer(this: Painter, container: CanvasCon
     let childrenMaxWidth = 0;
     let childrenMaxHeight = 0;
 
-    let drawChild = (child: PainterElement) => {
+    let drawChild = (child: PainterElementOption) => {
 
       setChildPositionOffset(child);
 
@@ -52,7 +52,7 @@ export default async function _drawContainer(this: Painter, container: CanvasCon
         });
     }
 
-    function setChildPositionOffset(child: PainterElement){
+    function setChildPositionOffset(child: PainterElementBaseOption){
 
       let position = child.position = child.position || "static";
 
