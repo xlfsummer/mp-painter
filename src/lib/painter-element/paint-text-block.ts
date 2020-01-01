@@ -1,7 +1,8 @@
 import Painter, {PainterElementBaseOption} from "../painter";
-import paintText, {PainterTextElementOption} from "./paint-text";
+import paintText, {PainterTextElementOption, PainterTextElement} from "./paint-text";
 import { promiseQueue } from "../../utils/promiseQueue";
 import LineSpliterContext from "../line-spliter";
+import PainterElement from "./paint-element";
 
 export interface PainterTextBlockElementOption extends Omit<PainterTextElementOption, "type"> {
     type: "text-block",
@@ -11,46 +12,60 @@ export interface PainterTextBlockElementOption extends Omit<PainterTextElementOp
     
     width: number;
     height: number | "auto";
-  
 }
-
-let lineSplitCache: Record<string, string[]> = {};
 
 export default async function paintTextBlock(this: Painter, textblock: PainterTextBlockElementOption){
     // this.debug("绘制文本块");
+    let tb = new PainterTextBlockElement(this, textblock);
+    let size = tb.layout();
+    tb.paint();
+    return size;
+  }
 
-    let {
-      width = 100,
-      fontSize = 30,
-      content = "",
-      lineHeight = 40,
-      lineClamp = 0
-    } = textblock;
-
-    if(content === null) content = "";
-
-    let cacheKey = JSON.stringify({fontSize, lineClamp, width, content});
-    if(!lineSplitCache[cacheKey]){
-      lineSplitCache[cacheKey] = new LineSpliterContext({
-        fontSize, lineClamp, width,
-        painter: this,
-        content
-      }).split();
+  export class PainterTextBlockElement extends PainterElement {
+    option: Partial<PainterTextBlockElementOption> & Pick<
+      PainterTextBlockElementOption,
+      "fontSize" | "width" | "height" | "lineClamp" | "content" | "lineHeight" | "top"
+    >
+    lines: string[]
+    constructor(painter: Painter, option: Partial<PainterTextBlockElementOption>){
+      super(painter);
+      this.option = {
+        ...option,
+        top:        option.top        ??  0,
+        width:      option.width      ??  100,
+        height:     option.height     ??  "auto",
+        fontSize:   option.fontSize   ??  30,
+        content:    option.content    ??  "",
+        lineHeight: option.lineHeight ??  40,
+        lineClamp:  option.lineClamp  ??  0,
+      }
+      this.lines = [];
     }
+    layout(){
+      this.lines = new LineSpliterContext({
+        fontSize: this.option.fontSize,
+        lineClamp: this.option.lineClamp,
+        width:   this.option.width,
+        painter: this.painter,
+        content: this.option.content
+      }).split();
 
-    let lines = lineSplitCache[cacheKey];
-
-    await promiseQueue(
-      lines.map((line, row) => () => paintText.call(this, {
-          ...textblock,
-          type: "text",
-          top: textblock.top + row * lineHeight,
-          content: line
-        }))
-    );
-
-    return {
-      width: width,
-      height: (lines.length - 1 ) * lineHeight + fontSize
-    };
+      return {
+        width: this.option.width,
+        height: this.option.height == "auto"
+          ? (this.lines.length - 1) * this.option.lineHeight + this.option.fontSize
+          : this.option.height
+      };
+    }
+    async paint(){
+      return await promiseQueue(
+        this.lines.map((line, row) => () => paintText.call(this.painter, {
+            ...this.option,
+            type: "text",
+            top: this.option.top + row * this.option.lineHeight,
+            content: line
+          }))
+      );
+    }
   }

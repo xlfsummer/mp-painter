@@ -18,7 +18,7 @@ class PainterRectangleElement extends PainterElement {
     option: Partial<PainterRectangleElementOption>;
     painter: Painter
     constructor(painter: Painter, option: PainterRectangleElementOption){
-        super(painter, option);
+        super(painter);
         this.painter = painter;
         this.option = option;
     }

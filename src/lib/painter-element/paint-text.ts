@@ -1,5 +1,6 @@
 import Painter, { PainterElementBaseOption } from "../painter";
 import { FontWeight, BaseLine, TextAlign, Color } from "../value";
+import PainterElement from "./paint-element";
 
 export interface PainterTextElementOption extends PainterElementBaseOption {
     type: "text";
@@ -14,42 +15,55 @@ export interface PainterTextElementOption extends PainterElementBaseOption {
 }
 
 export default async function paintText(this: Painter, text: Partial<PainterTextElementOption>){
-    // this.debug("绘制文本")
-
-    let {
-      color = "#000" as Color,
-      align = "left" as TextAlign,
-      fontWeight = "normal" as FontWeight,
-      fontFamily = "serial",
-      fontSize = 30,
-      baseline = "top" as BaseLine,
-      content = "",
-      left = 0,
-      top = 0,
-      width = null,
-    } = text;
-
-    if(content === null) content = "";
-
-    left = this.upx2px(left);
-    top = this.upx2px(top);
-
-    this.ctx.font = [
-      fontWeight != "normal" && fontWeight,
-      this.upx2px(fontSize) + "px",
-      fontFamily
-    ].filter(Boolean).join(" ");
-
-    this.setFillStyle(color);
-    this.ctx.setFontSize(this.upx2px(fontSize));
-    this.ctx.setTextBaseline(baseline);
-    this.ctx.setTextAlign(align);
-    this.ctx.fillText(content, left, top);
-
-    let textWidth = width || this.measureText(content, fontSize);
     
+  let t = new PainterTextElement(this, text);
+  t.paint();
+  return t.layout();
+}
+
+export class PainterTextElement extends PainterElement {
+  option: PainterTextElementOption
+  constructor(painter: Painter, option: Partial<PainterTextElementOption>){
+    super(painter);
+    console.log(option);
+    this.option = {
+      type:                             "text"  ,
+      position:   option.position   ??  "static",
+      left:       option.left       ??  0       ,
+      top:        option.top        ??  0       ,
+
+      color:      option.color      ??  "#000"  ,
+      align:      option.align      ??  "left"  ,
+      fontWeight: option.fontWeight ??  "normal",
+      fontFamily: option.fontFamily ??  "serial",
+      fontSize:   option.fontSize   ??  30      ,
+      baseline:   option.baseline   ??  "top"   ,
+      content:    option.content    ??  ""      ,
+      width:      option.width      ??  void 0  ,
+    }
+  }
+  layout(){
+    let textWidth = this.option.width ?? this.painter.measureText(this.option.content, this.option.fontSize);
     return {
       width: textWidth,
-      height: fontSize,
-    };
+      height: this.option.fontSize
+    }
+  }
+  paint(){
+    this.painter.ctx.font = [
+      this.option.fontWeight != "normal" && this.option.fontWeight,
+      this.painter.upx2px(this.option.fontSize) + "px",
+      this.option.fontFamily
+    ].filter(Boolean).join(" ");
+
+    this.painter.setFillStyle(this.option.color);
+    this.painter.ctx.setFontSize(this.painter.upx2px(this.option.fontSize));
+    this.painter.ctx.setTextBaseline(this.option.baseline);
+    this.painter.ctx.setTextAlign(this.option.align);
+    this.painter.ctx.fillText(
+      this.option.content,
+      this.painter.upx2px(this.option.left),
+      this.painter.upx2px(this.option.top)
+    );
+  }
 }
