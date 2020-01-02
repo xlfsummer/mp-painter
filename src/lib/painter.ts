@@ -1,14 +1,15 @@
 import { delay } from "../utils/delay";
 
-import paintLine, { PainterLineElementOption } from "./painter-element/paint-line";
-import paintRect, { PainterRectagleElementOption } from "./painter-element/paint-rect";
-import paintImage, { PainterImageElementOption } from "./painter-element/paint-image";
-import paintText, { PainterTextElementOption } from "./painter-element/paint-text";
-import paintTextBlock, { PainterTextBlockElementOption } from "./painter-element/paint-text-block";
-import paintContainer, { PainterContainerElementOption } from "./painter-element/paint-container";
+import paintLine, { PainterLineElementOption, PainterLineElement } from "./painter-element/paint-line";
+import paintRect, { PainterRectagleElementOption, PainterRectagleElement } from "./painter-element/paint-rect";
+import paintImage, { PainterImageElementOption, PainterImageElement } from "./painter-element/paint-image";
+import paintText, { PainterTextElementOption, PainterTextElement } from "./painter-element/paint-text";
+import paintTextBlock, { PainterTextBlockElementOption, PainterTextBlockElement } from "./painter-element/paint-text-block";
+import paintContainer, { PainterContainerElementOption, PainterContainerElement } from "./painter-element/paint-container";
 import { PLATFORM, UniPlatforms } from "../utils/platform";
 import { Size } from "./value";
 import { CHAR_WIDTH_SCALE_MAP } from "./const";
+import PainterElement from "./painter-element/paint-element";
 
 interface IPanterOption {
   upx2px?: (upx: number) => number
@@ -64,13 +65,20 @@ export default class Painter {
   }
 
   async _drawObj(paintObj: PainterElementOption){
-    switch(paintObj.type){
-      case "text":        return paintText      .call(this, paintObj);
-      case "text-block":  return paintTextBlock .call(this, paintObj);
-      case "image":       return paintImage     .call(this, paintObj);
-      case "line":        return paintLine      .call(this, paintObj);
-      case "rect":        return paintRect      .call(this, paintObj);
-      case "container":   return paintContainer .call(this, paintObj);
+    let element = this.createElement(paintObj);
+    let size = await element.layout();
+    element.paint();
+    return size;
+  }
+
+  createElement(paintOption: PainterElementOption){
+    switch(paintOption.type){
+      case "text":        return new PainterTextElement     (this, paintOption);
+      case "text-block":  return new PainterTextBlockElement(this, paintOption);
+      case "image":       return new PainterImageElement    (this, paintOption);
+      case "line":        return new PainterLineElement     (this, paintOption);
+      case "rect":        return new PainterRectagleElement (this, paintOption);
+      case "container":   return new PainterContainerElement(this, paintOption);
       default: throw new TypeError("Unkown painter element type");
     }
   }

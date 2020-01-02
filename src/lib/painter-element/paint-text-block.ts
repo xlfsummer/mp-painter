@@ -59,13 +59,14 @@ export default async function paintTextBlock(this: Painter, textblock: PainterTe
       };
     }
     async paint(){
-      return await promiseQueue(
-        this.lines.map((line, row) => () => paintText.call(this.painter, {
-            ...this.option,
-            type: "text",
-            top: this.option.top + row * this.option.lineHeight,
-            content: line
-          }))
-      );
+      this.lines.map((line, row) => {
+        let t = new PainterTextElement(this.painter, {
+          ...this.option,
+          type: "text",
+          top: this.option.top + row * this.option.lineHeight,
+          content: line
+        });
+        t.paint();
+      });
     }
   }

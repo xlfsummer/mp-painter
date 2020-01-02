@@ -1,5 +1,6 @@
 import Painter, { PainterElementBaseOption, PainterElementOption } from "../painter";
 import { promiseQueue } from "../../utils/promiseQueue";
+import PainterElement from "./paint-element";
 
 export interface PainterContainerElementOption extends PainterElementBaseOption {
     type: "container"
@@ -10,46 +11,65 @@ export interface PainterContainerElementOption extends PainterElementBaseOption 
 };
 
 export default async function _drawContainer(this: Painter, container: PainterContainerElementOption){
-    // this.debug("绘制容器")
-    let {
-      direction = "vertical",
-      children = [],
-      left = 0,
-      top = 0,
-      height = "auto",
-      width = "auto",
-    } = container;
+  let c = new PainterContainerElement(this, container);
+  let layout = c.layout();
+  c.paint();
+  return layout;
+}
+
+export class PainterContainerElement extends PainterElement {
+  option: PainterContainerElementOption
+  children: PainterElement[]
+  offsetX: number = 0
+  offsetY: number = 0
+  childrenMaxWidth: number = 0
+  childrenMaxHeight: number = 0
+  constructor(painter: Painter, option: Partial<PainterContainerElementOption>){
+    super(painter);
+    this.option = {
+      type:     "container",
+      position:   option.position ??  "static"  ,
+      left:       option.left     ??  0         ,
+      top:        option.top      ??  0         ,
+      direction:  option.direction??  "vertical",
+      width:      option.width    ??  "auto"    ,
+      height:     option.height   ??  "auto"    ,
+      children:   option.children ??  []
+    }
+    this.children = [];
+  }
+  async layout(){
+    let { direction, children, left, top, height, width, } = this.option;
 
     let offsetLeft = left;
     let offsetTop = top;
     let isAutoHeight = height == "auto";
     let isAutoWidth = width == "auto";
 
-    let childrenMaxWidth = 0;
-    let childrenMaxHeight = 0;
-
-    let drawChild = (child: PainterElementOption) => {
+    let drawChild = async (child: PainterElementOption) => {
 
       setChildPositionOffset(child);
 
-      return this._drawObj(child)
-        .then(size => {
-          let {
-            width: childContentWidth,
-            height: childContentHeight,
-          } = size;
+      let childElement = this.painter.createElement(child);
+      this.children.push(childElement);
 
-          if(child.position == "absolute") return;
+      let size = await childElement.layout()
 
-          if(direction == "vertical"){
-            offsetTop += childContentHeight;
-            childrenMaxWidth = Math.max(childrenMaxWidth, child.left - left + childContentWidth);  
-          }else
-          if(direction == "horizontal"){
-            offsetLeft += childContentWidth;
-            childrenMaxHeight = Math.max(childrenMaxHeight, child.top - top + childContentHeight);
-          }
-        });
+      let {
+        width: childContentWidth,
+        height: childContentHeight,
+      } = size;
+
+      if(child.position == "absolute") return;
+
+      if(direction == "vertical"){
+        offsetTop += childContentHeight;
+        this.childrenMaxWidth = Math.max(this.childrenMaxWidth, child.left - left + childContentWidth);  
+      }else
+      if(direction == "horizontal"){
+        offsetLeft += childContentWidth;
+        this.childrenMaxHeight = Math.max(this.childrenMaxHeight, child.top - top + childContentHeight);
+      }
     }
 
     function setChildPositionOffset(child: PainterElementBaseOption){
@@ -73,15 +93,16 @@ export default async function _drawContainer(this: Painter, container: PainterCo
       }
     }
 
-    await promiseQueue(children.map(child => () => drawChild(child)));
+    for(let child of children) await drawChild(child);
+
     let containerWidth, containerHeight;
 
     if(direction == "vertical"){
-      containerWidth = (isAutoWidth ? childrenMaxWidth : width) as number;
+      containerWidth = (isAutoWidth ? this.childrenMaxWidth : width) as number;
       containerHeight = (isAutoHeight ? offsetTop - top : height) as number;
     } else /* (direction == "horizontal") */ {
       containerWidth = (isAutoWidth ? offsetLeft - left : width) as number;
-      containerHeight = (isAutoHeight ? childrenMaxHeight : height) as number;
+      containerHeight = (isAutoHeight ? this.childrenMaxHeight : height) as number;
     }
     
     return {
@@ -89,3 +110,7 @@ export default async function _drawContainer(this: Painter, container: PainterCo
       height: containerHeight
     };
   }
+  paint(){
+    this.children.map(e => e.paint());
+  }
+}

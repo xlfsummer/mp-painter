@@ -15,7 +15,6 @@ export interface PainterTextElementOption extends PainterElementBaseOption {
 }
 
 export default async function paintText(this: Painter, text: Partial<PainterTextElementOption>){
-    
   let t = new PainterTextElement(this, text);
   t.paint();
   return t.layout();
