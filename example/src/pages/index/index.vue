@@ -19,7 +19,7 @@
 			new Painter(uni.createCanvasContext("canvas")).draw({
 				type: "text",
 				top: 100,
-				left: 350,
+				left: 300,
 				color: "#fc6000",
 				fontWeight: "bold",
 				fontFamily: "Times",

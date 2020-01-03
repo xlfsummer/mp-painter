@@ -1,5 +1,4 @@
 import Painter, { PainterElementBaseOption, PainterElementOption } from "../painter";
-import { promiseQueue } from "../../utils/promiseQueue";
 import PainterElement from "./paint-element";
 
 export interface PainterContainerElementOption extends PainterElementBaseOption {
@@ -10,13 +9,6 @@ export interface PainterContainerElementOption extends PainterElementBaseOption 
     children: PainterElementOption[]
 };
 
-export default async function _drawContainer(this: Painter, container: PainterContainerElementOption){
-  let c = new PainterContainerElement(this, container);
-  let layout = c.layout();
-  c.paint();
-  return layout;
-}
-
 export class PainterContainerElement extends PainterElement {
   option: PainterContainerElementOption
   children: PainterElement[]
@@ -24,8 +16,8 @@ export class PainterContainerElement extends PainterElement {
   offsetY: number = 0
   childrenMaxWidth: number = 0
   childrenMaxHeight: number = 0
-  constructor(painter: Painter, option: Partial<PainterContainerElementOption>){
-    super(painter);
+  constructor(painter: Painter, option: PainterContainerElementOption){
+    super(painter, option);
     this.option = {
       type:     "container",
       position:   option.position ??  "static"  ,
@@ -111,6 +103,6 @@ export class PainterContainerElement extends PainterElement {
     };
   }
   paint(){
-    this.children.map(e => e.paint());
+    this.children.forEach(e => e.paint());
   }
 }

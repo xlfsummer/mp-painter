@@ -18,16 +18,10 @@ export interface PainterImageElementOption extends PainterElementBaseOption{
     objectFit?: ObjectFit;
 }
 
-export default async function paintImage(this: Painter, image: PainterImageElementOption){
-  let el = new PainterImageElement(this, image);
-  await el.paint();
-  return el.layout();
-}
-
 export class PainterImageElement extends PainterElement{
   option: Required<PainterImageElementOption>
   constructor(painter: Painter, option: PainterImageElementOption){
-    super(painter);
+    super(painter, option);
     this.option = {
       type:       option.type                   ,
       position:   option.position   ?? "static" ,

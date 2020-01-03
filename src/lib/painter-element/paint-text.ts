@@ -1,5 +1,5 @@
 import Painter, { PainterElementBaseOption } from "../painter";
-import { FontWeight, BaseLine, TextAlign, Color } from "../value";
+import { FontWeight, BaseLine, TextAlign } from "../value";
 import PainterElement from "./paint-element";
 
 export interface PainterTextElementOption extends PainterElementBaseOption {
@@ -14,16 +14,10 @@ export interface PainterTextElementOption extends PainterElementBaseOption {
     width?: number;
 }
 
-export default async function paintText(this: Painter, text: Partial<PainterTextElementOption>){
-  let t = new PainterTextElement(this, text);
-  t.paint();
-  return t.layout();
-}
-
 export class PainterTextElement extends PainterElement {
   option: PainterTextElementOption
-  constructor(painter: Painter, option: Partial<PainterTextElementOption>){
-    super(painter);
+  constructor(painter: Painter, option: PainterTextElementOption){
+    super(painter, option);
     console.log(option);
     this.option = {
       type:                             "text"  ,

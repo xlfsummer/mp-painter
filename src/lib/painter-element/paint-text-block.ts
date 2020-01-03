@@ -1,5 +1,5 @@
 import Painter, {PainterElementBaseOption} from "../painter";
-import paintText, {PainterTextElementOption, PainterTextElement} from "./paint-text";
+import {PainterTextElementOption, PainterTextElement} from "./paint-text";
 import { promiseQueue } from "../../utils/promiseQueue";
 import LineSpliterContext from "../line-spliter";
 import PainterElement from "./paint-element";
@@ -14,22 +14,14 @@ export interface PainterTextBlockElementOption extends Omit<PainterTextElementOp
     height: number | "auto";
 }
 
-export default async function paintTextBlock(this: Painter, textblock: PainterTextBlockElementOption){
-    // this.debug("绘制文本块");
-    let tb = new PainterTextBlockElement(this, textblock);
-    let size = tb.layout();
-    tb.paint();
-    return size;
-  }
-
-  export class PainterTextBlockElement extends PainterElement {
+export class PainterTextBlockElement extends PainterElement {
     option: Partial<PainterTextBlockElementOption> & Pick<
       PainterTextBlockElementOption,
       "fontSize" | "width" | "height" | "lineClamp" | "content" | "lineHeight" | "top"
     >
     lines: string[]
-    constructor(painter: Painter, option: Partial<PainterTextBlockElementOption>){
-      super(painter);
+    constructor(painter: Painter, option: PainterTextBlockElementOption){
+      super(painter, option);
       this.option = {
         ...option,
         top:        option.top        ??  0,
@@ -60,12 +52,13 @@ export default async function paintTextBlock(this: Painter, textblock: PainterTe
     }
     async paint(){
       this.lines.map((line, row) => {
-        let t = new PainterTextElement(this.painter, {
+        let option = {
           ...this.option,
           type: "text",
           top: this.option.top + row * this.option.lineHeight,
           content: line
-        });
+        } as PainterTextElementOption
+        let t = new PainterTextElement(this.painter, option);
         t.paint();
       });
     }

@@ -8,19 +8,13 @@ export interface PainterRectagleElementOption extends PainterElementBaseOption {
     background?: string
 }
 
-export default async function paintRect(this: Painter, rect: PainterRectagleElementOption){
-  let r = new PainterRectagleElement(this, rect);
-  r.paint();
-  return r.layout();
-}
-
 export class PainterRectagleElement extends PainterElement {
   option: PainterRectagleElementOption;
   constructor(
     painter: Painter, 
     option: PainterRectagleElementOption
   ){
-    super(painter);
+    super(painter, option);
     this.option = option;
   }
   layout(){

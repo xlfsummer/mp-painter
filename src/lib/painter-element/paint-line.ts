@@ -10,17 +10,10 @@ export interface PainterLineElementOption extends PainterElementBaseOption {
     dashPattern: number[],
 }
 
-export default async function paintLine(this: Painter, line: PainterLineElementOption){
-  let l = new PainterLineElement(this, line);
-  l.paint();
-  return l.layout();
-}
-
-
 export class PainterLineElement extends PainterElement {
   option: Required<Omit<PainterLineElementOption, "type">>
-  constructor(painter: Painter, option: Partial<PainterLineElementOption>){
-    super(painter);
+  constructor(painter: Painter, option: PainterLineElementOption){
+    super(painter, option);
     this.option = {
       position:     option.position     ?? "static",
       dx:           option.dx           ?? 0,

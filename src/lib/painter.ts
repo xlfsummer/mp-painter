@@ -1,13 +1,13 @@
 import { delay } from "../utils/delay";
 
-import paintLine, { PainterLineElementOption, PainterLineElement } from "./painter-element/paint-line";
-import paintRect, { PainterRectagleElementOption, PainterRectagleElement } from "./painter-element/paint-rect";
-import paintImage, { PainterImageElementOption, PainterImageElement } from "./painter-element/paint-image";
-import paintText, { PainterTextElementOption, PainterTextElement } from "./painter-element/paint-text";
-import paintTextBlock, { PainterTextBlockElementOption, PainterTextBlockElement } from "./painter-element/paint-text-block";
-import paintContainer, { PainterContainerElementOption, PainterContainerElement } from "./painter-element/paint-container";
+import { PainterLineElementOption, PainterLineElement } from "./painter-element/paint-line";
+import { PainterRectagleElementOption, PainterRectagleElement } from "./painter-element/paint-rect";
+import { PainterImageElementOption, PainterImageElement } from "./painter-element/paint-image";
+import { PainterTextElementOption, PainterTextElement } from "./painter-element/paint-text";
+import { PainterTextBlockElementOption, PainterTextBlockElement } from "./painter-element/paint-text-block";
+import { PainterContainerElementOption, PainterContainerElement } from "./painter-element/paint-container";
 import { PLATFORM, UniPlatforms } from "../utils/platform";
-import { Size } from "./value";
+import { Size, Position } from "./value";
 import { CHAR_WIDTH_SCALE_MAP } from "./const";
 import PainterElement from "./painter-element/paint-element";
 
@@ -18,7 +18,7 @@ interface IPanterOption {
 
 export interface PainterElementBaseOption {
   type: string
-  position: "static" | "absolute"
+  position: Position
   left: number
   top: number
 }
