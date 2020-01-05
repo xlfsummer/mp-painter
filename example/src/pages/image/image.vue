@@ -1,6 +1,6 @@
 <template>
     <view class="page">
-		<view class="page-title h2">图片</view>
+		<view class="page-title h2">网络图片</view>
 		<canvas id="canvas-image"
             canvas-id="canvas-image" class="canvas" style="height: 230upx"/>
         <view class="page-title h2">图片 - 自适应(contain)</view>
@@ -18,13 +18,12 @@ export default {
         return {};
     },
     onReady(){
+        const LOCAL_IMAGE = require("@/static/demo.png");
+
         new Painter(
             uni.createCanvasContext("canvas-image")
         ).draw({
-            type: "container", top: 5, left: 15,
-            children: [
-                {type: "image", top: 10, width: 100, height: 100, src: "https://vuejs.org/images/logo.png"},
-            ]
+            type: "image", top: 10, width: 100, height: 100, src: "https://vuejs.org/images/logo.png"
         });
 
         new Painter(
@@ -32,8 +31,8 @@ export default {
         ).draw({
             type: "container", top: 5, left: 15,
             children: [
-                {type: "image", top: 10, width: 550, height: 200, src: "https://vuejs.org/images/logo.png"},
-                {type: "image", top: 10, width: 550, height: 200, src: "https://vuejs.org/images/logo.png", objectFit: "contain"},
+                {type: "image", top: 10, width: 550, height: 200, src: LOCAL_IMAGE},
+                {type: "image", top: 10, width: 550, height: 200, src: LOCAL_IMAGE, objectFit: "contain"},
             ]
         });
     }

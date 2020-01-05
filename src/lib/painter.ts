@@ -67,7 +67,7 @@ export default class Painter {
   async _drawObj(paintObj: PainterElementOption){
     let element = this.createElement(paintObj);
     let size = await element.layout();
-    element.paint();
+    await element.paint();
     return size;
   }
 

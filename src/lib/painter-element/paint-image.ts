@@ -55,6 +55,7 @@ export class PainterImageElement extends PainterElement{
     let src = await normalizeImageSrc(this.painter, this.option);
     if(!src) return ;
     console.log("调用小程序drawImage，使用:", src);
+    console.log("contentSize=", contentSize);
     this.painter.ctx.drawImage(
       src,
       this.painter.upx2px(contentSize.left),
@@ -78,12 +79,16 @@ async function normalizeImageSrc(painter: Painter, image: PainterImageElementOpt
    * @example "bdfile://tmp_xxxxx" 手机预览
    */
   const BAIDU_LOCAL_RESOURCE_URL_REG = /^bdfile:\/\/tmp/;
+  
+  const BASE64_URL_REG = /^data:image\//;
   /** 小程序本地文件路径 */
   const LOCAL_FILE_PATH_REG = /^\./;
 
   let isLocalFile =
       // 本地图片
       LOCAL_FILE_PATH_REG.test(image.src) ||
+      // base64 图片
+      BASE64_URL_REG.test(image.src)
       // 支付宝中需要先下载图片再绘制
       platform == "mp-alipay" && ALIPAY_LOCAL_RESOURCE_URL_REG.test(image.src) ||
       // 微信小程序开发者工具中不需要先下载再绘制, 但在手机中预览时需要
@@ -106,6 +111,7 @@ async function calculateContainSize(image: PainterImageElementOption): Promise<R
   }
 
   let { width: originWidth = 100, height: originHeight = 100 } = (res || {});
+
   let originRatio = originWidth / originHeight;
   let clientRatio = image.width / image.height;
   let scale = originRatio > clientRatio

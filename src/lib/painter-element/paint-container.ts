@@ -102,7 +102,7 @@ export class PainterContainerElement extends PainterElement {
       height: containerHeight
     };
   }
-  paint(){
-    this.children.forEach(e => e.paint());
+  async paint(){
+    for(let child of this.children) await child.paint();
   }
 }
