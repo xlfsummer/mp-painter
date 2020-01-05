@@ -1,5 +1,6 @@
 import Painter, { PainterElementBaseOption } from "../painter";
 import PainterElement from "./paint-element";
+import { OmitBaseOption } from "../value";
 
 export interface PainterLineElementOption extends PainterElementBaseOption {
     type: "line"
@@ -11,28 +12,25 @@ export interface PainterLineElementOption extends PainterElementBaseOption {
 }
 
 export class PainterLineElement extends PainterElement {
-  option: Required<Omit<PainterLineElementOption, "type">>
-  constructor(painter: Painter, option: PainterLineElementOption){
-    super(painter, option);
+  option: OmitBaseOption<PainterLineElementOption>
+  constructor(painter: Painter, option: PainterLineElementOption, parent?: PainterElement){
+    super(painter, option, parent);
     this.option = {
-      position:     option.position     ?? "static",
       dx:           option.dx           ?? 0,
       dy:           option.dy           ?? 0,
-      left:         option.left         ?? 0,
-      top:          option.top          ?? 0,
       color:        option.color        ?? "#000",
       dashPattern:  option.dashPattern  ?? [1, 0],
       lineWidth:    option.lineWidth    ?? 1
     }
   }
-  layout(){
+  _layout(){
     return { width: this.option.dx, height: this.option.dy };
   }
   paint(){
-    let x1 = this.painter.upx2px(this.option.left);
-    let y1 = this.painter.upx2px(this.option.top);
-    let x2 = this.painter.upx2px(this.option.left + this.option.dx);
-    let y2 = this.painter.upx2px(this.option.top + this.option.dy);
+    let x1 = this.painter.upx2px(this.elementX);
+    let y1 = this.painter.upx2px(this.elementY);
+    let x2 = this.painter.upx2px(this.elementX + this.option.dx);
+    let y2 = this.painter.upx2px(this.elementY + this.option.dy);
 
     this.painter.ctx.moveTo(x1, y1);
     this.painter.ctx.lineTo(x2, y2);

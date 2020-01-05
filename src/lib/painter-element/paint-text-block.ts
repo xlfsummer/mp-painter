@@ -1,8 +1,8 @@
 import Painter, {PainterElementBaseOption} from "../painter";
 import {PainterTextElementOption, PainterTextElement} from "./paint-text";
-import { promiseQueue } from "../../utils/promiseQueue";
 import LineSpliterContext from "../line-spliter";
 import PainterElement from "./paint-element";
+import { OmitBaseOption } from "../value";
 
 export interface PainterTextBlockElementOption extends Omit<PainterTextElementOption, "type"> {
     type: "text-block",
@@ -15,16 +15,15 @@ export interface PainterTextBlockElementOption extends Omit<PainterTextElementOp
 }
 
 export class PainterTextBlockElement extends PainterElement {
-    option: Partial<PainterTextBlockElementOption> & Pick<
+    option: OmitBaseOption<Partial<PainterTextBlockElementOption> & Pick<
       PainterTextBlockElementOption,
       "fontSize" | "width" | "height" | "lineClamp" | "content" | "lineHeight" | "top"
-    >
+    >>
     lines: string[]
-    constructor(painter: Painter, option: PainterTextBlockElementOption){
-      super(painter, option);
+    constructor(painter: Painter, option: PainterTextBlockElementOption, parent?: PainterElement){
+      super(painter, option, parent);
       this.option = {
         ...option,
-        top:        option.top        ??  0,
         width:      option.width      ??  100,
         height:     option.height     ??  "auto",
         fontSize:   option.fontSize   ??  30,
@@ -34,7 +33,7 @@ export class PainterTextBlockElement extends PainterElement {
       }
       this.lines = [];
     }
-    layout(){
+    _layout(){
       this.lines = new LineSpliterContext({
         fontSize: this.option.fontSize,
         lineClamp: this.option.lineClamp,
@@ -55,7 +54,9 @@ export class PainterTextBlockElement extends PainterElement {
         let option = {
           ...this.option,
           type: "text",
-          top: this.option.top + row * this.option.lineHeight,
+          top: this.elementY + row * this.option.lineHeight,
+          left: this.elementX,
+          position: this.position,
           content: line
         } as PainterTextElementOption
         let t = new PainterTextElement(this.painter, option);

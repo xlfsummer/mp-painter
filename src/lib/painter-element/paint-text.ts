@@ -1,5 +1,5 @@
 import Painter, { PainterElementBaseOption } from "../painter";
-import { FontWeight, BaseLine, TextAlign } from "../value";
+import { FontWeight, BaseLine, TextAlign, OmitBaseOption } from "../value";
 import PainterElement from "./paint-element";
 
 export interface PainterTextElementOption extends PainterElementBaseOption {
@@ -15,16 +15,10 @@ export interface PainterTextElementOption extends PainterElementBaseOption {
 }
 
 export class PainterTextElement extends PainterElement {
-  option: PainterTextElementOption
-  constructor(painter: Painter, option: PainterTextElementOption){
-    super(painter, option);
-    console.log(option);
+  option: OmitBaseOption<PainterTextElementOption>
+  constructor(painter: Painter, option: PainterTextElementOption, parent?: PainterElement){
+    super(painter, option, parent);
     this.option = {
-      type:                             "text"  ,
-      position:   option.position   ??  "static",
-      left:       option.left       ??  0       ,
-      top:        option.top        ??  0       ,
-
       color:      option.color      ??  "#000"  ,
       align:      option.align      ??  "left"  ,
       fontWeight: option.fontWeight ??  "normal",
@@ -35,7 +29,7 @@ export class PainterTextElement extends PainterElement {
       width:      option.width      ??  void 0  ,
     }
   }
-  layout(){
+  _layout(){
     let textWidth = this.option.width ?? this.painter.measureText(this.option.content, this.option.fontSize);
     return {
       width: textWidth,
@@ -55,8 +49,8 @@ export class PainterTextElement extends PainterElement {
     this.painter.ctx.setTextAlign(this.option.align);
     this.painter.ctx.fillText(
       this.option.content,
-      this.painter.upx2px(this.option.left),
-      this.painter.upx2px(this.option.top)
+      this.painter.upx2px(this.elementX),
+      this.painter.upx2px(this.elementY)
     );
   }
 }

@@ -1,42 +1,74 @@
 import Painter, { PainterElementBaseOption } from "../painter";
 import { Size, Position } from "../value";
 export default abstract class PainterElement {
-    anchorX = 0;
-    anchorY = 0;
+    parent?: PainterElement;
+    offsetTop = 0;
+    offsetLeft = 0;
     left = 0;
     top = 0;
+
     contentHeight = 0;
     contentWidth = 0;
     position: Position;
 
     painter: Painter;
 
-    constructor(painter: Painter, option: Partial<PainterElementBaseOption>) {
+
+    //  +---------------------------------+ canvas-box
+    //  |                   anchorY       | parent 
+    //  |         +----------------------+| element
+    //  |         |          top         ||   
+    //  |         |      +--------------+|| 
+    //  | anchorX | left | width/height ||| 
+    //  |         |      +--------------+||
+    //  |         +----------------------+|
+    //  +---------------------------------+
+    constructor(
+        painter: Painter,
+        option: Partial<PainterElementBaseOption>,
+        parent?: PainterElement
+    ) {
         this.painter    = painter;
+        this.parent     = parent;
         this.position   = option.position   ?? "static" ;
         this.left       = option.left       ?? 0        ;
         this.top        = option.top        ?? 0        ;
     }
 
-    abstract layout(): Promise<Size> | Size;
+    protected abstract _layout(): Promise<Size> | Size;
+    async layout(){
+        let size = await this._layout();
+        this.contentHeight = size.height;
+        this.contentWidth = size.width;
+        return size;
+    }
+
     abstract paint(): void;
 
-    get x(){
-        if(this.position == "absolute") 
-            return this.left
-        if(this.position == "static")
-            return this.left + this.anchorX;
+    get anchorX(): number{
+        return this.parent?.elementX ?? 0;
     }
-    get y(){
-        if(this.position == "absolute") 
-            return this.top;
-        if(this.position == "static")
-            return this.top + this.anchorY;
+    get anchorY(): number{
+        return this.parent?.elementY ?? 0;
     }
-    get totalHeight(){
+    get elementX(){
+        switch (this.position){
+            case "absolute" : return this.left + this.anchorX;
+            case "static"   : return this.left + this.offsetLeft + this.anchorX;
+            default: throw new TypeError("unknown position type");
+        }
+    }
+    get elementY(){
+        switch (this.position){
+            case "absolute" : return this.top + this.anchorY;
+            case "static"   : return this.top + this.offsetTop + this.anchorY;
+            default: throw new TypeError("unknown position type");
+        }
+    }
+    get offsetHeight(){
         return this.top + this.contentHeight;
     }
-    get totalWidth(){
+    get offsetWidth(){
         return this.left + this.contentWidth;
     }
 }

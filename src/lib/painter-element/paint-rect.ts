@@ -1,5 +1,6 @@
 import Painter, { PainterElementBaseOption } from "../painter";
 import PainterElement from "./paint-element";
+import { OmitBaseOption } from "../value";
 
 export interface PainterRectagleElementOption extends PainterElementBaseOption {
     type: "rect",
@@ -9,15 +10,16 @@ export interface PainterRectagleElementOption extends PainterElementBaseOption {
 }
 
 export class PainterRectagleElement extends PainterElement {
-  option: PainterRectagleElementOption;
+  option: OmitBaseOption<PainterRectagleElementOption>;
   constructor(
     painter: Painter, 
-    option: PainterRectagleElementOption
+    option: PainterRectagleElementOption,
+    parent?: PainterElement
   ){
-    super(painter, option);
+    super(painter, option, parent);
     this.option = option;
   }
-  layout(){
+  _layout(){
     return {
       width: this.option.width,
       height: this.option.height
@@ -26,8 +28,8 @@ export class PainterRectagleElement extends PainterElement {
   paint(){
     this.painter.setFillStyle(this.option.background ?? "#000");
     this.painter.ctx.fillRect(
-      this.painter.upx2px(this.option.left), 
-      this.painter.upx2px(this.option.top),
+      this.painter.upx2px(this.elementX), 
+      this.painter.upx2px(this.elementY),
       this.painter.upx2px(this.option.width), 
       this.painter.upx2px(this.option.height)
     );

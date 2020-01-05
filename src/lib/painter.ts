@@ -71,14 +71,14 @@ export default class Painter {
     return size;
   }
 
-  createElement(paintOption: PainterElementOption){
+  createElement(paintOption: PainterElementOption, parent?: PainterElement){
     switch(paintOption.type){
-      case "text":        return new PainterTextElement     (this, paintOption);
-      case "text-block":  return new PainterTextBlockElement(this, paintOption);
-      case "image":       return new PainterImageElement    (this, paintOption);
-      case "line":        return new PainterLineElement     (this, paintOption);
-      case "rect":        return new PainterRectagleElement (this, paintOption);
-      case "container":   return new PainterContainerElement(this, paintOption);
+      case "text":        return new PainterTextElement     (this, paintOption, parent);
+      case "text-block":  return new PainterTextBlockElement(this, paintOption, parent);
+      case "image":       return new PainterImageElement    (this, paintOption, parent);
+      case "line":        return new PainterLineElement     (this, paintOption, parent);
+      case "rect":        return new PainterRectagleElement (this, paintOption, parent);
+      case "container":   return new PainterContainerElement(this, paintOption, parent);
       default: throw new TypeError("Unkown painter element type");
     }
   }

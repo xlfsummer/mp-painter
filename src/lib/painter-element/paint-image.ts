@@ -1,14 +1,7 @@
 import Painter, { PainterElementBaseOption } from "../painter";
 import { downloadFileToLocal } from "../../utils/downloadFile";
 import PainterElement from "./paint-element";
-import { ObjectFit } from "../value";
-
-interface Rect {
-  top: number
-  left: number
-  width: number
-  height: number
-}
+import { ObjectFit, OmitBaseOption, Rect } from "../value";
 
 export interface PainterImageElementOption extends PainterElementBaseOption{
     type: "image";
@@ -19,34 +12,30 @@ export interface PainterImageElementOption extends PainterElementBaseOption{
 }
 
 export class PainterImageElement extends PainterElement{
-  option: Required<PainterImageElementOption>
-  constructor(painter: Painter, option: PainterImageElementOption){
-    super(painter, option);
+  option: OmitBaseOption<PainterImageElementOption>
+  constructor(painter: Painter, option: PainterImageElementOption, parent?: PainterElement){
+    super(painter, option, parent);
     this.option = {
-      type:       option.type                   ,
-      position:   option.position   ?? "static" ,
-      left:       option.left       ?? 0        ,
-      top:        option.top        ?? 0        ,
       width:      option.width      ?? 100      ,
       height:     option.height     ?? 100      ,
       objectFit:  option.objectFit  ?? "fill"   ,
       src:        option.src
     };
   }
-  layout(){
+  _layout(){
     return { width: this.option.width, height: this.option.height }
   }
   async paint(){
     if(!this.option.src) return;
 
     // 图片内容的尺寸
-    let contentSize: Rect;
+    let contentDimention: Rect;
     if(this.option.objectFit == "contain"){
-      contentSize = await calculateContainSize(this.option);
+      contentDimention = await calculateContainSize(this.option);
     } else { // fill
-      contentSize = { 
-        left:   this.option.left, 
-        top:    this.option.top, 
+      contentDimention = { 
+        left:   0, 
+        top:    0,
         width:  this.option.width,
         height: this.option.height
       }
@@ -55,18 +44,17 @@ export class PainterImageElement extends PainterElement{
     let src = await normalizeImageSrc(this.painter, this.option);
     if(!src) return ;
     console.log("调用小程序drawImage，使用:", src);
-    console.log("contentSize=", contentSize);
     this.painter.ctx.drawImage(
       src,
-      this.painter.upx2px(contentSize.left),
-      this.painter.upx2px(contentSize.top),
-      this.painter.upx2px(contentSize.width),
-      this.painter.upx2px(contentSize.height),
+      this.painter.upx2px(this.elementX + contentDimention.left),
+      this.painter.upx2px(this.elementY + contentDimention.top),
+      this.painter.upx2px(contentDimention.width),
+      this.painter.upx2px(contentDimention.height),
     )
   }
 }
 
-async function normalizeImageSrc(painter: Painter, image: PainterImageElementOption) {
+async function normalizeImageSrc(painter: Painter, image: Pick<PainterImageElementOption, "src">) {
   let platform = painter.platform;
   /** 
    * @expample "https://resource/1573628995676.jpg" 开发者工具
@@ -102,7 +90,7 @@ async function normalizeImageSrc(painter: Painter, image: PainterImageElementOpt
   return await downloadFileToLocal(image.src).catch(err => (console.log("下载错误: ", err), ""));
 }
 
-async function calculateContainSize(image: PainterImageElementOption): Promise<Rect>{
+async function calculateContainSize(image: Pick<PainterImageElementOption, "src" | "width" | "height">): Promise<Rect>{
   let res: Partial<Record<"width"|"height", number>> = {};
   try {
     [, res] = await uni.getImageInfo({ src: image.src }) as unknown as [void, GetImageInfoSuccessData];
@@ -119,8 +107,8 @@ async function calculateContainSize(image: PainterImageElementOption): Promise<R
     : image.height / originHeight;
 
   return {
-    left: image.left + (image.width - originWidth * scale) / 2,
-    top: image.top + (image.height - originHeight * scale) / 2,
+    left: (image.width - originWidth * scale) / 2,
+    top: (image.height - originHeight * scale) / 2,
     width: originWidth * scale,
     height: originHeight * scale
   };
