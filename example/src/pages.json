@@ -4,7 +4,8 @@
 		{ "path": "pages/text/text" },
 		{ "path": "pages/rect/rect" },
 		{ "path": "pages/image/image" },
-		{ "path": "pages/textBlock/textBlock" }
+		{ "path": "pages/textBlock/textBlock" },
+		{ "path": "pages/container/container" }
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
