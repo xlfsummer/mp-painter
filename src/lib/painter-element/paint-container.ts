@@ -40,12 +40,17 @@ export class PainterContainerElement extends PainterElement {
 
     let drawChild = async (child: PainterElementOption) => {
 
+      // to be delete
       setChildPositionOffset(child);
 
       let childElement = this.painter.createElement(child);
+
+      childElement.anchorX = offsetLeft;
+      childElement.anchorY = offsetTop;
+
       this.children.push(childElement);
 
-      let size = await childElement.layout()
+      let size = await childElement.layout();
 
       let {
         width: childContentWidth,

@@ -1,10 +1,12 @@
 import Painter, { PainterElementBaseOption } from "../painter";
 import { Size, Position } from "../value";
 export default abstract class PainterElement {
-    originX = 0;
-    originY = 0;
+    anchorX = 0;
+    anchorY = 0;
     left = 0;
     top = 0;
+    contentHeight = 0;
+    contentWidth = 0;
     position: Position;
 
     painter: Painter;
@@ -19,16 +21,22 @@ export default abstract class PainterElement {
     abstract layout(): Promise<Size> | Size;
     abstract paint(): void;
 
-    get contentLeft(){
+    get x(){
         if(this.position == "absolute") 
             return this.left
         if(this.position == "static")
-            return this.left + this.originX;
+            return this.left + this.anchorX;
     }
-    get contentTop(){
+    get y(){
         if(this.position == "absolute") 
             return this.top;
         if(this.position == "static")
-            return this.top + this.originY;
+            return this.top + this.anchorY;
+    }
+    get totalHeight(){
+        return this.top + this.contentHeight;
+    }
+    get totalWidth(){
+        return this.left + this.contentWidth;
     }
 }
