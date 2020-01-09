@@ -1,7 +1,7 @@
 <template>
     <view class="page">
-        <view class="page-title h2">矩形</view>
-		<canvas canvas-id="canvas-rect" id="canvas-rect" class="canvas" style="height: 230upx"/>
+        <view class="page-title h2">矩形 - 圆角矩形</view>
+		<canvas canvas-id="canvas-rect" id="canvas-rect" class="canvas" style="height: 600upx"/>
     </view>
 </template>
 
@@ -23,7 +23,10 @@ export default {
                 {type: "rect", top: 10, width: 30, height: 30, background: "#cc0000"},
                 {type: "rect", top: 10, width: 60, height: 30, background: "#cccc00"},
                 {type: "rect", top: 10, width: 120, height: 30, background: "#00cc00"},
-                {type: "rect", top: 10, width: 100, height: 60, background: "#00cccc"},
+                {type: "rect", top: 10, width: 200, height: 100, background: "#00cccc", borderRadius: 20},
+                {type: "rect", top: 10, width: 200, height: 100, background: "#cc00cc", borderRadius: [0, 20, 40, 60]},
+                {type: "rect", top: 10, width: 300, height: 100, background: "#cc6600", borderRadius: [1e3, 1e3, 0, 100]},
+                {type: "rect", top: 10, width: 100, height: 100, background: "#cc6666", borderRadius: 50},
             ]
         });
     }
