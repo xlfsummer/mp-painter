@@ -111,9 +111,10 @@ rect 用于绘制矩形，暂不支持投影及圆角
 
 字段名|类型|默认值|描述
 ---|---|---|---
-width|number|-|矩形的宽
-height|number|-|矩形的高
-background|string|-|填充的颜色
+width|number|100|矩形的宽
+height|number|100|矩形的高
+background|string|#000|填充的颜色
+borderRadius|number/[number,number,number,number]|0|圆角
 
 line
 ---
