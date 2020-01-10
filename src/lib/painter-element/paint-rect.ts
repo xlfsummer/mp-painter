@@ -4,7 +4,7 @@ import { OmitBaseOption, BorderRadius } from "../value";
 import { debug as createDebug } from "debug";
 
 let debug = createDebug("mp-painter:rect-element:");
-debug.enabled = true;
+// debug.enabled = true;
 
 export interface PainterRectagleElementOption extends PainterElementBaseOption {
     type: "rect",

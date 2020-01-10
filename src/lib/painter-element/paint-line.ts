@@ -32,9 +32,10 @@ export class PainterLineElement extends PainterElement {
     let x2 = this.painter.upx2px(this.elementX + this.option.dx);
     let y2 = this.painter.upx2px(this.elementY + this.option.dy);
 
+    this.painter.ctx.beginPath();
     this.painter.ctx.moveTo(x1, y1);
     this.painter.ctx.lineTo(x2, y2);
-    this.painter.ctx.setLineDash(this.option.dashPattern.map(this.painter.upx2px));
+    this.painter.ctx.setLineDash(this.option.dashPattern.map(x => this.painter.upx2px(x)));
     this.painter.setStrokeStyle(this.option.color);
     this.painter.ctx.lineWidth = this.painter.upx2px(this.option.lineWidth);
     this.painter.ctx.stroke();
