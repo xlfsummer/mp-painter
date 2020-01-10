@@ -7,7 +7,7 @@ import { PainterTextElementOption, PainterTextElement } from "./painter-element/
 import { PainterTextBlockElementOption, PainterTextBlockElement } from "./painter-element/paint-text-block";
 import { PainterContainerElementOption, PainterContainerElement } from "./painter-element/paint-container";
 import { PLATFORM, UniPlatforms } from "../utils/platform";
-import { Size, Position } from "./value";
+import { Position } from "./value";
 import { CHAR_WIDTH_SCALE_MAP } from "./const";
 import PainterElement from "./painter-element/paint-element";
 
