@@ -107,8 +107,6 @@ export class PainterRoundedRectanglePath extends PainterBasePath {
         this.option.height / (leftTopRadius + leftBottomRadius)
         );
 
-        // debug("reduceBorderRadius:", "f=", f);
-
         if(f >= 1) return;
 
         this.option.borderRadius = this.normalizedBorderRadius.map(radius => radius * f) as [number, number, number, number];
