@@ -76,7 +76,7 @@ async function normalizeImageSrc(painter: Painter, image: Pick<PainterImageEleme
       // 本地图片
       LOCAL_FILE_PATH_REG.test(image.src) ||
       // base64 图片
-      BASE64_URL_REG.test(image.src)
+      BASE64_URL_REG.test(image.src) ||
       // 支付宝中需要先下载图片再绘制
       platform == "mp-alipay" && ALIPAY_LOCAL_RESOURCE_URL_REG.test(image.src) ||
       // 微信小程序开发者工具中不需要先下载再绘制, 但在手机中预览时需要
