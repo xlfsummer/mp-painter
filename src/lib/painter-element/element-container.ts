@@ -1,13 +1,14 @@
-import Painter, { PainterElementBaseOption, PainterElementOption } from "../painter";
-import PainterElement from "./paint-element";
+import Painter from "../painter";
+import { PainterElementOption, PainterElement } from "./base";
 import { OmitBaseOption } from "../value";
+import { BuiltInPainterElementOption, createElement } from "./index";
 
-export interface PainterContainerElementOption extends PainterElementBaseOption {
+export interface PainterContainerElementOption extends PainterElementOption {
     type: "container"
     direction: "vertical" | "horizontal"
     width: number | "auto"
     height: number | "auto"
-    children: PainterElementOption[]
+    children: BuiltInPainterElementOption[]
 };
 
 export class PainterContainerElement extends PainterElement {
@@ -26,7 +27,7 @@ export class PainterContainerElement extends PainterElement {
     }
 
     this.children = this.option.children.map(
-      childElementOption => this.painter.createElement(childElementOption, this)
+      childElementOption => createElement(this.painter, childElementOption, this)
     );
   }
   async _layout(){

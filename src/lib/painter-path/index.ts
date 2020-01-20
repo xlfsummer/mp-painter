@@ -1,12 +1,12 @@
-import PainterElement from "../painter-element/paint-element";
-import { PainterRoundedRectanglePath, PainterRoundedRectanglePathOption } from "./rounded-rect";
+import { PainterElement } from "../painter-element/base";
+import { PainterRoundedRectanglePath, PainterRoundedRectanglePathOption } from "./path-rounded-rect";
 
-type PainterPathOption = PainterRoundedRectanglePathOption;
+type BuiltInPainterPathOption = PainterRoundedRectanglePathOption;
 
 export function createPath (
     element: PainterElement,
-    option: PainterPathOption
-){
+    option: BuiltInPainterPathOption
+) {
     switch(option.type){
         case "rounded-rect":  return new PainterRoundedRectanglePath(element, option);
         default:              throw new Error("Unkwon option type");

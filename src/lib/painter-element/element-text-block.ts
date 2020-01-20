@@ -1,7 +1,7 @@
-import Painter, {PainterElementBaseOption} from "../painter";
-import {PainterTextElementOption, PainterTextElement} from "./paint-text";
+import Painter from "../painter";
+import {PainterTextElementOption, PainterTextElement} from "./element-text";
 import LineSpliterContext from "../line-spliter";
-import PainterElement from "./paint-element";
+import { PainterElement } from "./base";
 import { OmitBaseOption } from "../value";
 
 export interface PainterTextBlockElementOption extends Omit<PainterTextElementOption, "type"> {

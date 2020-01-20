@@ -1,38 +1,14 @@
 import { delay } from "../utils/delay";
 
-import { PainterLineElementOption, PainterLineElement } from "./painter-element/paint-line";
-import { PainterRectagleElementOption, PainterRectagleElement } from "./painter-element/paint-rect";
-import { PainterImageElementOption, PainterImageElement } from "./painter-element/paint-image";
-import { PainterTextElementOption, PainterTextElement } from "./painter-element/paint-text";
-import { PainterTextBlockElementOption, PainterTextBlockElement } from "./painter-element/paint-text-block";
-import { PainterContainerElementOption, PainterContainerElement } from "./painter-element/paint-container";
 import { PLATFORM, UniPlatforms } from "../utils/platform";
-import { Position } from "./value";
 import { CHAR_WIDTH_SCALE_MAP } from "./const";
-import PainterElement from "./painter-element/paint-element";
+import { BuiltInPainterElementOption, createElement } from "./painter-element/index";
 
 interface IPanterOption {
   upx2px?: (upx: number) => number
   platform?: UniPlatforms
 }
 
-export interface PainterElementBaseOption {
-  type: string
-  position: Position
-  left: number
-  top: number
-}
-
-export type PainterElementOption =
-  PainterTextElementOption |
-  PainterTextBlockElementOption |
-  PainterImageElementOption |
-  PainterLineElementOption |
-  PainterRectagleElementOption |
-  PainterContainerElementOption;
-
-// 开启会导致支付宝小程序报错
-const debug = (...v: any[]) => void 0; //console.log(...v);
 
 export default class Painter {
 
@@ -51,7 +27,7 @@ export default class Painter {
     }
   }
 
-  async draw(element: PainterElementOption){
+  async draw(element: BuiltInPainterElementOption){
     let size = await this._drawObj(element);
 
     // debug("call context draw method");
@@ -64,23 +40,11 @@ export default class Painter {
     return size;
   }
 
-  async _drawObj(paintObj: PainterElementOption){
-    let element = this.createElement(paintObj);
+  async _drawObj(paintObj: BuiltInPainterElementOption){
+    let element = createElement(this, paintObj);
     let size = await element.layout();
     await element.paint();
     return size;
-  }
-
-  createElement(paintOption: PainterElementOption, parent?: PainterElement){
-    switch(paintOption.type){
-      case "text":        return new PainterTextElement     (this, paintOption, parent);
-      case "text-block":  return new PainterTextBlockElement(this, paintOption, parent);
-      case "image":       return new PainterImageElement    (this, paintOption, parent);
-      case "line":        return new PainterLineElement     (this, paintOption, parent);
-      case "rect":        return new PainterRectagleElement (this, paintOption, parent);
-      case "container":   return new PainterContainerElement(this, paintOption, parent);
-      default: throw new TypeError("Unkown painter element type");
-    }
   }
 
   /**

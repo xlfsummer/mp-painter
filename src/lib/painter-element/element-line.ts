@@ -1,8 +1,8 @@
-import Painter, { PainterElementBaseOption } from "../painter";
-import PainterElement from "./paint-element";
+import Painter from "../painter";
+import { PainterElementOption, PainterElement } from "./base";
 import { OmitBaseOption } from "../value";
 
-export interface PainterLineElementOption extends PainterElementBaseOption {
+export interface PainterLineElementOption extends PainterElementOption {
     type: "line"
     dx: number
     dy: number

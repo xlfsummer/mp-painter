@@ -1,6 +1,14 @@
-import Painter, { PainterElementBaseOption } from "../painter";
+import Painter from "../painter";
 import { Size, Position } from "../value";
-export default abstract class PainterElement {
+
+export interface PainterElementOption {
+    type: string
+    position: Position
+    left: number
+    top: number
+}
+
+export abstract class PainterElement {
     parent?: PainterElement;
     offsetTop = 0;
     offsetLeft = 0;
@@ -25,7 +33,7 @@ export default abstract class PainterElement {
     //  +---------------------------------+
     constructor(
         painter: Painter,
-        option: Partial<PainterElementBaseOption>,
+        option: Partial<PainterElementOption>,
         parent?: PainterElement
     ) {
         this.painter    = painter;

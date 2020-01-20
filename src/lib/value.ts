@@ -1,4 +1,4 @@
-import { PainterElementBaseOption } from "./painter";
+import { PainterElementOption } from "./painter-element/base";
 
 export interface Size {
     width: number,
@@ -12,7 +12,6 @@ export interface Rect {
     height: number;
 }
 
-
 /** @example "#rrggbb" */
 export type Color = string
 export type FontWeight = "normal" | "bold";
@@ -22,4 +21,4 @@ export type ObjectFit = "fill" | "contain" // "cover" | "scale-down" | "none";
 export type Position = "static" | "absolute";
 /** left-top right-top right-bottom left-bottom */
 export type BorderRadius = number | [number, number, number, number]
-export type OmitBaseOption<T> = Omit<T, keyof PainterElementBaseOption>
+export type OmitBaseOption<T> = Omit<T, keyof PainterElementOption>

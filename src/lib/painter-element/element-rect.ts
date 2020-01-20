@@ -1,5 +1,5 @@
-import Painter, { PainterElementBaseOption } from "../painter";
-import PainterElement from "./paint-element";
+import Painter from "../painter";
+import { PainterElementOption, PainterElement } from "./base";
 import { OmitBaseOption, BorderRadius } from "../value";
 import { debug as createDebug } from "debug";
 import { createPath } from "../painter-path";
@@ -7,7 +7,7 @@ import { createPath } from "../painter-path";
 let debug = createDebug("mp-painter:rect-element:");
 // debug.enabled = true;
 
-export interface PainterRectagleElementOption extends PainterElementBaseOption {
+export interface PainterRectagleElementOption extends PainterElementOption {
     type: "rect",
     width: number,
     height: number,
@@ -68,4 +68,3 @@ export class PainterRectagleElement extends PainterElement {
     this.painter.ctx.fill();
   }
 }
-

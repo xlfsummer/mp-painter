@@ -1,4 +1,4 @@
-import PainterElement from "../painter-element/paint-element";
+import { PainterElement } from "../painter-element/base";
 
 export interface PainterPathBaseOption {
     type: string
