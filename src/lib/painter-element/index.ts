@@ -5,6 +5,7 @@ import { PainterLineElementOption, PainterLineElement } from "./element-line";
 import { PainterRectagleElementOption, PainterRectagleElement } from "./element-rect";
 import { PainterContainerElementOption, PainterContainerElement } from "./element-container";
 import { PainterClipElementOption, PainterClipElement } from "./element-clip";
+import { PainterTransformElementOption, PainterTransformElement } from "./element-transform";
 
 import Painter from "../painter";
 import { PainterElement } from "./base";
@@ -16,7 +17,8 @@ export type BuiltInPainterElementOption =
   PainterLineElementOption |
   PainterRectagleElementOption |
   PainterContainerElementOption |
-  PainterClipElementOption;
+  PainterClipElementOption |
+  PainterTransformElementOption;
 
 export function createElement(
     painter: Painter,
@@ -31,6 +33,7 @@ export function createElement(
         case "rect":        return new PainterRectagleElement  (painter, option, parent);
         case "container":   return new PainterContainerElement (painter, option, parent);
         case "clip":        return new PainterClipElement      (painter, option, parent);
+        case "transform":   return new PainterTransformElement (painter, option, parent);
         default: throw new TypeError("Unkown painter element type");
     }
 }

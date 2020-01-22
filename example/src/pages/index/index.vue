@@ -7,6 +7,7 @@
 		<navigator class="link" url="/pages/textBlock/textBlock"><button type="default">text-block</button></navigator>
 		<navigator class="link" url="/pages/container/container"><button type="default">container</button></navigator>
 		<navigator class="link" url="/pages/clip/clip"><button type="default">clip</button></navigator>
+		<navigator class="link" url="/pages/transform/transform"><button type="default">transform</button></navigator>
 	</view>
 </template>
 
