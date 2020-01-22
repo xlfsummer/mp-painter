@@ -4,6 +4,8 @@ import { PainterImageElementOption, PainterImageElement } from "./element-image"
 import { PainterLineElementOption, PainterLineElement } from "./element-line";
 import { PainterRectagleElementOption, PainterRectagleElement } from "./element-rect";
 import { PainterContainerElementOption, PainterContainerElement } from "./element-container";
+import { PainterClipElementOption, PainterClipElement } from "./element-clip";
+
 import Painter from "../painter";
 import { PainterElement } from "./base";
 
@@ -13,7 +15,8 @@ export type BuiltInPainterElementOption =
   PainterImageElementOption |
   PainterLineElementOption |
   PainterRectagleElementOption |
-  PainterContainerElementOption;
+  PainterContainerElementOption |
+  PainterClipElementOption;
 
 export function createElement(
     painter: Painter,
@@ -21,12 +24,13 @@ export function createElement(
     parent?: PainterElement
 ){
     switch(option.type){
-        case "text":        return new PainterTextElement     (painter, option, parent);
-        case "text-block":  return new PainterTextBlockElement(painter, option, parent);
-        case "image":       return new PainterImageElement    (painter, option, parent);
-        case "line":        return new PainterLineElement     (painter, option, parent);
-        case "rect":        return new PainterRectagleElement (painter, option, parent);
-        case "container":   return new PainterContainerElement(painter, option, parent);
+        case "text":        return new PainterTextElement      (painter, option, parent);
+        case "text-block":  return new PainterTextBlockElement (painter, option, parent);
+        case "image":       return new PainterImageElement     (painter, option, parent);
+        case "line":        return new PainterLineElement      (painter, option, parent);
+        case "rect":        return new PainterRectagleElement  (painter, option, parent);
+        case "container":   return new PainterContainerElement (painter, option, parent);
+        case "clip":        return new PainterClipElement      (painter, option, parent);
         default: throw new TypeError("Unkown painter element type");
     }
 }

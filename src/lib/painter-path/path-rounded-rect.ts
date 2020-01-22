@@ -1,19 +1,19 @@
-import { PainterBasePath, PainterPathBaseOption,  } from "./base";
+import { PainterPath, PainterPathOption,  } from "./base";
 import { BorderRadius } from "../value";
 import { PainterElement } from "../painter-element/base";
 
-export interface PainterRoundedRectanglePathOption extends PainterPathBaseOption {
+export interface PainterRoundedRectanglePathOption extends PainterPathOption {
     type: "rounded-rect",
     width: number,
     height: number,
     borderRadius: BorderRadius
 }
 
-export class PainterRoundedRectanglePath extends PainterBasePath {
+export class PainterRoundedRectanglePath extends PainterPath {
     option: PainterRoundedRectanglePathOption;
 
     constructor (element: PainterElement, option: PainterRoundedRectanglePathOption){
-        super(element);
+        super(element, option);
         this.option = option;
 
         if(this.option.borderRadius){
@@ -37,43 +37,43 @@ export class PainterRoundedRectanglePath extends PainterBasePath {
         ctx.beginPath();
     
         ctx.moveTo(
-          upx2px(this.elementX),
-          upx2px(this.elementY + leftTopRadius)
+          upx2px(this.pathX),
+          upx2px(this.pathY + leftTopRadius)
         );
     
         // left top
         ctx.arcTo(
-          upx2px(this.elementX),
-          upx2px(this.elementY),
-          upx2px(this.elementX + leftTopRadius),
-          upx2px(this.elementY),
+          upx2px(this.pathX),
+          upx2px(this.pathY),
+          upx2px(this.pathX + leftTopRadius),
+          upx2px(this.pathY),
           upx2px(leftTopRadius)
         );
     
         // right top
         ctx.arcTo(
-          upx2px(this.elementX + this.option.width),
-          upx2px(this.elementY),
-          upx2px(this.elementX + this.option.width),
-          upx2px(this.elementY + rightTopRadius),
+          upx2px(this.pathX + this.option.width),
+          upx2px(this.pathY),
+          upx2px(this.pathX + this.option.width),
+          upx2px(this.pathY + rightTopRadius),
           upx2px(rightTopRadius)
         );
     
         // right bottom
         ctx.arcTo(
-          upx2px(this.elementX + this.option.width),
-          upx2px(this.elementY + this.option.height),
-          upx2px(this.elementX + this.option.width - rightBottomRaidus),
-          upx2px(this.elementY + this.option.height),
+          upx2px(this.pathX + this.option.width),
+          upx2px(this.pathY + this.option.height),
+          upx2px(this.pathX + this.option.width - rightBottomRaidus),
+          upx2px(this.pathY + this.option.height),
           upx2px(rightBottomRaidus)
         );
     
         // left bottom
         ctx.arcTo(
-          upx2px(this.elementX),
-          upx2px(this.elementY + this.option.height),
-          upx2px(this.elementX),
-          upx2px(this.elementY + this.option.height - leftBottomRadius),
+          upx2px(this.pathX),
+          upx2px(this.pathY + this.option.height),
+          upx2px(this.pathX),
+          upx2px(this.pathY + this.option.height - leftBottomRadius),
           upx2px(leftBottomRadius)
         )
         

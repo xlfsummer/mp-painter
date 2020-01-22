@@ -12,8 +12,8 @@ export abstract class PainterElement {
     parent?: PainterElement;
     offsetTop = 0;
     offsetLeft = 0;
-    left = 0;
-    top = 0;
+    left: number;
+    top:  number;
 
     contentHeight = 0;
     contentWidth = 0;

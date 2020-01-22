@@ -1,7 +1,7 @@
 import { PainterElement } from "../painter-element/base";
 import { PainterRoundedRectanglePath, PainterRoundedRectanglePathOption } from "./path-rounded-rect";
 
-type BuiltInPainterPathOption = PainterRoundedRectanglePathOption;
+export type BuiltInPainterPathOption = PainterRoundedRectanglePathOption;
 
 export function createPath (
     element: PainterElement,
