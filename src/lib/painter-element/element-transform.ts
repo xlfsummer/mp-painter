@@ -40,10 +40,18 @@ interface PainterTransformMatrixOption {
     skewX: number,      skewY: number,
 }
 
-type PaitnerTransformOriginOption = [PaitnerTransformOriginHorizontalOption, PaitnerTransformOriginVerticalOption];
+type PaitnerTransformOriginOption = [
+    PaitnerTransformOriginHorizontalOption,
+    PaitnerTransformOriginVerticalOption
+];
 type PaitnerTransformOriginHorizontalOption = "left" | "center" | "right";
 type PaitnerTransformOriginVerticalOption = "top" | "center" | "bottom";
 
+/**
+ * - fixme: Cascade transform not supported yet. 
+ * Cause when we set tansform origin in `withTransformOrigin`,
+ * We don't know the transform state of outer element. 
+ */
 export class PainterTransformElement extends PainterElement {
 
     transformOrigin:   PaitnerTransformOriginOption
@@ -54,7 +62,7 @@ export class PainterTransformElement extends PainterElement {
         super(painter, option, parent);
         this.contentElement = createElement(painter, option.content, this);
         this.transformOptions = option.transform ?? []
-        this.transformOrigin = option.transformOrigin
+        this.transformOrigin = option.transformOrigin ?? ["center", "center"]
     }
 
     _layout(){
@@ -63,7 +71,9 @@ export class PainterTransformElement extends PainterElement {
 
     async paint(){
         this.painter.ctx.save();
-        this.transform();
+        this.withTransformOrigin(
+            () => this.transform()
+        );
         await this.contentElement.paint();
         this.painter.ctx.restore();
     }
@@ -82,7 +92,7 @@ export class PainterTransformElement extends PainterElement {
             case "rotate"    : return this.painter.ctx.rotate(
                 option.rotate / 180 * Math.PI
             );
-
+            
             case "scale"     : return this.painter.ctx.scale(
                 option.scaleWidth,
                 option.scaleHeight
@@ -98,5 +108,36 @@ export class PainterTransformElement extends PainterElement {
             );
             default:           throw  new Error("Unknown transform type.");
         }
+    }
+
+    private withTransformOrigin(cb: Function){
+        const verticalKeywordScaleMap: Record<PaitnerTransformOriginVerticalOption, number> = {
+            "top":     0,
+            "center": .5,
+            "bottom":  1            
+        };
+        const horizontalKeywordScaleMap: Record<PaitnerTransformOriginHorizontalOption, number> = {
+            "left": 0,
+            "center": .5,
+            "right": 1
+        };
+        const transformOriginOffset = {
+            x: this.elementX + this.contentWidth  * horizontalKeywordScaleMap[this.transformOrigin[0]],
+            y: this.elementY + this.contentHeight * verticalKeywordScaleMap  [this.transformOrigin[1]],
+        };
+
+        this.singleTransform({
+            type: "translate",
+            x: transformOriginOffset.x,
+            y: transformOriginOffset.y
+        });
+
+        cb();
+
+        this.singleTransform({
+            type: "translate",
+            x: -transformOriginOffset.x,
+            y: -transformOriginOffset.y
+        });
     }
 }

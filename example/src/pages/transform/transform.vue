@@ -9,6 +9,9 @@
         <view class="page-title h2">缩放</view>
         <canvas id="canvas-transform-scale" canvas-id="canvas-transform-scale"
             class="canvas" style="height: 200upx"/>
+        <view class="page-title h2">变换中心</view>
+        <canvas id="canvas-transform-origin" canvas-id="canvas-transform-origin"
+            class="canvas" style="height: 200upx"/>
         <view class="page-title h2">组合变换</view>
         <canvas id="canvas-transform-combination" canvas-id="canvas-transform-combination"
             class="canvas" style="height: 200upx"/>
@@ -50,37 +53,70 @@ export default {
 
         new Painter(uni.createCanvasContext("canvas-transform-rotate")).draw({
             type: "transform",
-            transform: [{ type: "rotate", rotate: 20 }],
+            transform: [{ type: "rotate", rotate: 30 }],
             content: {
-                type: "text",
-                fontSize: 30,
-                content: "一行旋转了 20° 的文字"
+                type: "rect",
+                left: 40,
+                width: 90,
+                height: 90,
+                background: "blue"
             }
         });
 
         new Painter(uni.createCanvasContext("canvas-transform-scale")).draw({
             type: "transform",
             transform: [{ type: "scale", scaleHeight: 1, scaleWidth: 2 }],
+            transformOrigin: ["left", "top"],
             content: {
                 type: "text",
                 fontSize: 30,
-                content: "宽度设置为 2 倍的文字"
+                content: "宽度设置为 2 倍的文字",
             }
-        })
+        });
 
+        new Painter(uni.createCanvasContext("canvas-transform-origin")).draw({
+            type: "container",
+            children: [
+                {
+                    type: "transform",
+                    transform: [ { type: "rotate", rotate: -20 }, ],
+                    transformOrigin: ["right", "bottom"],
+                    content: {
+                        position: "absolute",
+                        type: "text",
+                        fontSize: 30,
+                        content: "通过 transformOrigin 设置旋转中心为右下角"
+                    }
+                },
+                {
+                    position: "absolute",
+                    type: "text",
+                    fontSize: 30,
+                    content: "通过 transformOrigin 设置旋转中心为右下角"
+                }
+            ]
+        });
+        
         new Painter(uni.createCanvasContext("canvas-transform-combination")).draw({
-            type: "transform",
-            transform: [
-                { type: "translate", x: 100, y: 30 },
-                { type: "rotate", rotate: 30 },
-                { type: "translate", x: -100, y: -30 },
-            ],
-            content: {
-                type: "text",
-                fontSize: 30,
-                content: "通过组合达到设置旋转中心的效果"
-            }
-        })
+            type: "container",
+            children: [
+                {
+                    type: "transform",
+                    transform: [
+                        { type: "translate", x: 50, y: 30, },
+                        { type: "rotate", rotate: 5 },
+                        { type: "translate", y: 30 },
+                        { type: "scale", scaleWidth: 1.5, scaleHeight: 1 }
+                    ],
+                    content: {
+                        position: "absolute",
+                        type: "text",
+                        fontSize: 30,
+                        content: "应用多个变换"
+                    }
+                },
+            ]
+        });
     }
 }
 </script>
