@@ -23,6 +23,10 @@ jobs:
       name: build example
       working-directory: example
       run: npm run build:h5
+    -
+      name: add CNAME file
+      working-directory: example/dist/build/h5
+      run: echo mp-painter.xlf-summer.cn > CNAME
     - 
       name: GitHub Pages Deploy
       uses: maxheld83/ghpages@v0.2.1
