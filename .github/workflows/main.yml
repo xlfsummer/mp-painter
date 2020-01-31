@@ -7,13 +7,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2  
+    -
+      uses: actions/checkout@v2  
     -
       name: install node_module
       run: npm ci
     - 
       name: build mp-painter
-      run: npm build
+      run: npm run build
     - 
       name: install example node_module
       working-directory: example
