@@ -5,7 +5,9 @@
 		{ "path": "pages/rect/rect" },
 		{ "path": "pages/image/image" },
 		{ "path": "pages/textBlock/textBlock" },
-		{ "path": "pages/container/container" }
+		{ "path": "pages/container/container" },
+		{ "path": "pages/clip/clip" },
+		{ "path": "pages/transform/transform" }
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

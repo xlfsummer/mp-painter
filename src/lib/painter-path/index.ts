@@ -1,19 +1,14 @@
-import PainterElement from "../painter-element/paint-element";
-import { PainterRoundedRectanglePath } from "./rounded-rect";
+import { PainterElement } from "../painter-element/base";
+import { PainterRoundedRectanglePath, PainterRoundedRectanglePathOption } from "./path-rounded-rect";
 
-let PainterPathMap = {
-    "rounded-rect": PainterRoundedRectanglePath
-}
+export type BuiltInPainterPathOption = PainterRoundedRectanglePathOption;
 
-interface PainterPathMap {
-    "rounded-rect": PainterRoundedRectanglePath,
-}
-
-export function createPath<k extends keyof PainterPathMap>(
+export function createPath (
     element: PainterElement,
-    option: ConstructorParameters<typeof PainterPathMap[k]>[1]
-): PainterPathMap[k] {
-    let Ctor = PainterPathMap[option.type]
-    if(Ctor) return new (Ctor)(element, option);
-    throw new Error("Unkwon option type");
+    option: BuiltInPainterPathOption
+) {
+    switch(option.type){
+        case "rounded-rect":  return new PainterRoundedRectanglePath(element, option);
+        default:              throw new Error("Unkwon option type");
+    }
 }

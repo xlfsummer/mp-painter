@@ -1,8 +1,8 @@
-import Painter, { PainterElementBaseOption } from "../painter";
+import Painter from "../painter";
 import { FontWeight, BaseLine, TextAlign, OmitBaseOption } from "../value";
-import PainterElement from "./paint-element";
+import { PainterElementOption, PainterElement } from "./base";
 
-export interface PainterTextElementOption extends PainterElementBaseOption {
+export interface PainterTextElementOption extends PainterElementOption {
     type: "text";
     color: string
     fontSize: number;

@@ -1,9 +1,9 @@
-import Painter, { PainterElementBaseOption } from "../painter";
+import Painter from "../painter";
 import { downloadFileToLocal } from "../../utils/downloadFile";
-import PainterElement from "./paint-element";
+import { PainterElementOption, PainterElement } from "./base";
 import { ObjectFit, OmitBaseOption, Rect } from "../value";
 
-export interface PainterImageElementOption extends PainterElementBaseOption{
+export interface PainterImageElementOption extends PainterElementOption{
     type: "image";
     src: string;
     width: number;
