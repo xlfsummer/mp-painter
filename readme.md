@@ -33,7 +33,8 @@ await painter.draw({
     content: "Hello World" //绘制的文本
 });
 ```
-更多示例可参考 [example](https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages) 文件夹
+更多示例代码可参考
+[在线 DEMO](http://mp-painter.xlf-summer.cn/) 及 [DEMO 源码](https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages)
 
 API
 ===
