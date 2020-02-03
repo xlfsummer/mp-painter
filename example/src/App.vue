@@ -16,21 +16,23 @@
 	/*每个页面公共css */
 
 	.page{
-		padding: 0 15upx;
+		padding: 0 15rpx;
 	}
 	.page-title {
-		margin: 20upx 0 40upx;
-		font-size: 40upx;
+		margin: 20rpx 0 40rpx;
+		font-size: 40rpx;
 	}
 	.link {
-		margin: 20upx 0;
+		margin: 20rpx 0;
 	}
 	.h2 {
 		color: #666;
-		font-size: 30upx;
+		font-size: 30rpx;
 	}
 	.canvas {
-		margin: 30upx 0 40upx;
-		border: 1upx solid #eee;
+		width: 730rpx;
+		height: 200rpx;
+		margin: 30rpx 0 40rpx;
+		border: 1rpx solid #eee;
 	}
 </style>
