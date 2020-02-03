@@ -103,16 +103,16 @@ export default {
                 {
                     type: "transform",
                     transform: [
-                        { type: "translate", x: 50, y: 30, },
+                        { type: "translate", x: 60, y: 30, },
                         { type: "rotate", rotate: 5 },
                         { type: "translate", y: 30 },
-                        { type: "scale", scaleWidth: 1.5, scaleHeight: 1 }
+                        { type: "scale", scaleWidth: 1.5 }
                     ],
                     content: {
                         position: "absolute",
                         type: "text",
                         fontSize: 30,
-                        content: "应用多个变换"
+                        content: "同时应用多个变换"
                     }
                 },
             ]

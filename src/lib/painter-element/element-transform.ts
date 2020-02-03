@@ -17,8 +17,8 @@ type BuiltInPainterTransformOption =
 
 interface PainterTransformTranslateOption {
     type: "translate",
-    x: number,
-    y: number
+    x?: number,
+    y?: number
 }
 
 interface PainterTransformRotateOption {
@@ -29,8 +29,8 @@ interface PainterTransformRotateOption {
 
 interface PainterTransformScaleOption {
     type: "scale",
-    scaleWidth: number,
-    scaleHeight: number
+    scaleWidth?: number,
+    scaleHeight?: number
 }
 
 interface PainterTransformMatrixOption {
@@ -85,8 +85,8 @@ export class PainterTransformElement extends PainterElement {
     private singleTransform(option: BuiltInPainterTransformOption): void{
         switch(option.type){
             case "translate" : return this.painter.ctx.translate(
-                this.painter.upx2px(option.x), 
-                this.painter.upx2px(option.y)
+                this.painter.upx2px(option.x ?? 0), 
+                this.painter.upx2px(option.y ?? 0)
             );
 
             case "rotate"    : return this.painter.ctx.rotate(
@@ -94,8 +94,8 @@ export class PainterTransformElement extends PainterElement {
             );
             
             case "scale"     : return this.painter.ctx.scale(
-                option.scaleWidth,
-                option.scaleHeight
+                option.scaleWidth  ?? 1,
+                option.scaleHeight ?? 1
             );
 
             case "set-matrix": return this.painter.ctx.setTransform(
