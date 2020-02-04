@@ -8,6 +8,9 @@
 		<navigator class="link" url="/pages/container/container"><button type="default">container</button></navigator>
 		<navigator class="link" url="/pages/clip/clip"><button type="default">clip</button></navigator>
 		<navigator class="link" url="/pages/transform/transform"><button type="default">transform</button></navigator>
+		<!-- #ifdef H5 -->
+		<a href="https://github.com/xlfsummer/mp-painter/tree/master/example/src" style="font-size: 16px" target="_blank">在 github 上查看源码</a>
+		<!-- #endif H5 -->
 	</view>
 </template>
 
