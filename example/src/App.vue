@@ -30,7 +30,7 @@
 		font-size: 30rpx;
 	}
 	.canvas {
-		width: 730rpx;
+		width: 710rpx;
 		height: 200rpx;
 		margin: 30rpx 0 40rpx;
 		border: 1rpx solid #eee;

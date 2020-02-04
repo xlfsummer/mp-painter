@@ -1,6 +1,6 @@
 <template>
 	<view class="page">
-		<canvas id="canvas" canvas-id="canvas"></canvas>
+		<canvas class="canvas" id="canvas" canvas-id="canvas"></canvas>
 		<navigator class="link" url="/pages/text/text"><button type="default">text</button></navigator>
 		<navigator class="link" url="/pages/rect/rect"><button type="default">rect / line</button></navigator>
 		<navigator class="link" url="/pages/image/image"><button type="default">image</button></navigator>
@@ -20,15 +20,36 @@
 		},
 		onLoad() {
 			new Painter(uni.createCanvasContext("canvas")).draw({
-				type: "text",
-				top: 100,
-				left: 300,
-				color: "#fc6000",
-				fontWeight: "bold",
-				fontFamily: "Times",
-				fontSize: 60, // = 60rpx
-				align: "center",
-				content: "mp-painter DEMO",
+				type: "container",
+				children: [
+					{
+						position: "absolute",
+						type: "text",
+						top: 103,
+						left: 358,
+						color: "#eee",
+						fontWeight: "bold",
+						fontStyle: "italic",
+						fontFamily: "Times",
+						fontSize: 60, // = 60rpx
+						align: "center",
+						baseline: "middle",
+						content: "mp-painter DEMO",
+					}, {
+						position: "absolute",
+						type: "text",
+						top: 100,
+						left: 355,
+						color: "#fc6000",
+						fontWeight: "bold",
+						fontStyle: "italic",
+						fontFamily: "Times",
+						fontSize: 60, // = 60rpx
+						align: "center",
+						baseline: "middle",
+						content: "mp-painter DEMO",
+					}
+				]
 			});
 		},
 		onReady(){

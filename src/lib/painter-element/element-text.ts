@@ -1,5 +1,5 @@
 import Painter from "../painter";
-import { FontWeight, BaseLine, TextAlign, OmitBaseOption } from "../value";
+import { FontWeight, BaseLine, TextAlign, OmitBaseOption, FontStyle } from "../value";
 import { PainterElementOption, PainterElement } from "./base";
 
 export interface PainterTextElementOption extends PainterElementOption {
@@ -7,6 +7,7 @@ export interface PainterTextElementOption extends PainterElementOption {
     color: string
     fontSize: number;
     fontWeight: FontWeight;
+    fontStyle: FontStyle;
     fontFamily: string;
     baseline: BaseLine;
     align: TextAlign;
@@ -22,6 +23,7 @@ export class PainterTextElement extends PainterElement {
       color:      option.color      ??  "#000"  ,
       align:      option.align      ??  "left"  ,
       fontWeight: option.fontWeight ??  "normal",
+      fontStyle:  option.fontStyle  ??  "normal",
       fontFamily: option.fontFamily ??  "serial",
       fontSize:   option.fontSize   ??  30      ,
       baseline:   option.baseline   ??  "top"   ,
@@ -38,7 +40,8 @@ export class PainterTextElement extends PainterElement {
   }
   paint(){
     this.painter.ctx.font = [
-      this.option.fontWeight != "normal" && this.option.fontWeight,
+      this.option.fontWeight  != "normal" && this.option.fontWeight,
+      this.option.fontStyle   != "normal" && this.option.fontStyle,
       this.painter.upx2px(this.option.fontSize) + "px",
       this.option.fontFamily
     ].filter(Boolean).join(" ");

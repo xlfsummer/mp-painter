@@ -15,6 +15,7 @@ export interface Rect {
 /** @example "#rrggbb" */
 export type Color = string
 export type FontWeight = "normal" | "bold";
+export type FontStyle = "normal" | "italic";
 export type BaseLine = "top" | "middle" | "bottom" | "normal";
 export type TextAlign = "left" | "right" | "center";
 export type ObjectFit = "fill" | "contain" // "cover" | "scale-down" | "none";
