@@ -1,6 +1,8 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches: [master]
 
 jobs:
   build:
@@ -24,8 +26,9 @@ jobs:
       working-directory: example
       run: npm run build:h5
     -
-      name: add CNAME file
+      name: create CNAME file
       working-directory: example/dist/build/h5
+      # Create CAME file where custom domain name will need it.
       run: echo mp-painter.xlf-summer.cn > CNAME
     - 
       name: GitHub Pages Deploy
