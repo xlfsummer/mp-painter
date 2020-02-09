@@ -5,9 +5,11 @@ import { BuiltInPainterElementOption, createElement } from "./index";
 
 export interface PainterContainerElementOption extends PainterElementOption {
     type: "container"
+    /** 子元素的排列方式 */
     direction: "vertical" | "horizontal"
     width: number | "auto"
     height: number | "auto"
+    /** 子元素 */
     children: BuiltInPainterElementOption[]
 };
 

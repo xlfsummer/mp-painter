@@ -4,11 +4,16 @@ import { OmitBaseOption } from "../value";
 
 export interface PainterLineElementOption extends PainterElementOption {
     type: "line"
+    /** 直线终点距离起点在水平方向上的距离 */
     dx: number
+    /** 直线终点距离起点在垂直方向上的距离 */
     dy: number
+    /** 直线的颜色 */
     color: string
+    /** 直线的宽度 */
     lineWidth: number
-    dashPattern: number[],
+    /** 虚线样式，默认为实线 */
+    dashPattern: number[]
 }
 
 export class PainterLineElement extends PainterElement {

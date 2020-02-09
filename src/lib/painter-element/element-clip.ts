@@ -6,7 +6,9 @@ import { PainterPath } from "../painter-path/base";
 
 export interface PainterClipElementOption extends PainterElementOption {
     type: "clip"
+    /** 裁剪使用的路径 */
     path: BuiltInPainterPathOption,
+    /** 被裁剪的内容 */
     content: BuiltInPainterElementOption
 }
 

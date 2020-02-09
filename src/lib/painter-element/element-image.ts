@@ -5,9 +5,19 @@ import { ObjectFit, OmitBaseOption, Rect } from "../value";
 
 export interface PainterImageElementOption extends PainterElementOption{
     type: "image";
+    /** 
+     * 图片地址
+     * 
+     * 可以使用网络图片地址或下载后的临时图片地址
+     */
     src: string;
     width: number;
     height: number;
+    /**
+     * 图片的适应方式
+     * - fill 拉伸图片以铺满容器
+     * - contain 等比缩放，使图片刚好能完整显示出来
+     */
     objectFit?: ObjectFit;
 }
 

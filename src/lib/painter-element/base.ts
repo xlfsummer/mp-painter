@@ -3,6 +3,7 @@ import { Size, Position } from "../value";
 
 export interface PainterElementOption {
     type: string
+    /** 定位方式 */
     position: Position
     left: number
     top: number

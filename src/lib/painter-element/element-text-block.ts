@@ -6,10 +6,11 @@ import { OmitBaseOption } from "../value";
 
 export interface PainterTextBlockElementOption extends Omit<PainterTextElementOption, "type"> {
     type: "text-block",
-  
+    /** 行高 */
     lineHeight: number
+    /** 文本块的最大行数 */
     lineClamp: number
-    
+    /** 文本块的宽度 */
     width: number;
     height: number | "auto";
 }

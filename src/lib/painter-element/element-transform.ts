@@ -4,8 +4,11 @@ import { BuiltInPainterElementOption, createElement } from "./index";
 
 export interface PainterTransformElementOption extends PainterElementOption {
     type: "transform",
+    /** 变换的内容 */
     content: BuiltInPainterElementOption
+    /** 变换的选项 */
     transform: BuiltInPainterTransformOption[]
+    /** 变换的原点、默认为元素的中心 */
     transformOrigin: PaitnerTransformOriginOption
 }
 

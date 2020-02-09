@@ -4,8 +4,11 @@ import { PainterElement } from "../painter-element/base";
 
 export interface PainterRoundedRectanglePathOption extends PainterPathOption {
     type: "rounded-rect",
+    /** 路径的宽度 */
     width: number,
+    /** 路径的高度 */
     height: number,
+    /** 路径的圆角 */
     borderRadius: BorderRadius
 }
 

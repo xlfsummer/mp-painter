@@ -11,7 +11,16 @@ export interface PainterRectagleElementOption extends PainterElementOption {
     type: "rect",
     width: number,
     height: number,
+    /** 
+     * 圆角
+     * 
+     * - `number` 一个数字，四个角的圆角都使用设置的值
+     * - `[number, number, number, number]` 四个数字的元组分别代表 **左上**、**右上**、**右下** 和 **左下** 的圆角值。
+     */
     borderRadius: BorderRadius,
+    /**
+     * 背景颜色
+     */
     background: string
 }
 
