@@ -1,14 +1,6 @@
 <script>
 	export default {
-		onLaunch: function() {
-			console.log('App Launch')
-		},
-		onShow: function() {
-			console.log('App Show')
-		},
-		onHide: function() {
-			console.log('App Hide')
-		}
+
 	}
 </script>
 
@@ -16,23 +8,23 @@
 	/*每个页面公共css */
 
 	.page{
-		padding: 0 15rpx;
+		padding: 0 10px;
 	}
 	.page-title {
-		margin: 20rpx 0 40rpx;
-		font-size: 40rpx;
+		margin: 10px 0 20px;
+		font-size: 20px;
 	}
 	.link {
-		margin: 20rpx 0;
+		margin: 15px 0;
 	}
 	.h2 {
 		color: #666;
-		font-size: 30rpx;
+		font-size: 16px;
 	}
 	.canvas {
-		width: 710rpx;
+		width: calc(750rpx - 20px);
 		height: 200rpx;
-		margin: 30rpx 0 40rpx;
-		border: 1rpx solid #eee;
+		margin: 30px 0 40px;
+		border: 1px solid #eee;
 	}
 </style>
