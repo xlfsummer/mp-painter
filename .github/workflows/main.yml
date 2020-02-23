@@ -2,7 +2,8 @@ name: build & deploy demo
 
 on:
   push:
-    branches: [master]
+    branches:
+    - master
 
 jobs:
   build:
