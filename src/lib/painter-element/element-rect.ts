@@ -1,11 +1,13 @@
 import Painter from "../painter";
 import { PainterElementOption, PainterElement } from "./base";
 import { OmitBaseOption, BorderRadius } from "../value";
-import { debug as createDebug } from "debug";
-import { createPath } from "../painter-path";
+import { createPath } from "../painter-path/index";
 
-let debug = createDebug("mp-painter:rect-element:");
-// debug.enabled = true;
+let debug: import("debug").Debugger;
+
+if(process.env.NODE_ENV == "development"){
+  debug =  require("debug")("mp-painter:rect-element:");
+}
 
 export interface PainterRectagleElementOption extends PainterElementOption {
     type: "rect",
@@ -38,11 +40,15 @@ export class PainterRectagleElement extends PainterElement {
       borderRadius: option.borderRadius ??      0,
       background:   option.background   ?? "#000"
     };
-    debug("constructor:", "option.borderRadius=", this.option.borderRadius);
+    if(process.env.NODE_ENV == "development"){
+      debug("constructor:", "option.borderRadius=", this.option.borderRadius);
+    }
   }
   _layout(){
-    debug("layout:", "width=", this.option.width);
-    debug("layout:", "height=", this.option.height);
+    if(process.env.NODE_ENV == "development"){
+      debug("layout:", "width=", this.option.width);
+      debug("layout:", "height=", this.option.height);
+    }
     return {
       width: this.option.width,
       height: this.option.height

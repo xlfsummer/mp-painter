@@ -6,8 +6,8 @@
   "types": "dist/lib/painter.d.ts",
   "scripts": {
     "test": "jest",
-    "dev": "tsc -w",
-    "build": "tsc",
+    "dev": "cross-env NODE_ENV=development webpack",
+    "build": "cross-env NODE_ENV=production webpack",
     "prepublish": "npm run build"
   },
   "repository": {
@@ -21,15 +21,19 @@
     "url": "https://github.com/xlfsummer/mp-painter/issues"
   },
   "homepage": "https://github.com/xlfsummer/mp-painter#readme",
-  "dependencies": {
-    "debug": "^4.1.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/uni-app": "^1.4.1",
     "@types/debug": "^4.1.5",
     "@types/jest": "^24.0.23",
+    "@types/uni-app": "^1.4.1",
+    "clean-webpack-plugin": "^3.0.0",
+    "cross-env": "^7.0.0",
+    "debug": "^4.1.1",
     "jest": "^24.9.0",
     "ts-jest": "^24.2.0",
-    "typescript": "^3.7.4"
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
   }
 }

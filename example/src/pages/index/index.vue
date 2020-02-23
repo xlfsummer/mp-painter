@@ -25,7 +25,9 @@
 </template>
 
 <script>
-	import Painter from "../../../../dist/lib/painter";
+	import Painter from "../../../../dist/lib/painter.js";
+
+	console.log("Painter", Painter);
 
 	export default {
 		data() {
