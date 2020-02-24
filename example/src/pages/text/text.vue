@@ -6,7 +6,9 @@
         <canvas id="canvas-font-family" canvas-id="canvas-font-family" class="canvas" style="height: 200upx"/>
         <view class="page-title h2">文字颜色 color</view>
         <canvas id="canvas-font-color" canvas-id="canvas-font-color" class="canvas" style="height: 220upx"/>
-        <view class="page-title h2">文字样式 fontSize</view>
+        <view class="page-title h2">文字字重 fontWeight</view>
+        <canvas id="canvas-font-weight" canvas-id="canvas-font-weight" class="canvas" style="height: 90upx"/>
+        <view class="page-title h2">文字风格 fontStyle</view>
         <canvas id="canvas-font-style" canvas-id="canvas-font-style" class="canvas" style="height: 90upx"/>
         <view class="page-title h2">文字对齐 align</view>
         <canvas id="canvas-font-align" canvas-id="canvas-font-align" class="canvas" style="height: 140upx"/>
@@ -23,7 +25,7 @@ export default {
         return {};
     },
     onReady(){
-        new Painter( uni.createCanvasContext("canvas-font-size") ).draw({
+        new Painter(uni.createCanvasContext("canvas-font-size")).draw({
             type: "container",
             top: 5,
             left: 15,
@@ -35,7 +37,7 @@ export default {
             ] 
         });
 
-        new Painter( uni.createCanvasContext("canvas-font-family") ).draw({
+        new Painter(uni.createCanvasContext("canvas-font-family")).draw({
             type: "container",
             top: 5,
             left: 15,
@@ -47,7 +49,7 @@ export default {
             ] 
         });
 
-        new Painter( uni.createCanvasContext("canvas-font-color") ).draw({
+        new Painter(uni.createCanvasContext("canvas-font-color")).draw({
             type: "container",
             top: 5,
             left: 15,
@@ -60,7 +62,7 @@ export default {
             ] 
         });
 
-        new Painter( uni.createCanvasContext("canvas-font-style") ).draw({
+        new Painter(uni.createCanvasContext("canvas-font-weight")).draw({
             type: "container",
             top: 5,
             left: 15,
@@ -70,7 +72,17 @@ export default {
             ] 
         });
 
-        new Painter( uni.createCanvasContext("canvas-font-align") ).draw({
+        new Painter(uni.createCanvasContext("canvas-font-style")).draw({
+            type: "container",
+            top: 5,
+            left: 15,
+            children: [
+                {type: "text", top: 10, content: "正常 normal"},
+                {type: "text", top: 10, fontStyle: "italic", content: "斜体 italic"},
+            ] 
+        });
+
+        new Painter(uni.createCanvasContext("canvas-font-align")).draw({
             type: "container", top: 5, left: 15,
             children: [
                 {type: "text", top: 10, left: 300, align: "left", content: "left"},
@@ -80,7 +92,7 @@ export default {
             ]
         });
 
-        new Painter( uni.createCanvasContext("canvas-font-baseline") ).draw({
+        new Painter(uni.createCanvasContext("canvas-font-baseline")).draw({
             type: "container", top: 5, left: 15, direction: "horizontal",
             children: [
                 {type: "text", fontSize: 40, top: 50, baseline: "top", content: "top"},

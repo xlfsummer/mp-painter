@@ -12,15 +12,25 @@ export interface Rect {
     height: number;
 }
 
-/** @example "#rrggbb" */
+export type BaseLine = "top" | "middle" | "bottom" | "normal";
+export type BorderRadius = number | [number, number, number, number]
+export type BorderStyle = "solid" | "dashed";
+/** @example "#rrggbb" | "#rgb" | "colorName" */
 export type Color = string
 export type FontWeight = "normal" | "bold";
 export type FontStyle = "normal" | "italic";
-export type BaseLine = "top" | "middle" | "bottom" | "normal";
-export type TextAlign = "left" | "right" | "center";
 export type ObjectFit = "fill" | "contain" // "cover" | "scale-down" | "none";
-
 export type Position = "static" | "absolute";
+export type TextAlign = "left" | "right" | "center";
 /** left-top right-top right-bottom left-bottom */
-export type BorderRadius = number | [number, number, number, number]
+
 export type OmitBaseOption<T> = Omit<T, keyof PainterElementOption>
+
+
+export function cssBorderStyleToLinePattern(borderStyle: BorderStyle, borderWidth: number){
+    const map: Record<BorderStyle, [number, number]> = {
+        "dashed":   [borderWidth, borderWidth],
+        "solid":    [10, 0]
+    };
+    return map[borderStyle];
+}

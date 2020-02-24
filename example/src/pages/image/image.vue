@@ -18,12 +18,14 @@ export default {
         return {};
     },
     onReady(){
-        const LOCAL_IMAGE = require("@/static/demo.png");
+        const LOCAL_IMAGE = "../../static/demo.png";
 
         new Painter(
             uni.createCanvasContext("canvas-image")
         ).draw({
-            type: "image", top: 10, width: 100, height: 100, src: "https://vuejs.org/images/logo.png"
+            type: "image", top: 10, left: 10, width: 270, height: 66,
+            // 注意，在小程序中使用远程地址需要配置文件下载域名
+            src: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/uniapp4@2x.png"
         });
 
         new Painter(

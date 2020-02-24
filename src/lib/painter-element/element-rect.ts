@@ -1,6 +1,6 @@
 import Painter from "../painter";
 import { PainterElementOption, PainterElement } from "./base";
-import { OmitBaseOption, BorderRadius } from "../value";
+import { OmitBaseOption, BorderRadius, BorderStyle, Color, cssBorderStyleToLinePattern } from "../value";
 import { createPath } from "../painter-path/index";
 
 let debug: import("debug").Debugger;
@@ -23,7 +23,11 @@ export interface PainterRectagleElementOption extends PainterElementOption {
     /**
      * 背景颜色
      */
-    background: string
+    background: string,
+
+    borderWidth: number,
+    borderStyle: BorderStyle,
+    borderColor: Color
 }
 
 export class PainterRectagleElement extends PainterElement {
@@ -35,10 +39,13 @@ export class PainterRectagleElement extends PainterElement {
   ){
     super(painter, option, parent);
     this.option = {
-      width:        option.width        ??    100,
-      height:       option.height       ??    100,
-      borderRadius: option.borderRadius ??      0,
-      background:   option.background   ?? "#000"
+      width:        option.width        ?? 100,
+      height:       option.height       ?? 100,
+      borderRadius: option.borderRadius ?? 0,
+      background:   option.background   ?? "transparent",
+      borderStyle:  option.borderStyle  ?? "solid",
+      borderWidth:  option.borderWidth  ?? 0,
+      borderColor:  option.borderColor  ?? "#000",
     };
     if(process.env.NODE_ENV == "development"){
       debug("constructor:", "option.borderRadius=", this.option.borderRadius);
@@ -55,23 +62,52 @@ export class PainterRectagleElement extends PainterElement {
     };
   }
   paint(){
+    if(!this.shouldFill && !this.shouldStroke) return;
+
     this.option.borderRadius
       ? this.paintByPath()
-      : this.paintByFillRect();
+      : this.paintByRect();
   }
 
-  private paintByFillRect(){
+  private get shouldFill(){
+    return this.option.background !== "trasparent";
+  }
+
+  private get shouldStroke(){
+    return this.option.borderWidth > 0;
+  }
+
+  private applyFillStyle(){
     this.painter.setFillStyle(this.option.background);
-    this.painter.ctx.fillRect(
+  }
+
+  private applyStrokeStyle(){
+    this.painter.ctx.setLineDash(cssBorderStyleToLinePattern(this.option.borderStyle, this.option.borderWidth));
+    this.painter.ctx.lineWidth = this.painter.upx2px(this.option.borderWidth);
+    this.painter.setStrokeStyle(this.option.borderColor);
+  }
+
+  private paintByRect(){
+    let rectLayoutParam = [
       this.painter.upx2px(this.elementX), 
       this.painter.upx2px(this.elementY),
       this.painter.upx2px(this.option.width), 
       this.painter.upx2px(this.option.height)
-    );
+    ];;
+
+
+    if(this.shouldFill){
+      this.applyFillStyle();
+      this.painter.ctx.fillRect(...rectLayoutParam);
+    }
+
+    if(this.shouldStroke){
+      this.applyStrokeStyle();
+      this.painter.ctx.strokeRect(...rectLayoutParam);
+    }
   }
 
   private paintByPath(){
-
     createPath(this, {
       type: "rounded-rect",
       height: this.option.height,
@@ -79,7 +115,14 @@ export class PainterRectagleElement extends PainterElement {
       borderRadius: this.option.borderRadius
     }).paint();
 
-    this.painter.setFillStyle(this.option.background);
-    this.painter.ctx.fill();
+    if(this.shouldFill){
+      this.painter.setFillStyle(this.option.background);
+      this.painter.ctx.fill();
+    }
+
+    if(this.shouldStroke){
+      this.applyStrokeStyle();
+      this.painter.ctx.stroke();
+    }
   }
 }

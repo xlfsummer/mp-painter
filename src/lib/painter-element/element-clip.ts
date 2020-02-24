@@ -1,7 +1,7 @@
 import Painter from "../painter";
 import { PainterElementOption, PainterElement } from "./base";
 import { BuiltInPainterElementOption, createElement } from "./index";
-import { BuiltInPainterPathOption, createPath } from "../painter-path";
+import { BuiltInPainterPathOption, createPath } from "../painter-path/index";
 import { PainterPath } from "../painter-path/base";
 
 export interface PainterClipElementOption extends PainterElementOption {

@@ -11,7 +11,7 @@
 		padding: 0 10px;
 	}
 	.page-title {
-		margin: 10px 0 20px;
+		margin: 20px 0 10px;
 		font-size: 20px;
 	}
 	.link {
@@ -24,7 +24,7 @@
 	.canvas {
 		width: calc(750rpx - 20px);
 		height: 200rpx;
-		margin: 30px 0 40px;
+		margin: 10px 0 10px;
 		border: 1px solid #eee;
 	}
 </style>
