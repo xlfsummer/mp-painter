@@ -7,6 +7,8 @@
         <view class="page-title h2">裁剪图片</view>
 		<canvas id="canvas-clip-image" canvas-id="canvas-clip-image"
             class="canvas" style="height: 300upx"/>
+
+        <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/clip/clip.vue"/>
     </view>
 </template>
 
@@ -43,7 +45,7 @@ export default {
                 type: "image",
                 width: 200,
                 height: 200,
-                src: require("@/static/demo.png")
+                src: "../../static/demo.png"
             }
         });
     }

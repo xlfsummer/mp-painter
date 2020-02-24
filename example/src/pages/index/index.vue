@@ -2,9 +2,9 @@
 	<view class="page">
 		<canvas class="canvas" id="canvas" canvas-id="canvas"></canvas>
 
-		<a href="https://github.com/xlfsummer/mp-painter" style="font-size: 14px; display: block;" target="_blank">
+		<web-link href="https://github.com/xlfsummer/mp-painter">
 			<image src="https://img.shields.io/github/stars/xlfsummer/mp-painter?style=social" style="width: 76px; height: 20px;"/>
-		</a>
+		</web-link>
 
 		<navigator class="link" url="/pages/text/text"><button type="default">text</button></navigator>
 		<navigator class="link" url="/pages/rect/rect"><button type="default">rect / line</button></navigator>
@@ -14,9 +14,7 @@
 		<navigator class="link" url="/pages/clip/clip"><button type="default">clip</button></navigator>
 		<navigator class="link" url="/pages/transform/transform"><button type="default">transform</button></navigator>
 		
-		<a href="https://github.com/xlfsummer/mp-painter/tree/master/example/src" style="font-size: 14px; display: block;" target="_blank">
-			see source code
-		</a>
+		<web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/index/index.vue"/>
 	</view>
 </template>
 

@@ -12,6 +12,8 @@
         <view class="page-title h2">混排</view>
         <canvas id="canvas-container-multiple-layout" canvas-id="canvas-container-multiple-layout"
             class="canvas" style="height: 430upx"/>
+
+        <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/container/container.vue"/>
     </view>
 </template>
 

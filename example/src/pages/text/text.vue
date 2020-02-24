@@ -14,6 +14,8 @@
         <canvas id="canvas-font-align" canvas-id="canvas-font-align" class="canvas" style="height: 140upx"/>
         <view class="page-title h2">文字基线 baseline</view>
         <canvas id="canvas-font-baseline" canvas-id="canvas-font-baseline" class="canvas" style="height: 180upx"/>
+
+		<web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/text/text.vue"/>
     </view>
 </template>
 

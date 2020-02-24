@@ -6,6 +6,8 @@
         <view class="page-title h2">图片 - 自适应(contain)</view>
 		<canvas id="canvas-image-contain"
             canvas-id="canvas-image-contain" class="canvas" style="height: 430upx"/>
+
+        <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/image/image.vue"/>
     </view>
 </template>
 

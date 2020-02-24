@@ -20,6 +20,8 @@
             id="canvas-text-block-font"
             class="canvas"
             style="height: 250upx"/>
+
+        <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/textBlock/textBlock.vue"/>
     </view>
 </template>
 

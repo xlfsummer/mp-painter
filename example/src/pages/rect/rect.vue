@@ -6,6 +6,8 @@
         <canvas canvas-id="canvas-line" id="canvas-line" class="canvas" style="height: 280upx"/>
         <view class="page-title h2">圆角矩形 - 描边</view>
 		<canvas canvas-id="canvas-rect-stroke" id="canvas-rect-stroke" class="canvas" style="height: 600upx"/>
+
+		<web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/rect/rect.vue"/>
     </view>
 </template>
 
