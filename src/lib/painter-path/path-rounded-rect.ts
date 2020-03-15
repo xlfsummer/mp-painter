@@ -45,7 +45,7 @@ export class PainterRoundedRectanglePath extends PainterPath {
         );
     
         // left top
-        ctx.arcTo(
+        this.painter.arcTo(
           upx2px(this.pathX),
           upx2px(this.pathY),
           upx2px(this.pathX + leftTopRadius),
@@ -54,7 +54,7 @@ export class PainterRoundedRectanglePath extends PainterPath {
         );
     
         // right top
-        ctx.arcTo(
+        this.painter.arcTo(
           upx2px(this.pathX + this.option.width),
           upx2px(this.pathY),
           upx2px(this.pathX + this.option.width),
@@ -63,7 +63,7 @@ export class PainterRoundedRectanglePath extends PainterPath {
         );
     
         // right bottom
-        ctx.arcTo(
+        this.painter.arcTo(
           upx2px(this.pathX + this.option.width),
           upx2px(this.pathY + this.option.height),
           upx2px(this.pathX + this.option.width - rightBottomRaidus),
@@ -72,7 +72,7 @@ export class PainterRoundedRectanglePath extends PainterPath {
         );
     
         // left bottom
-        ctx.arcTo(
+        this.painter.arcTo(
           upx2px(this.pathX),
           upx2px(this.pathY + this.option.height),
           upx2px(this.pathX),
