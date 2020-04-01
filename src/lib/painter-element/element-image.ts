@@ -1,7 +1,8 @@
 import Painter from "../painter";
 import { downloadFileToLocal } from "../../utils/downloadFile";
 import { PainterElementOption, PainterElement } from "./base";
-import { ObjectFit, OmitBaseOption, Rect } from "../value";
+import { ObjectFit, OmitBaseOption, Rect, Size } from "../value";
+import { promisify } from "../../utils/promisify";
 
 export interface PainterImageElementOption extends PainterElementOption{
     type: "image";
@@ -17,6 +18,7 @@ export interface PainterImageElementOption extends PainterElementOption{
      * 图片的适应方式
      * - fill 拉伸图片以铺满容器
      * - contain 等比缩放，使图片刚好能完整显示出来
+     * - cover 等比缩放，使图片更好能占满容器
      */
     objectFit?: ObjectFit;
 }
@@ -39,28 +41,54 @@ export class PainterImageElement extends PainterElement{
     if(!this.option.src) return;
 
     // 图片内容的尺寸
-    let contentDimention: Rect;
-    if(this.option.objectFit == "contain"){
-      contentDimention = await calculateContainSize(this.option);
-    } else { // fill
-      contentDimention = { 
-        left:   0, 
-        top:    0,
-        width:  this.option.width,
-        height: this.option.height
-      }
+    let distRect: Rect = { 
+      left:   0, 
+      top:    0,
+      width:  this.option.width,
+      height: this.option.height
+    };
+
+    let srcRect;
+
+    switch(this.option.objectFit){
+      case "contain":
+        distRect = await calculateContainSize(this.option);
+        break;
+      case "cover":
+        srcRect = await calculateCoverSize(this.option);
+        break;
+      default: case "fill":
+        break;
     }
 
     let src = await normalizeImageSrc(this.painter, this.option);
     if(!src) return ;
     console.log("调用小程序drawImage，使用:", src);
-    this.painter.ctx.drawImage(
-      src,
-      this.painter.upx2px(this.elementX + contentDimention.left),
-      this.painter.upx2px(this.elementY + contentDimention.top),
-      this.painter.upx2px(contentDimention.width),
-      this.painter.upx2px(contentDimention.height),
-    )
+
+    if(srcRect){
+      this.painter.ctx.drawImage(
+        src,
+
+        // 这里 的 src size 指原图片裁切的绘制区域，所以不用转为 rpx
+        srcRect.left,
+        srcRect.top,
+        srcRect.width,
+        srcRect.height,
+
+        this.painter.upx2px(this.elementX + distRect.left),
+        this.painter.upx2px(this.elementY + distRect.top),
+        this.painter.upx2px(distRect.width),
+        this.painter.upx2px(distRect.height),
+      )
+    } else {
+      this.painter.ctx.drawImage(
+        src,
+        this.painter.upx2px(this.elementX + distRect.left),
+        this.painter.upx2px(this.elementY + distRect.top),
+        this.painter.upx2px(distRect.width),
+        this.painter.upx2px(distRect.height)
+      )
+    }
   }
 }
 
@@ -100,15 +128,18 @@ async function normalizeImageSrc(painter: Painter, image: Pick<PainterImageEleme
   return await downloadFileToLocal(image.src).catch(err => (console.log("下载错误: ", err), ""));
 }
 
-async function calculateContainSize(image: Pick<PainterImageElementOption, "src" | "width" | "height">): Promise<Rect>{
-  let res: Partial<Record<"width"|"height", number>> = {};
+async function getImageOriginSize(src: string): Promise<Size>{
   try {
-    [, res] = await uni.getImageInfo({ src: image.src }) as unknown as [void, GetImageInfoSuccessData];
+    let { width = 100, height = 100 } = await promisify(uni.getImageInfo)({ src });
+    return { width, height };
   }catch(e){
-    console.log(e)
+    console.log("getImageOriginSize: fail, use default size: width = 100, height = 100");
+    return { width: 100, height: 100 };
   }
+}
 
-  let { width: originWidth = 100, height: originHeight = 100 } = (res || {});
+async function calculateContainSize(image: Pick<PainterImageElementOption, "src" | "width" | "height">): Promise<Rect>{
+  let { width: originWidth, height: originHeight } = await getImageOriginSize(image.src);
 
   let originRatio = originWidth / originHeight;
   let clientRatio = image.width / image.height;
@@ -122,4 +153,22 @@ async function calculateContainSize(image: Pick<PainterImageElementOption, "src"
     width: originWidth * scale,
     height: originHeight * scale
   };
+}
+
+async function calculateCoverSize(image: Pick<PainterImageElementOption, "src" | "width" | "height">): Promise<Rect>{
+  let { width: originWidth, height: originHeight } = await getImageOriginSize(image.src);
+
+  let originRatio = originWidth / originHeight;
+  let clientRatio = image.width / image.height;
+
+  let scale = originRatio > clientRatio
+    ? image.height / originHeight
+    : image.width / originWidth;
+
+  return {
+    left: (originWidth - image.width / scale) / 2,
+    top: (originHeight - image.height / scale) / 2,
+    width: image.width / scale,
+    height: image.height / scale
+  }
 }

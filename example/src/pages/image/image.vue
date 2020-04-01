@@ -2,10 +2,10 @@
     <view class="page">
 		<view class="page-title h2">网络图片</view>
 		<canvas id="canvas-image"
-            canvas-id="canvas-image" class="canvas" style="height: 230upx"/>
-        <view class="page-title h2">图片 - 自适应(contain)</view>
+            canvas-id="canvas-image" class="canvas" style="height: 230rpx"/>
+        <view class="page-title h2">图片 - 自适应(objectFit)</view>
 		<canvas id="canvas-image-contain"
-            canvas-id="canvas-image-contain" class="canvas" style="height: 430upx"/>
+            canvas-id="canvas-image-contain" class="canvas" style="height: 800rpx"/>
 
         <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/image/image.vue"/>
     </view>
@@ -30,13 +30,22 @@ export default {
             src: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/doc/uniapp4@2x.png"
         });
 
+
+        const image =  {type: "image", top: 10, width: 300, height: 200, src: LOCAL_IMAGE};
+
         new Painter(
             uni.createCanvasContext("canvas-image-contain")
         ).draw({
             type: "container", top: 5, left: 15,
             children: [
-                {type: "image", top: 10, width: 550, height: 200, src: LOCAL_IMAGE},
-                {type: "image", top: 10, width: 550, height: 200, src: LOCAL_IMAGE, objectFit: "contain"},
+                {type: "text", top: 20, content: "objectFit: fill (default)" },
+                {...image},
+
+                {type: "text", top: 20, content: "objectFit: contain" },
+                {...image, objectFit: "contain"},
+
+                {type: "text", top: 20, content: "objectFit: cover" },
+                {...image, objectFit: "cover"},
             ]
         });
     }
