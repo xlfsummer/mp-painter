@@ -7,31 +7,32 @@ Page({
   onLoad() {
     let ctx = wx.createCanvasContext('canvas');
     let painter = new Painter(ctx);
+
+    let text = {
+      position: "absolute",
+      type: "text",
+      fontWeight: "bold",
+      fontStyle: "italic",
+      fontFamily: "Times, serif",
+      fontSize: 60, // = 60rpx
+      align: "center",
+      baseline: "middle",
+      content: "mp-painter DEMO",
+    };
+
     painter.draw({
       type: "container",
       children: [
         {
-          top: 20,
-          left: 350,
-          type: "text",
-          align: "center",
-          position: "absolute",
-          fontSize: 100,
-          content: "mp-painter",
-          fontWeight: "bold",
-          fontStyle: "italic",
-          color: "#f44"
-        },
-        {
-          top: 30,
-          left: 360,
-          type: "text",
-          position: "absolute",
-          align: "center",
-          fontSize: 100,
-          content: "mp-painter",
-          fontWeight: "bold",
-          fontStyle: "italic"
+          top: 103,
+          left: 358,
+          color: "#eeeeee",
+          ...text
+        }, {
+          top: 100,
+          left: 355,
+          color: "#fc6000",
+          ...text
         }
       ]
     })
