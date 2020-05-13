@@ -3,6 +3,7 @@ import { delay } from "../utils/delay";
 import { PLATFORM, UniPlatforms } from "../utils/platform";
 import { CHAR_WIDTH_SCALE_MAP } from "./const";
 import { BuiltInPainterElementOption, createElement } from "./painter-element/index";
+import { upx2px as defaultUpx2px } from "../utils/upx2px";
 
 interface IPanterOption {
   upx2px?: (upx: number) => number
@@ -18,12 +19,14 @@ export default class Painter {
 
   constructor(ctx: CanvasContext, {
     platform = PLATFORM,
+    upx2px
   }: IPanterOption = {}){    
     this.ctx = ctx;
     this.platform = platform;
-    this.upx2px = uni.upx2px;
+
+    this.upx2px = upx2px ?? defaultUpx2px;
     if(platform == "mp-alipay"){
-      this.upx2px = (x: number) => uni.upx2px(x * 2);
+      this.upx2px = (x: number) => (upx2px ?? defaultUpx2px)(x * 2);
     }
   }
 
