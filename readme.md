@@ -3,7 +3,7 @@ mp-painter
 ![npm](https://img.shields.io/npm/v/mp-painter)
 ![size](https://img.shields.io/badge/bundle%20size-17.4%20kB-brightgreen)
 ![build & deploy demo](https://github.com/xlfsummer/mp-painter/workflows/build%20&%20deploy%20demo/badge.svg)
-- 声明式地创建适用于 uniapp 的 canvas 海报
+- 声明式地创建适用于 uniapp 和原生微信小程序的 canvas 海报
 - 目前对微信、支付宝、百度端做了兼容处理，其它端还未调试过
 - 支持 text / rect / line / text-block / image 等对象绘制
 - 支持基于文字宽度的多行文本换行，lineClamp 控制
