@@ -4,6 +4,7 @@ import { PLATFORM, UniPlatforms } from "../utils/platform";
 import { CHAR_WIDTH_SCALE_MAP } from "./const";
 import { BuiltInPainterElementOption, createElement } from "./painter-element/index";
 import { upx2px as defaultUpx2px } from "../utils/upx2px";
+import { FillStrokeStyle } from "./value";
 
 interface IPanterOption {
   upx2px?: (upx: number) => number
@@ -53,10 +54,12 @@ export default class Painter {
   /**
    * 兼容设置填充样式
    */
-  setFillStyle(color: string){
+  setFillStyle(color: FillStrokeStyle){
     if(this.platform == "mp-baidu"){
+      // @ts-ignore 这里 uniapp 的类型错误了
       this.ctx.setFillStyle(color);
     }else{
+      // @ts-ignore 这里 uniapp 的类型错误了
       this.ctx.fillStyle = color;
     }
   }
@@ -64,10 +67,12 @@ export default class Painter {
   /** 
    * 兼容设置描边样式
    */
-  setStrokeStyle(color: string){
+  setStrokeStyle(color: FillStrokeStyle){
     if(this.platform == "mp-baidu"){
+      // @ts-ignore 这里 uniapp 的类型错误了
       this.ctx.setStrokeStyle(color);
     }else{
+      // @ts-ignore 这里 uniapp 的类型错误了
       this.ctx.strokeStyle = color;
     }
   }

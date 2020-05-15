@@ -1,6 +1,7 @@
 import Painter from "../painter";
 import { PainterElementOption, PainterElement } from "./base";
 import { OmitBaseOption } from "../value";
+import { BuiltInPainterFillStrokeOption, createFillStrokeStyle } from "../painter-fill-stroke/index";
 
 export interface PainterLineElementOption extends PainterElementOption {
     type: "line"
@@ -9,7 +10,7 @@ export interface PainterLineElementOption extends PainterElementOption {
     /** 直线终点距离起点在垂直方向上的距离 */
     dy: number
     /** 直线的颜色 */
-    color: string
+    color: BuiltInPainterFillStrokeOption
     /** 直线的宽度 */
     lineWidth: number
     /** 虚线样式，默认为实线 */
@@ -41,7 +42,7 @@ export class PainterLineElement extends PainterElement {
     this.painter.ctx.moveTo(x1, y1);
     this.painter.ctx.lineTo(x2, y2);
     this.painter.ctx.setLineDash(this.option.dashPattern.map(x => this.painter.upx2px(x)));
-    this.painter.setStrokeStyle(this.option.color);
+    this.painter.setStrokeStyle(createFillStrokeStyle(this, this.option.color));
     this.painter.ctx.lineWidth = this.painter.upx2px(this.option.lineWidth);
     this.painter.ctx.stroke();
   }

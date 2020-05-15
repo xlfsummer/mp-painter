@@ -17,6 +17,12 @@ export type BorderRadius = number | [number, number, number, number]
 export type BorderStyle = "solid" | "dashed";
 /** @example "#rrggbb" | "#rgb" | "colorName" */
 export type Color = string
+export interface ColorStop {
+    offset: number,
+    color: Color
+}
+export type FillStrokeStyle = string | CanvasGradient | CanvasPattern;
+
 export type FontWeight = "normal" | "bold";
 export type FontStyle = "normal" | "italic";
 export type ObjectFit = "fill" | "contain" | "cover"; // "scale-down" | "none";

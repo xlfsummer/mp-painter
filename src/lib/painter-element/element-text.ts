@@ -1,11 +1,12 @@
 import Painter from "../painter";
 import { FontWeight, BaseLine, TextAlign, OmitBaseOption, FontStyle } from "../value";
 import { PainterElementOption, PainterElement } from "./base";
+import { BuiltInPainterFillStrokeOption, createFillStrokeStyle } from "../painter-fill-stroke/index";
 
 export interface PainterTextElementOption extends PainterElementOption {
     type: "text";
     /** 文字的颜色 */
-    color: string
+    color: BuiltInPainterFillStrokeOption
     /** 文字的字号 */
     fontSize: number;
     /** 文字的字重 */
@@ -55,7 +56,7 @@ export class PainterTextElement extends PainterElement {
       this.option.fontFamily
     ].filter(Boolean).join(" ");
 
-    this.painter.setFillStyle(this.option.color);
+    this.painter.setFillStyle(createFillStrokeStyle(this, this.option.color));
     this.painter.ctx.setFontSize(this.painter.upx2px(this.option.fontSize));
     this.painter.ctx.setTextBaseline(this.option.baseline);
     this.painter.ctx.setTextAlign(this.option.align);

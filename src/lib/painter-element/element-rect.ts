@@ -2,6 +2,7 @@ import Painter from "../painter";
 import { PainterElementOption, PainterElement } from "./base";
 import { OmitBaseOption, BorderRadius, BorderStyle, Color, cssBorderStyleToLinePattern } from "../value";
 import { createPath } from "../painter-path/index";
+import { BuiltInPainterFillStrokeOption, createFillStrokeStyle } from "../painter-fill-stroke/index";
 
 let debug: import("debug").Debugger;
 
@@ -23,7 +24,7 @@ export interface PainterRectagleElementOption extends PainterElementOption {
     /**
      * 背景颜色
      */
-    background: string,
+    background: BuiltInPainterFillStrokeOption,
 
     borderWidth: number,
     borderStyle: BorderStyle,
@@ -78,7 +79,7 @@ export class PainterRectagleElement extends PainterElement {
   }
 
   private applyFillStyle(){
-    this.painter.setFillStyle(this.option.background);
+    this.painter.setFillStyle(createFillStrokeStyle(this, this.option.background));
   }
 
   private applyStrokeStyle(){
@@ -116,7 +117,7 @@ export class PainterRectagleElement extends PainterElement {
     }).paint();
 
     if(this.shouldFill){
-      this.painter.setFillStyle(this.option.background);
+      this.painter.setFillStyle(createFillStrokeStyle(this, this.option.background));
       this.painter.ctx.fill();
     }
 
