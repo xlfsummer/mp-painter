@@ -3,6 +3,7 @@ import {PainterTextElementOption, PainterTextElement} from "./element-text";
 import LineSpliterContext from "../line-spliter";
 import { PainterElement } from "./base";
 import { OmitBaseOption } from "../value";
+import { createFillStrokeStyle } from "../painter-fill-stroke/index";
 
 export interface PainterTextBlockElementOption extends Omit<PainterTextElementOption, "type"> {
     type: "text-block",
@@ -18,7 +19,7 @@ export interface PainterTextBlockElementOption extends Omit<PainterTextElementOp
 export class PainterTextBlockElement extends PainterElement {
     option: OmitBaseOption<Partial<PainterTextBlockElementOption> & Pick<
       PainterTextBlockElementOption,
-      "fontSize" | "width" | "height" | "lineClamp" | "content" | "lineHeight" | "top"
+      "fontSize" | "width" | "height" | "lineClamp" | "content" | "lineHeight" | "top" | "color"
     >>
     lines: string[]
     constructor(painter: Painter, option: PainterTextBlockElementOption, parent?: PainterElement){
@@ -31,6 +32,7 @@ export class PainterTextBlockElement extends PainterElement {
         content:    option.content    ??  "",
         lineHeight: option.lineHeight ??  40,
         lineClamp:  option.lineClamp  ??  0,
+        color:      option.color      ??  "black"
       }
       this.lines = [];
     }
@@ -51,6 +53,10 @@ export class PainterTextBlockElement extends PainterElement {
       };
     }
     async paint(){
+      // 这里给文本块统一设置填充，而不是每行文字单独地设置
+      // 如果单独设置，则计算渐变填充坐标时会相对于每一行的文本来计算
+      this.painter.setFillStyle(createFillStrokeStyle(this, this.option.color));
+
       this.lines.map((line, row) => {
         let option = {
           ...this.option,
@@ -61,7 +67,7 @@ export class PainterTextBlockElement extends PainterElement {
           content: line
         } as PainterTextElementOption
         let t = new PainterTextElement(this.painter, option);
-        t.paint();
+        t.paint({ inTextBlock: true });
       });
     }
   }

@@ -48,7 +48,8 @@ export class PainterTextElement extends PainterElement {
       height: this.option.fontSize
     }
   }
-  paint(){
+  paint({ inTextBlock = false } = {}){
+
     this.painter.ctx.font = [
       this.option.fontWeight  != "normal" && this.option.fontWeight,
       this.option.fontStyle   != "normal" && this.option.fontStyle,
@@ -56,7 +57,12 @@ export class PainterTextElement extends PainterElement {
       this.option.fontFamily
     ].filter(Boolean).join(" ");
 
-    this.painter.setFillStyle(createFillStrokeStyle(this, this.option.color));
+    if(inTextBlock){
+      // 不重设文字的颜色，多行文本统一设置渐变填充
+    } else {
+      this.painter.setFillStyle(createFillStrokeStyle(this, this.option.color));
+    }
+    
     this.painter.ctx.setFontSize(this.painter.upx2px(this.option.fontSize));
     this.painter.ctx.setTextBaseline(this.option.baseline);
     this.painter.ctx.setTextAlign(this.option.align);

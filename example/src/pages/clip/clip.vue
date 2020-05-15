@@ -29,6 +29,17 @@ export default {
                 type: "text-block",
                 width: 500,
                 fontSize: 40,
+                color: {
+                    type: "liner-gradient",
+                    x1: 0, x2: 500, y1: 0, y2: 280,
+                    colorStops: [
+                        { offset: 0, color: "red" },
+                        { offset: 0.2, color: "orange" },
+                        { offset: 0.6, color: "green" },
+                        { offset: 0.8, color: "blue" },
+                        { offset: 1, color: "purple" },
+                    ]
+                },
                 content: "示例文本示例文本示例文本示例文本".repeat(10)
             }
         });
