@@ -23,11 +23,11 @@ export class PainterLinerGradientStyle extends PainterGradientPatternStyle {
 
         // 这里 uniapp 里声明的的类型错了，不应返回 CanvasContext 类型
         const gradient = ctx.createLinearGradient(
-            upx2px(x1),
-            upx2px(y1),
-            upx2px(x2),
+            upx2px(this.element.elementX + x1),
+            upx2px(this.element.elementY + y1),
+            upx2px(this.element.elementX + x2),
             // @ts-ignore 这里 uniapp 里声明的的类型错了
-            upx2px(y2)
+            upx2px(this.element.elementY + y2)
         );
 
         this.option.colorStops.forEach(stop => {

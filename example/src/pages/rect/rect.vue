@@ -29,14 +29,32 @@ export default {
                 {type: "rect", top: 10, width: 30, height: 30, background: "#cc0000"},
                 {type: "rect", top: 10, width: 60, height: 30, background: "#cccc00"},
                 {type: "rect", top: 10, width: 120, height: 30, background: "#00cc00"},
+
                 {type: "rect", top: 10, width: 200, height: 100, background: "#00cccc", borderRadius: 20},
                 {type: "line", top: 10, left: 300, dx: 200, dy: 200, color: "#f00", position: "absolute" },
 
                 // test for issue #9
-                {type: "rect", top: 10, width: 200, height: 100, background: "#cc00cc", borderRadius: [1, 60, 1, 60]},
+                {type: "rect", top: 10, width: 200, height: 100, background: {
+                    type: "liner-gradient",
+                    x1: 0, y1: 0, x2: 200, y2: 100,
+                    colorStops: [
+                        { offset: 0, color: "#44f" },
+                        { offset: .5, color: "#c4f" }, 
+                        { offset: 1, color: "#f4f" }
+                    ]
+                }, borderRadius: [1, 60, 1, 60]},
                 {type: "line", top: 30, left: 300, dx: 200, dy: 200, dashPattern: [10, 10], color: "#00f", position: "absolute" },
 
-                {type: "rect", top: 10, width: 300, height: 100, background: "#cc6600", borderRadius: [1e3, 1e3, 0, 1e3]},
+                {type: "rect", top: 10, width: 300, height: 100, background: {
+                    type: "liner-gradient",
+                    // 注意这里的坐标相对于元素本身
+                    x1: 0, y1: 100, x2: 300, y2: 0,
+                    colorStops: [
+                        { offset: 0, color: "red" },
+                        { offset: .5, color: "orange" }, 
+                        { offset: 1, color: "yellow" }
+                    ]
+                }, borderRadius: [1e3, 1e3, 0, 1e3]},
                 {type: "rect", top: 10, width: 100, height: 100, background: "#cc6666", borderRadius: 50},
             ]
         });
