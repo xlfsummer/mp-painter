@@ -107,12 +107,15 @@ async function normalizeImageSrc(painter: Painter, image: Pick<PainterImageEleme
   const BAIDU_LOCAL_RESOURCE_URL_REG = /^bdfile:\/\/tmp/;
   
   const BASE64_URL_REG = /^data:image\//;
-  /** 小程序本地文件路径 */
-  const LOCAL_FILE_PATH_REG = /^\./;
+  /** 小程序本地文件相对路径 */
+  const LOCAL_FILE_RELATIVE_PATH_REG = /^\./;
+  /** 小程序本地文件绝对路径, 暂时限制为 static 开头, 微信小程序预览时可以支持 */
+  const LOCAL_FILE_ABSOLUTE_PATH_REG = /^\/static/;
 
   let isLocalFile =
       // 本地图片
-      LOCAL_FILE_PATH_REG.test(image.src) ||
+      LOCAL_FILE_RELATIVE_PATH_REG.test(image.src) ||
+      LOCAL_FILE_ABSOLUTE_PATH_REG.test(image.src) ||
       // base64 图片
       BASE64_URL_REG.test(image.src) ||
       // 支付宝中需要先下载图片再绘制

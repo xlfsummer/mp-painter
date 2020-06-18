@@ -26,7 +26,6 @@ export class PainterLinerGradientStyle extends PainterGradientPatternStyle {
             upx2px(this.element.elementX + x1),
             upx2px(this.element.elementY + y1),
             upx2px(this.element.elementX + x2),
-            // @ts-ignore 这里 uniapp 里声明的的类型错了
             upx2px(this.element.elementY + y2)
         );
 

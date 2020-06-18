@@ -56,10 +56,8 @@ export default class Painter {
    */
   setFillStyle(color: FillStrokeStyle){
     if(this.platform == "mp-baidu"){
-      // @ts-ignore 这里 uniapp 的类型错误了
       this.ctx.setFillStyle(color);
     }else{
-      // @ts-ignore 这里 uniapp 的类型错误了
       this.ctx.fillStyle = color;
     }
   }
@@ -69,10 +67,8 @@ export default class Painter {
    */
   setStrokeStyle(color: FillStrokeStyle){
     if(this.platform == "mp-baidu"){
-      // @ts-ignore 这里 uniapp 的类型错误了
       this.ctx.setStrokeStyle(color);
     }else{
-      // @ts-ignore 这里 uniapp 的类型错误了
       this.ctx.strokeStyle = color;
     }
   }
