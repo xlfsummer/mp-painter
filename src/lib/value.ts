@@ -26,6 +26,7 @@ export type FillStrokeStyle = string | CanvasGradient | CanvasPattern;
 export type FontWeight = "normal" | "bold";
 export type FontStyle = "normal" | "italic";
 export type ObjectFit = "fill" | "contain" | "cover"; // "scale-down" | "none";
+export type ObjectPosition = ["top" | "center" | "bottom", "left" | "center" | "right"];
 export type Position = "static" | "absolute";
 export type TextAlign = "left" | "right" | "center";
 /** left-top right-top right-bottom left-bottom */
