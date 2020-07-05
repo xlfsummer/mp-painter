@@ -12,7 +12,7 @@
         >
             <view class="code">object-position: {{horizontalPosition}}, {{verticalPosition}}</view>
         </picker>
-        <view>↑ 点击以修改, 如果在 pc 上浏览，请打开移 动端调试/触摸 模式</view>
+        <view>↑ 点击以修改, 如果在 pc 上浏览，请打开 移动端/触摸 调试模式</view>
 
 		<canvas id="canvas-image-contain"
             canvas-id="canvas-image-contain" class="canvas" style="height: 720rpx"/>
