@@ -65,22 +65,6 @@ export default {
             ]
         });
 
-        new Painter(
-            uni.createCanvasContext("canvas-image-contain")
-        ).draw({
-            type: "container", top: 5, left: 15,
-            children: [
-                {type: "text", top: 20, content: "objectFit: fill (default)" },
-                {...image, objectPosition: [this.horizontalPosition, this.verticalPosition]},
-
-                {type: "text", top: 20, content: "objectFit: contain" },
-                {...image, objectFit: "contain", objectPosition: [this.horizontalPosition, this.verticalPosition]},
-
-                {type: "text", top: 20, content: "objectFit: cover" },
-                {...image, objectFit: "cover", objectPosition: [this.horizontalPosition, this.verticalPosition]},
-            ]
-        });
-
         this.updateSecondCanvas();
     },
     methods: {
