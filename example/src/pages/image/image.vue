@@ -4,8 +4,25 @@
 		<canvas id="canvas-image"
             canvas-id="canvas-image" class="canvas" style="height: 880rpx"/>
         <view class="page-title h2">图片 - 自适应(objectFit)</view>
+
+        <view class="code">object-position: {{horizontalPosition}}, {{verticalPosition}}</view>
+
+        <picker-view @change="pickerChange" :value="[1,1]">
+            <picker-view-column style="heig ht: 240rpx">
+                <view class="item">left</view>
+                <view class="item">center</view>
+                <view class="item">right</view>
+            </picker-view-column>
+            <picker-view-column style="height: 240rpx">
+                <view class="item">top</view>
+                <view class="item">center</view>
+                <view class="item">bottom</view>
+            </picker-view-column>
+        </picker-view>
+
 		<canvas id="canvas-image-contain"
             canvas-id="canvas-image-contain" class="canvas" style="height: 720rpx"/>
+        
 
         <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/image/image.vue"/>
     </view>
@@ -22,15 +39,18 @@ import Painter from "../../../../dist/lib/painter";
  */ 
 import imageBase64 from "@/static/demo.png"
 
+const LOCAL_IMAGE_RELATIVE_PATH = "../../static/demo.png";
+
+const image =  {type: "image", top: 10, width: 200, height: 150, src: LOCAL_IMAGE_RELATIVE_PATH};
+
 export default {
     data(){
-        return {};
+        return {
+            horizontalPosition: "center",
+            verticalPosition: "center"
+        };
     },
     onReady(){
-        const LOCAL_IMAGE_RELATIVE_PATH = "../../static/demo.png";
-
-        const image =  {type: "image", top: 10, width: 200, height: 150, src: LOCAL_IMAGE_RELATIVE_PATH};
-
         new Painter(
             uni.createCanvasContext("canvas-image")
         ).draw({
@@ -58,19 +78,52 @@ export default {
             type: "container", top: 5, left: 15,
             children: [
                 {type: "text", top: 20, content: "objectFit: fill (default)" },
-                {...image},
+                {...image, objectPosition: [this.horizontalPosition, this.verticalPosition]},
 
                 {type: "text", top: 20, content: "objectFit: contain" },
-                {...image, objectFit: "contain"},
+                {...image, objectFit: "contain", objectPosition: [this.horizontalPosition, this.verticalPosition]},
 
                 {type: "text", top: 20, content: "objectFit: cover" },
-                {...image, objectFit: "cover"},
+                {...image, objectFit: "cover", objectPosition: [this.horizontalPosition, this.verticalPosition]},
             ]
         });
+
+        this.updateSecondCanvas();
+    },
+    methods: {
+        pickerChange({ detail }){
+            this.horizontalPosition = ["left", "center", "right"][detail.value[0]];
+            this.verticalPosition = ["top", "center", "bottom"][detail.value[1]];
+            this.updateSecondCanvas();
+        },
+        updateSecondCanvas(){
+            new Painter(
+                uni.createCanvasContext("canvas-image-contain")
+            ).draw({
+                type: "container", top: 5, left: 15,
+                children: [
+                    { type: "rect", position: "absolute", top: 0, left: 0, height: 720, width: 720, background: "#fff" },
+
+                    {type: "text", top: 20, content: "objectFit: fill (default)" },
+                    {...image, objectPosition: [this.horizontalPosition, this.verticalPosition]},
+
+                    {type: "text", top: 20, content: "objectFit: contain" },
+                    {...image, objectFit: "contain", objectPosition: [this.horizontalPosition, this.verticalPosition]},
+
+                    {type: "text", top: 20, content: "objectFit: cover" },
+                    {...image, objectFit: "cover", objectPosition: [this.horizontalPosition, this.verticalPosition]},
+                ]
+            });
+        }
     }
 }
 </script>
 
 <style scoped>
-
+.code {
+    font-family: monospace;
+}
+.item {
+    height: 80rpx;
+}
 </style>

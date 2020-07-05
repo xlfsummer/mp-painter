@@ -5,6 +5,17 @@ import { ObjectFit, OmitBaseOption, Rect, Size, ObjectPosition } from "../value"
 import { promisify } from "../../utils/promisify";
 import { calculateConcreteRect } from "../core/object-sizing";
 import { upx2px } from "../../utils/upx2px";
+import { memorize } from "../../utils/memorize";
+
+const getImageOriginSize = memorize(async function (src: string): Promise<Size>{
+  try {
+    let { width = 100, height = 100 } = await promisify(uni.getImageInfo)({ src });
+    return { width, height };
+  }catch(e){
+    console.log("mp-painter:getImageOriginSize: fail, use default size: width = 100, height = 100");
+    return { width: 100, height: 100 };
+  }
+});
 
 export interface PainterImageElementOption extends PainterElementOption{
     type: "image";
@@ -35,10 +46,11 @@ export class PainterImageElement extends PainterElement{
   constructor(painter: Painter, option: PainterImageElementOption, parent?: PainterElement){
     super(painter, option, parent);
     this.option = {
-      width:      option.width      ?? 100      ,
-      height:     option.height     ?? 100      ,
-      objectFit:  option.objectFit  ?? "fill"   ,
-      src:        option.src
+      width:          option.width          ?? 100                  ,
+      height:         option.height         ?? 100                  ,
+      objectFit:      option.objectFit      ?? "fill"               ,
+      objectPosition: option.objectPosition ?? ["center", "center"] ,
+      src:            option.src
     };
   }
   _layout(){
@@ -117,14 +129,4 @@ async function normalizeImageSrc(painter: Painter, image: Pick<PainterImageEleme
 
   console.log("mp-painter:绘制图片: 下载图片文件:", image.src);
   return await downloadFileToLocal(image.src).catch(err => (console.log("mp-painter:下载错误: ", err), ""));
-}
-
-async function getImageOriginSize(src: string): Promise<Size>{
-  try {
-    let { width = 100, height = 100 } = await promisify(uni.getImageInfo)({ src });
-    return { width, height };
-  }catch(e){
-    console.log("mp-painter:getImageOriginSize: fail, use default size: width = 100, height = 100");
-    return { width: 100, height: 100 };
-  }
 }
