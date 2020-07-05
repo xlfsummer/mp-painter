@@ -16,9 +16,9 @@ import { ObjectFit, ObjectPosition, Size } from "../value";
  * 
  * ### default object size
  */ 
-export function calcConcreteRect(style: {
+export function calculateConcreteRect(style: {
     /** @see https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-fit */
-    objectFit: ObjectFit,
+    objectFit?: ObjectFit,
     /** @see https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-position */
     objectPosition?: ObjectPosition
 }, 
