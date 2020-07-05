@@ -5,24 +5,17 @@
             canvas-id="canvas-image" class="canvas" style="height: 880rpx"/>
         <view class="page-title h2">图片 - 自适应(objectFit)</view>
 
-        <view class="code">object-position: {{horizontalPosition}}, {{verticalPosition}}</view>
-
-        <picker-view @change="pickerChange" :value="[1,1]">
-            <picker-view-column style="heig ht: 240rpx">
-                <view class="item">left</view>
-                <view class="item">center</view>
-                <view class="item">right</view>
-            </picker-view-column>
-            <picker-view-column style="height: 240rpx">
-                <view class="item">top</view>
-                <view class="item">center</view>
-                <view class="item">bottom</view>
-            </picker-view-column>
-        </picker-view>
+        <picker mode="multiSelector" 
+            :value="[1,1]"
+            :range="[['left', 'center', 'right'],['top', 'center', 'bottom']]"
+            @change="pickerChange"
+        >
+            <view class="code">object-position: {{horizontalPosition}}, {{verticalPosition}}</view>
+        </picker>
+        <view>↑ 点击以修改, 如果在 pc 上浏览，请打开移 动端调试/触摸 模式</view>
 
 		<canvas id="canvas-image-contain"
             canvas-id="canvas-image-contain" class="canvas" style="height: 720rpx"/>
-        
 
         <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/image/image.vue"/>
     </view>
@@ -122,6 +115,7 @@ export default {
 <style scoped>
 .code {
     font-family: monospace;
+    text-decoration: underline;
 }
 .item {
     height: 80rpx;

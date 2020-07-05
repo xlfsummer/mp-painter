@@ -6,6 +6,9 @@
 
 <style>
 	/*每个页面公共css */
+	html {
+		font-size: 16px !important;
+	}
 
 	.page{
 		padding: 0 10px;
