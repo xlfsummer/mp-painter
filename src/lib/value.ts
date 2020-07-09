@@ -29,6 +29,7 @@ export type ObjectFit = "fill" | "contain" | "cover"; // "scale-down" | "none";
 export type ObjectPosition = ["left" | "center" | "right", "top" | "center" | "bottom"];
 export type Position = "static" | "absolute";
 export type TextAlign = "left" | "right" | "center";
+export type TextDecoration = "none" | "line-through";
 /** left-top right-top right-bottom left-bottom */
 
 export type OmitBaseOption<T> = Omit<T, keyof PainterElementOption>

@@ -10,6 +10,8 @@
         <canvas id="canvas-font-weight" canvas-id="canvas-font-weight" class="canvas" style="height: 90upx"/>
         <view class="page-title h2">文字风格 fontStyle</view>
         <canvas id="canvas-font-style" canvas-id="canvas-font-style" class="canvas" style="height: 90upx"/>
+        <view class="page-title h2">文字装饰 textDecoration</view>
+        <canvas id="canvas-text-decoration" canvas-id="canvas-text-decoration" class="canvas" style="height: 90upx"/>
         <view class="page-title h2">文字对齐 align</view>
         <canvas id="canvas-font-align" canvas-id="canvas-font-align" class="canvas" style="height: 140upx"/>
         <view class="page-title h2">文字基线 baseline</view>
@@ -81,6 +83,16 @@ export default {
             children: [
                 {type: "text", top: 10, content: "正常 normal"},
                 {type: "text", top: 10, fontStyle: "italic", content: "斜体 italic"},
+            ] 
+        });
+
+        new Painter(uni.createCanvasContext("canvas-text-decoration")).draw({
+            type: "container",
+            top: 5,
+            left: 15,
+            children: [
+                {type: "text", top: 10, textDecoration: "none", content: "正常 none"},
+                {type: "text", top: 10, textDecoration: "line-through", content: "划线 line-through"},
             ] 
         });
 

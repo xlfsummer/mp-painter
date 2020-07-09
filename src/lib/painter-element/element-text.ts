@@ -1,7 +1,8 @@
 import Painter from "../painter";
-import { FontWeight, BaseLine, TextAlign, OmitBaseOption, FontStyle } from "../value";
+import { FontWeight, BaseLine, TextAlign, OmitBaseOption, FontStyle, TextDecoration } from "../value";
 import { PainterElementOption, PainterElement } from "./base";
 import { BuiltInPainterFillStrokeOption, createFillStrokeStyle } from "../painter-fill-stroke/index";
+import { PainterLineElement } from "./element-line";
 
 export interface PainterTextElementOption extends PainterElementOption {
     type: "text";
@@ -23,6 +24,7 @@ export interface PainterTextElementOption extends PainterElementOption {
     content: string;
     /** 文字的宽度，为空则根据文本内容及字号自动计算宽度 */
     width?: number;
+    textDecoration: TextDecoration;
 }
 
 export class PainterTextElement extends PainterElement {
@@ -39,6 +41,7 @@ export class PainterTextElement extends PainterElement {
       baseline:   option.baseline   ??  "top"   ,
       content:    option.content    ??  ""      ,
       width:      option.width      ??  void 0  ,
+      textDecoration: option.textDecoration ?? "none"
     }
   }
   _layout(){
@@ -71,5 +74,19 @@ export class PainterTextElement extends PainterElement {
       this.painter.upx2px(this.elementX),
       this.painter.upx2px(this.elementY)
     );
+
+    this.paintTextDecoration();
+  }
+  private paintTextDecoration(){
+    if(this.option.textDecoration == "line-through"){
+      new PainterLineElement(this.painter, {
+        // 0.4 的位置刚好和 css 里 line-through 的效果差不多
+        top: this.elementY + this.option.fontSize * .4,
+        left: this.elementX,
+        dx: this.contentWidth,
+        dy: 0,
+        color: this.option.color,
+      }).paint();
+    }
   }
 }
