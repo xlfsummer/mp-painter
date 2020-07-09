@@ -37,6 +37,10 @@ await painter.draw({
     content: "Hello World" //绘制的文本
 });
 ```
-
-> - 更多文档请查看 [wiki](https://github.com/xlfsummer/mp-painter/wiki)
-> - 更多示例请查看[在线 DEMO](http://mp-painter.xlf-summer.cn/) 及[DEMO 源码](https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages)
+示例&文档
+===
+- 文档请查看 [wiki](https://github.com/xlfsummer/mp-painter/wiki)
+- 示例请查看 [在线 DEMO](http://mp-painter.xlf-summer.cn/) 及 [DEMO 源码](https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages)  
+也可通过手机扫描下方二维码进入 DEMO  
+![DEMO站点二维码](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://mp-painter.xlf-summer.cn/)
+- 作者推荐通过查看在线 DEMO 站点与对应 DEMO 源码的方式理解和学习本插件
