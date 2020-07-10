@@ -8,8 +8,8 @@
         <view class="page-title h2">px</view>
         <canvas canvas-id="canvas-px" id="canvas-px" class="canvas" style="height: 300rpx"/>
 
-        <view class="page-title h2">自定义比例</view>
-        <input type="number" :value="scale" @change="scaleChange"  style="border: 1rpx solid #ddd" />
+        <view class="page-title h2">自定义比例 (按回车确认)</view>
+        <input type="number" :value="scale" @confirm="scaleChange"  style="border: 1rpx solid #ddd" />
         <canvas canvas-id="canvas-custom" id="canvas-custom" class="canvas" style="height: 300rpx"/>
 
 		<web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/unit/unit.vue"/>
@@ -41,7 +41,10 @@ export default {
     },
     methods: {
         scaleChange({ detail }){
+            
             this.scale = Number(detail.value) || 1;
+            console.log(arguments[0]);
+            console.log(this.scale);
             this.updateCanvasCustom();
         },
         updateCanvasCustom(){
