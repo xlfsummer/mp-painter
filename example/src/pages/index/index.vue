@@ -6,6 +6,7 @@
 			<image src="https://img.shields.io/github/stars/xlfsummer/mp-painter?style=social" style="width: 76px; height: 20px;"/>
 		</web-link>
 
+		<view> 元素 </view>
 		<navigator class="link" url="/pages/text/text"><button type="default">text</button></navigator>
 		<navigator class="link" url="/pages/rect/rect"><button type="default">rect / line</button></navigator>
 		<navigator class="link" url="/pages/image/image"><button type="default">image</button></navigator>
@@ -13,6 +14,9 @@
 		<navigator class="link" url="/pages/container/container"><button type="default">container</button></navigator>
 		<navigator class="link" url="/pages/clip/clip"><button type="default">clip</button></navigator>
 		<navigator class="link" url="/pages/transform/transform"><button type="default">transform</button></navigator>
+
+		<view> 绘制单位 </view>
+		<navigator class="link" url="/pages/unit/unit"><button type="default">unit</button></navigator>
 		
 		<web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/index/index.vue"/>
 	</view>
