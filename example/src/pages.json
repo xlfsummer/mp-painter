@@ -7,7 +7,8 @@
 		{ "path": "pages/textBlock/textBlock" },
 		{ "path": "pages/container/container" },
 		{ "path": "pages/clip/clip" },
-		{ "path": "pages/transform/transform" }
+		{ "path": "pages/transform/transform" },
+		{ "path": "pages/unit/unit" }
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
