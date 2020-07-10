@@ -3,7 +3,7 @@
         <view class="page-title h2">以下均是 100 * 100 的矩形</view>
 
         <view class="page-title h2">默认 rpx</view>
-		<canvas canvas-id="canvas-rpx" id="canvas-rpx" class="canvas" style="height: 300rpx"/>
+        <canvas canvas-id="canvas-rpx" id="canvas-rpx" class="canvas" style="height: 300rpx"/>
 
         <view class="page-title h2">px</view>
         <canvas canvas-id="canvas-px" id="canvas-px" class="canvas" style="height: 300rpx"/>
@@ -12,7 +12,7 @@
         <input type="number" :value="scale" @change="scaleChange"  style="border: 1rpx solid #ddd" />
         <canvas canvas-id="canvas-custom" id="canvas-custom" class="canvas" style="height: 300rpx"/>
 
-		<web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/unit/unit.vue"/>
+        <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/unit/unit.vue"/>
     </view>
 </template>
 
