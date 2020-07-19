@@ -46,4 +46,4 @@ await painter.draw({
 - 示例请查看 [在线 DEMO](http://mp-painter.xlf-summer.cn/) 及 [DEMO 源码](https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages)  
 也可通过手机扫描下方二维码进入 DEMO  
 ![DEMO站点二维码](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://mp-painter.xlf-summer.cn/)
-- 作者推荐通过查看在线 DEMO 站点与对应 DEMO 源码的方式理解和学习本插件
+- 推荐通过查看在线 DEMO 站点与对应 DEMO 源码的方式理解和学习本插件
