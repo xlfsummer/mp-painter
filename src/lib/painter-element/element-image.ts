@@ -4,7 +4,6 @@ import { PainterElementOption, PainterElement } from "./base";
 import { ObjectFit, OmitBaseOption, Rect, Size, ObjectPosition } from "../value";
 import { promisify } from "../../utils/promisify";
 import { calculateConcreteRect } from "../core/object-sizing";
-import { upx2px } from "../../utils/upx2px";
 import { memorize } from "../../utils/memorize";
 
 const getImageOriginSize = memorize(async function (src: string): Promise<Size>{
@@ -57,6 +56,8 @@ export class PainterImageElement extends PainterElement{
     return { width: this.option.width, height: this.option.height }
   }
   async paint(){
+    let upx2px = this.painter.upx2px;
+
     if(!this.option.src) return;
 
     let src = await normalizeImageSrc(this.painter, this.option);
