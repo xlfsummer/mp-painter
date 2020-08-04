@@ -12,6 +12,9 @@ mp-painter
 - 会自动将支付宝的绘制尺寸放大两倍，解决其绘制模糊的问题
 - 支持原生微信小程序使用，见 [wiki](https://github.com/xlfsummer/mp-painter/wiki/%E5%9C%A8%E5%8E%9F%E7%94%9F%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%AD%E4%BD%BF%E7%94%A8)
 
+代码提示：  
+![代码提示演示](https://raw.githubusercontent.com/wiki/xlfsummer/mp-painter/assets/IntelliSense.gif)
+
 安装
 ===
 ```bash
@@ -43,4 +46,4 @@ await painter.draw({
 - 示例请查看 [在线 DEMO](http://mp-painter.xlf-summer.cn/) 及 [DEMO 源码](https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages)  
 也可通过手机扫描下方二维码进入 DEMO  
 ![DEMO站点二维码](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://mp-painter.xlf-summer.cn/)
-- 作者推荐通过查看在线 DEMO 站点与对应 DEMO 源码的方式理解和学习本插件
+- 推荐通过查看在线 DEMO 站点与对应 DEMO 源码的方式理解和学习本插件
