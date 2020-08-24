@@ -105,4 +105,19 @@ export default class Painter {
 
     return this.ctx.arcTo(x1, y1, x2, y2, radius);
   }
+
+  /** 兼容绘制图片 */
+  drawImage(imageResource: string, sx: number, sy: number, sWidth: number, sHeigt: number, dx: number, dy: number, dWidth: number, dHeight: number){
+    
+    if(arguments.length != 9){
+      //@ts-ignore
+      return this.ctx.drawImage.call(this, ...arguments);
+    }
+
+    if(this.platform == "mp-baidu"){
+      return this.ctx.drawImage(imageResource, dx, dy, dWidth, dHeight, sx, sy, sWidth, sHeigt);
+    }else{
+      return this.ctx.drawImage(imageResource, sx, sy, sWidth, sHeigt, dx, dy, dWidth, dHeight);
+    }
+  }
 }
