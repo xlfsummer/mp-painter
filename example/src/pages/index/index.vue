@@ -17,6 +17,9 @@
 
 		<view> 绘制单位 </view>
 		<navigator class="link" url="/pages/unit/unit"><button type="default">unit</button></navigator>
+
+		<view>其它示例</view>
+		<navigator class="link" url="/pages/dynamicCanvasSize/dynamicCanvasSize"><button type="default">动态canvas尺寸</button></navigator>
 		
 		<web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/index/index.vue"/>
 	</view>
