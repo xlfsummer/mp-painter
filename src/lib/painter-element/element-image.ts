@@ -83,7 +83,7 @@ export class PainterImageElement extends PainterElement{
         upx2px(dh)
       );
     } else {
-      this.painter.ctx.drawImage(src,
+      this.painter.drawImage(src,
         upx2px(this.elementX),
         upx2px(this.elementY),
         upx2px(this.option.width),

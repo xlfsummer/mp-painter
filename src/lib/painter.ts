@@ -4,7 +4,7 @@ import { PLATFORM, UniPlatforms } from "../utils/platform";
 import { CHAR_WIDTH_SCALE_MAP } from "./const";
 import { BuiltInPainterElementOption, createElement } from "./painter-element/index";
 import { upx2px as defaultUpx2px } from "../utils/upx2px";
-import { FillStrokeStyle, Size } from "./value";
+import { BaseLine, FillStrokeStyle, TextAlign, Size } from "./value";
 
 interface IPanterOption {
   platform?: UniPlatforms
@@ -13,7 +13,6 @@ interface IPanterOption {
 }
 
 export default class Painter {
-
   ctx: CanvasContext;
   upx2px: NonNullable<IPanterOption["upx2px"]>
   platform: NonNullable<IPanterOption["platform"]>
@@ -42,12 +41,18 @@ export default class Painter {
   async draw(element: BuiltInPainterElementOption){
     let size = await this._drawObj(element);
 
-    // debug("call context draw method");
-    await new Promise(resolve => this.ctx.draw(true, resolve));
-    // debug("context draw method done");
+    if(this.platform === "h5"){
+      // nothing should be done
+    } else {
+      // debug("call context draw method");
+      await new Promise(resolve => this.ctx.draw(true, resolve));
+      // debug("context draw method done");
+
+      // 在 draw 的 callback 中, canvas 还没有真正绘制完成，此时 resolve 会导致文字错乱
+      await delay(100);
+    }
     
-    // 在 draw 的 callback 中, canvas 还没有真正绘制完成，此时 resolve 会导致文字错乱
-    await delay(100);
+    
 
     return size;
   }
@@ -98,11 +103,38 @@ export default class Painter {
       }, 0) * fontSize;
 
     } else {
-      this.ctx.setFontSize(fontSize);
+      this.setFontSize(fontSize);
       let width = this.ctx.measureText(text).width;
+      console.debug("measureText: result of measure text \"%s\" with font size %s is %s", text, this.ctx.font, width);
       if(width) return width;
     }
     return text.length * fontSize;
+  }
+
+  setFontSize(fontSize: number){
+    if(this.platform === "h5"){
+      console.debug("set font size for h5, before is %s after is %s", this.ctx.font, this.ctx.font?.replace(/\b\w+px\b/, `${this.upx2px(fontSize)}px sans-serif`));
+      return this.ctx.font = this.ctx.font?.replace(/\b\w+px\b/, `${this.upx2px(fontSize)}px`);
+    }
+    return this.ctx.setFontSize(fontSize);
+  }
+
+  setTextBaseline(baseline: BaseLine){
+    if(this.platform === "h5"){
+      let ctx = this.ctx as unknown as CanvasRenderingContext2D;
+      return ctx.textBaseline = baseline === "normal" ? "alphabetic" : baseline;
+    }
+
+    return this.ctx.setTextBaseline(baseline);
+  }
+
+  setTextAlign(align: TextAlign) {
+    if(this.platform === "h5"){
+      let ctx = this.ctx as unknown as CanvasRenderingContext2D;
+      return ctx.textAlign = align;
+    }
+
+    return this.ctx.setTextAlign(align);
   }
 
   /** 兼容地，根据控制点和半径绘制圆弧路径 */
@@ -116,17 +148,39 @@ export default class Painter {
   }
 
   /** 兼容绘制图片 */
-  drawImage(imageResource: string, sx: number, sy: number, sWidth: number, sHeigt: number, dx: number, dy: number, dWidth: number, dHeight: number){
+  drawImage(imageResource: string, sx: number, sy: number, sWidth: number, sHeigt: number): void
+  drawImage(imageResource: string, sx: number, sy: number, sWidth: number, sHeigt: number, dx: number, dy: number, dWidth: number, dHeight: number): void
+  
+  drawImage(imageResource: string, sx: number, sy: number, sWidth: number, sHeigt: number, dx?: number, dy?: number, dWidth?: number, dHeight?: number){
+
+    if(this.platform == "h5"){
+      let image = new Image();
+      image.src = imageResource;
+      let ctx = this.ctx as unknown as CanvasRenderingContext2D;
+
+      let drawFn = () => {
+        if(dx && dy && dWidth && dHeight)
+          return ctx.drawImage(image, sx, sy, sWidth, sHeigt, dx, dy, dWidth, dHeight);
+        else
+          return ctx.drawImage(image, sx, sy, sWidth, sHeigt);
+      }
+
+      image.addEventListener("load", drawFn, { once: true });
+    }
     
     if(arguments.length != 9){
       //@ts-ignore
       return this.ctx.drawImage.call(this, ...arguments);
     }
 
-    if(this.platform == "mp-baidu"){
-      return this.ctx.drawImage(imageResource, dx, dy, dWidth, dHeight, sx, sy, sWidth, sHeigt);
+    if(dx && dy && dWidth && dHeight){
+      if(this.platform == "mp-baidu"){
+        return this.ctx.drawImage(imageResource, dx, dy, dWidth, dHeight, sx, sy, sWidth, sHeigt);
+      }else{
+        return this.ctx.drawImage(imageResource, sx, sy, sWidth, sHeigt, dx, dy, dWidth, dHeight);
+      }
     }else{
-      return this.ctx.drawImage(imageResource, sx, sy, sWidth, sHeigt, dx, dy, dWidth, dHeight);
+      return this.ctx.drawImage(imageResource, sx, sy, sWidth, sHeigt);
     }
   }
 }

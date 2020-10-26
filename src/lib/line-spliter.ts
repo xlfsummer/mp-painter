@@ -42,7 +42,7 @@ export default class LineSpliterContext {
   
     split(){
       // 测量文本前先设置字体大小
-      this.ctx.setFontSize(this.fontSize);
+      this.painter.setFontSize(this.fontSize);
       this.fillText();
       return this.lines;
     }
