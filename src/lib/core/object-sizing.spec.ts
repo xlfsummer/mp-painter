@@ -1,8 +1,8 @@
-import { calcConcreteRect } from "./object-sizing"
+import { calculateConcreteRect } from "./object-sizing"
 
-describe(calcConcreteRect, () => {
+describe(calculateConcreteRect, () => {
     it("图片胖, contain, 缩小", () => {
-        expect(calcConcreteRect(
+        expect(calculateConcreteRect(
             { objectFit: "contain"},
             { width: 200, height: 100 },
             { width: 100, height: 100 }
@@ -13,7 +13,7 @@ describe(calcConcreteRect, () => {
     });
 
     it("图片胖, contain, 放大", () => {
-        expect(calcConcreteRect(
+        expect(calculateConcreteRect(
             { objectFit: "contain"},
             { width: 50, height: 25 },
             { width: 100, height: 100 }
@@ -24,7 +24,7 @@ describe(calcConcreteRect, () => {
     });
 
     it("图片胖, cover, 缩小", () => {
-        expect(calcConcreteRect(
+        expect(calculateConcreteRect(
             { objectFit: "cover" },
             { width: 400, height: 200 },
             { width: 100, height: 100 }
@@ -35,7 +35,7 @@ describe(calcConcreteRect, () => {
     });
 
     it("图片胖, cover, 放大", () => {
-        expect(calcConcreteRect(
+        expect(calculateConcreteRect(
             { objectFit: "cover" },
             { width: 100, height: 50 },
             { width: 100, height: 100 }
@@ -46,7 +46,7 @@ describe(calcConcreteRect, () => {
     });
 
     it("图片瘦, contain, 缩小", () => {
-        expect(calcConcreteRect(
+        expect(calculateConcreteRect(
             { objectFit: "contain" },
             { width: 100, height: 200 },
             { width: 100, height: 100 }
@@ -57,7 +57,7 @@ describe(calcConcreteRect, () => {
     });
 
     it("图片瘦, contain, 放大", () => {
-        expect(calcConcreteRect(
+        expect(calculateConcreteRect(
             { objectFit: "contain" },
             { width: 25, height: 50 },
             { width: 100, height: 100 }
@@ -68,7 +68,7 @@ describe(calcConcreteRect, () => {
     });
 
     it("图片瘦, cover, 缩小", () => {
-        expect(calcConcreteRect(
+        expect(calculateConcreteRect(
             { objectFit: "cover" },
             { width: 200, height: 400 },
             { width: 100, height: 100 }
@@ -79,7 +79,7 @@ describe(calcConcreteRect, () => {
     });
 
     it("图片瘦, cover, 放大", () => {
-        expect(calcConcreteRect(
+        expect(calculateConcreteRect(
             { objectFit: "cover" },
             { width: 50, height: 100 },
             { width: 100, height: 100 }
@@ -90,7 +90,7 @@ describe(calcConcreteRect, () => {
     });
 
     it("图框比例相同", () => {
-        expect(calcConcreteRect(
+        expect(calculateConcreteRect(
             { objectFit: "cover" },
             { width: 100, height: 100 },
             { width: 100, height: 100 }
@@ -99,7 +99,7 @@ describe(calcConcreteRect, () => {
             dx: 0, dy: 0, dw: 100, dh: 100
         });
 
-        expect(calcConcreteRect(
+        expect(calculateConcreteRect(
             { objectFit: "contain" },
             { width: 100, height: 100 },
             { width: 100, height: 100 }
@@ -110,7 +110,7 @@ describe(calcConcreteRect, () => {
     })
 
     it("图框比例相同 - 缩放", () => {
-        expect(calcConcreteRect(
+        expect(calculateConcreteRect(
             { objectFit: "cover" },
             { width: 200, height: 200 },
             { width: 100, height: 100 }
@@ -119,7 +119,7 @@ describe(calcConcreteRect, () => {
             dx: 0, dy: 0, dw: 100, dh: 100
         });
 
-        expect(calcConcreteRect(
+        expect(calculateConcreteRect(
             { objectFit: "contain" },
             { width: 50, height: 50 },
             { width: 100, height: 100 }
