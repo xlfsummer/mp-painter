@@ -148,25 +148,17 @@ export default class Painter {
   }
 
   /** 兼容绘制图片 */
-  drawImage(imageResource: string, sx: number, sy: number, sWidth: number, sHeigt: number): void
-  drawImage(imageResource: string, sx: number, sy: number, sWidth: number, sHeigt: number, dx: number, dy: number, dWidth: number, dHeight: number): void
+  drawImage(imageResource: string | HTMLImageElement, sx: number, sy: number, sWidth: number, sHeigt: number): void
+  drawImage(imageResource: string | HTMLImageElement, sx: number, sy: number, sWidth: number, sHeigt: number, dx: number, dy: number, dWidth: number, dHeight: number): void
   
-  drawImage(imageResource: string, sx: number, sy: number, sWidth: number, sHeigt: number, dx?: number, dy?: number, dWidth?: number, dHeight?: number){
+  drawImage(imageResource: string | HTMLImageElement, sx: number, sy: number, sWidth: number, sHeigt: number, dx?: number, dy?: number, dWidth?: number, dHeight?: number){
 
-    if(this.platform == "h5"){
-      let image = new Image();
-      image.src = imageResource;
+    if(imageResource instanceof HTMLImageElement){
       let ctx = this.ctx as unknown as CanvasRenderingContext2D;
-
-      let drawFn = () => {
-        if(dx && dy && dWidth && dHeight)
-          return ctx.drawImage(image, sx, sy, sWidth, sHeigt, dx, dy, dWidth, dHeight);
-        else
-          return ctx.drawImage(image, sx, sy, sWidth, sHeigt);
-      }
-
-      image.addEventListener("load", drawFn, { once: true });
-      return;
+      if(dx && dy && dWidth && dHeight)
+        return ctx.drawImage(imageResource, sx, sy, sWidth, sHeigt, dx, dy, dWidth, dHeight);
+      else
+        return ctx.drawImage(imageResource, sx, sy, sWidth, sHeigt);
     }
     
     if(arguments.length != 9){

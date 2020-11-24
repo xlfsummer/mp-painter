@@ -6,9 +6,13 @@ import { promisify } from "../../utils/promisify";
 import { calculateConcreteRect } from "../core/object-sizing";
 import { memorize } from "../../utils/memorize";
 
-const getImageOriginSize = memorize(async function (src: string): Promise<Size>{
+const getImageOriginSize = memorize(async function (img: string | HTMLImageElement): Promise<Size>{
+  if(img instanceof HTMLImageElement){
+    return { width: img.naturalWidth, height: img.naturalHeight };
+  }
+
   try {
-    let { width = 100, height = 100 } = await promisify(uni.getImageInfo)({ src });
+    let { width = 100, height = 100 } = await promisify(uni.getImageInfo)({ src: img });
     return { width, height };
   }catch(e){
     console.log("mp-painter:getImageOriginSize: fail, use default size: width = 100, height = 100");
@@ -60,7 +64,7 @@ export class PainterImageElement extends PainterElement{
 
     if(!this.option.src) return;
 
-    let src = await normalizeImageSrc(this.painter, this.option);
+    let src = await normalizeImageResource(this.painter, this.option);
     if(!src) return ;
 
     console.log("mp-painter:调用小程序drawImage，使用:", src);
@@ -93,7 +97,8 @@ export class PainterImageElement extends PainterElement{
   }
 }
 
-async function normalizeImageSrc(painter: Painter, image: Pick<PainterImageElementOption, "src">) {
+async function normalizeImageResource(painter: Painter, image: Pick<PainterImageElementOption, "src">):
+  Promise<undefined | string | HTMLImageElement> {
   let platform = painter.platform;
   /** 
    * @expample "https://resource/1573628995676.jpg" 开发者工具
@@ -115,10 +120,10 @@ async function normalizeImageSrc(painter: Painter, image: Pick<PainterImageEleme
 
   let isLocalFile =
       // 本地图片
-      LOCAL_FILE_RELATIVE_PATH_REG.test(image.src) ||
-      LOCAL_FILE_ABSOLUTE_PATH_REG.test(image.src) ||
+      platform != "h5" && LOCAL_FILE_RELATIVE_PATH_REG.test(image.src) ||
+      platform != "h5" && LOCAL_FILE_ABSOLUTE_PATH_REG.test(image.src) ||
       // base64 图片
-      BASE64_URL_REG.test(image.src) ||
+      platform != "h5" && BASE64_URL_REG.test(image.src) ||
       // 支付宝中需要先下载图片再绘制
       platform == "mp-alipay" && ALIPAY_LOCAL_RESOURCE_URL_REG.test(image.src) ||
       // 微信小程序开发者工具中不需要先下载再绘制, 但在手机中预览时需要
@@ -129,5 +134,14 @@ async function normalizeImageSrc(painter: Painter, image: Pick<PainterImageEleme
   if (isLocalFile) return image.src;
 
   console.log("mp-painter:绘制图片: 下载图片文件:", image.src);
-  return await downloadFileToLocal(image.src).catch(err => (console.log("mp-painter:下载错误: ", err), ""));
+
+  if(platform == "h5"){
+    let imageHtmlElement = new Image();
+    imageHtmlElement.src = image.src;
+    return new Promise(resolve => 
+      imageHtmlElement.addEventListener("load", _ => resolve(imageHtmlElement), { once: true })
+    );
+  }else{
+    return await downloadFileToLocal(image.src).catch(err => (console.log("mp-painter:下载错误: ", err), ""));
+  }
 }

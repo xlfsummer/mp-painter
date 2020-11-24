@@ -11,13 +11,14 @@ export default {
   components: {
   },
   setup(){
-    let canvas = ref(null)
+    const canvas = ref(null);
+    const IMAGE = { type: "image", src: require("./assets/logo.png"), width: 100, height: 100 };
 
     onMounted(() => {
       /** @type {HTMLCanvasElement} */
       let canvasEl = canvas.value;
       canvasEl.width = 800;
-      canvasEl.height = 600;
+      canvasEl.height = 800;
 
       let ctx = canvasEl.getContext("2d");
 
@@ -48,7 +49,16 @@ export default {
             { type: "text", baseline: "bottom", left: 10, content: "对齐-bottom"},
           ]},
           { type: "text", top: 30, content: "图片 image" },
-          { type: "image", src: require("./assets/logo.png"), width: 100, height: 100 },
+          // 支持空的 container
+          { type: "container", top: 10, left: 10, direction: "horizontal", children: [ ]},
+          { type: "container", top: 10, left: 10, direction: "horizontal", children: [
+            { ...IMAGE },
+            { ...IMAGE, left: 10, width: 50},
+            { ...IMAGE, left: 10, width: 50, objectFit: "contain"},
+            { ...IMAGE, left: 10, width: 50, objectFit: "cover", objectPosition: ["left", "center"]},
+            { ...IMAGE, left: 10, width: 50, objectFit: "cover"},
+            { ...IMAGE, left: 10, width: 50, objectFit: "cover", objectPosition: ["right", "center"]},
+          ]},
           { type: "text", top: 30, content: "矩形 rect" },
           { type: "container", top: 10, left: 10, direction: "horizontal", children: [
             { type: "rect", width: 50, height: 50, background: "#e66" },

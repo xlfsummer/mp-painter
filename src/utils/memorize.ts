@@ -1,8 +1,9 @@
-export function memorize<T>(fn: (arg: string) => T){
-    let map = Object.create(null);
-    return function (arg: string): T {
-        if(!(arg in map))
-            map[arg] = fn(arg);
-        return map[arg];
+export function memorize<P, T>(fn: (arg: P) => T){
+    let map = new Map<P, T>();
+    return function (arg: P): T {
+
+        if(!map.has(arg))
+            map.set(arg, fn(arg));
+        return map.get(arg)!;
     }
 }
