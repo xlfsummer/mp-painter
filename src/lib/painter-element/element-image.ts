@@ -139,7 +139,11 @@ async function normalizeImageResource(painter: Painter, image: Pick<PainterImage
     let imageHtmlElement = new Image();
     imageHtmlElement.src = image.src;
     return new Promise(resolve => 
-      imageHtmlElement.addEventListener("load", _ => resolve(imageHtmlElement), { once: true })
+      imageHtmlElement.addEventListener(
+        "load",
+        _ => resolve(imageHtmlElement),
+        { once: true }
+      )
     );
   }else{
     return await downloadFileToLocal(image.src).catch(err => (console.log("mp-painter:下载错误: ", err), ""));

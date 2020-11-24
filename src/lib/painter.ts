@@ -153,6 +153,7 @@ export default class Painter {
   
   drawImage(imageResource: string | HTMLImageElement, sx: number, sy: number, sWidth: number, sHeigt: number, dx?: number, dy?: number, dWidth?: number, dHeight?: number){
 
+    // H5 中绘制
     if(imageResource instanceof HTMLImageElement){
       let ctx = this.ctx as unknown as CanvasRenderingContext2D;
       if(dx && dy && dWidth && dHeight)
@@ -160,12 +161,8 @@ export default class Painter {
       else
         return ctx.drawImage(imageResource, sx, sy, sWidth, sHeigt);
     }
-    
-    if(arguments.length != 9){
-      //@ts-ignore
-      return this.ctx.drawImage.call(this, ...arguments);
-    }
 
+    // 小程序中绘制
     if(dx && dy && dWidth && dHeight){
       if(this.platform == "mp-baidu"){
         return this.ctx.drawImage(imageResource, dx, dy, dWidth, dHeight, sx, sy, sWidth, sHeigt);
