@@ -84,9 +84,9 @@ export class PainterContainerElement extends PainterElement {
     for(let child of this.children) await child.paint();
   }
   childrenMaxWidth(){
-    return Math.max(...this.children.map(el => el.offsetWidth))
+    return Math.max(...this.children.map(el => el.offsetWidth), 0);
   }
   childrenMaxHeight(){
-    return Math.max(...this.children.map(el => el.offsetHeight))
+    return Math.max(...this.children.map(el => el.offsetHeight), 0);
   }
 }
