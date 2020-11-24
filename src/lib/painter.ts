@@ -166,6 +166,7 @@ export default class Painter {
       }
 
       image.addEventListener("load", drawFn, { once: true });
+      return;
     }
     
     if(arguments.length != 9){
