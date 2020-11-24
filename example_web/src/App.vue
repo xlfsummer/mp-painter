@@ -27,7 +27,7 @@ export default {
       painter.draw({
         type: "container",
         children: [
-          { type: "text", top: 10, content: "文字" },
+          { type: "text", top: 10, content: "文字 text" },
           { type: "container", top: 10, left: 10, direction: "horizontal", children: [
             { type: "text", content: "正常", fontWeight: "bold"},
             { type: "text", left: 10, content: "加粗", fontWeight: "bold" },
@@ -47,10 +47,15 @@ export default {
             { type: "text", baseline: "normal", left: 10, content: "对齐-normal"},
             { type: "text", baseline: "bottom", left: 10, content: "对齐-bottom"},
           ]},
-          { type: "text", top: 10, content: "图片" },
+          { type: "text", top: 30, content: "图片 image" },
           { type: "image", src: require("./assets/logo.png"), width: 100, height: 100 },
-          { type: "rect", width: 100, height: 100, background: "blue" },
-          { type: "text", top: 20, content: "Hello world" },
+          { type: "text", top: 30, content: "矩形 rect" },
+          { type: "container", top: 10, left: 10, direction: "horizontal", children: [
+            { type: "rect", width: 50, height: 50, background: "#e66" },
+            { type: "rect", left: 10, borderRadius: 10, width: 50, height: 50, background: "#ee6" },
+            { type: "rect", left: 10, borderRadius: [10, 30, 10, 30], width: 50, height: 50, background: "#66e" },
+            { type: "rect", left: 10, borderRadius: 50, width: 50, height: 50, background: "#6e6" }
+          ]}
         ]
       });
     });
