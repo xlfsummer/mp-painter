@@ -9,7 +9,8 @@
 		{ "path": "pages/clip/clip" },
 		{ "path": "pages/transform/transform" },
 		{ "path": "pages/unit/unit" },
-		{ "path": "pages/dynamicCanvasSize/dynamicCanvasSize"}
+		{ "path": "pages/dynamicCanvasSize/dynamicCanvasSize"},
+		{ "path": "pages/playground/playground"}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
