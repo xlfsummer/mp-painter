@@ -1,6 +1,6 @@
 <template>
     <view class="page">
-        <view class="page-title h2">来试试！绘制后复制 url 来分享！</view>
+        <view class="page-title h2">任意编辑配置试试，绘制后可通过 url 来分享！</view>
         
         <textarea v-model="elementOptionText" class="textarea" maxlength="-1"/>
         <button @click="update">绘制</button>
@@ -9,6 +9,8 @@
 
 		<canvas canvas-id="canvas-playground" id="canvas-playground" class="canvas" 
         :style="{ width: canvasSize.width + 'rpx', height: canvasSize.height + 'rpx' }"/>
+
+        <view>{{ layoutMessage }}</view>
 
 		<web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/playground/playground.vue"/>
     </view>
@@ -43,8 +45,9 @@ export default {
     data(){
         return {
             canvasSize: { width: 600, height: 0 },
+            elementOptionText: "",
             errorMessage: "",
-            elementOptionText: ""
+            layoutMessage: "",
         };
     },
     computed: {
@@ -72,12 +75,23 @@ export default {
         },
         update(){
             this.validJson();
-            this.updateHash();
+            
+            // 移除缩进，节省空间
+            const elementOptionTextWithoutIndent = JSON.stringify(this.elementOption)
+
+            uni.navigateTo({
+                url: this.$route.path 
+                + "?d="
+                + encodeURIComponent(elementOptionTextWithoutIndent)
+            });
         },
         draw(){
             this.validJson();
             new Painter(uni.createCanvasContext("canvas-playground")).draw(this.elementOption, {
                 afterLayout: async size => {
+
+                    this.layoutMessage = `width=${size.width}, height=${size.height}`
+
                     // 获取 painter 布局计算之后得出的高度，并更新 canvas 的高度
                     this.canvasSize.height = size.height;
 
@@ -85,19 +99,6 @@ export default {
                     await new Promise(r => setTimeout(r, 100));
                 }
             });
-        },
-        /** 更新 url hash */
-        updateHash(){
-            // 移除缩进，节省空间
-            const elementOptionTextWithoutIndent = JSON.stringify(this.elementOption)
-
-            uni.navigateTo({
-                url: this.$route.path 
-                + "?"
-                + new URLSearchParams({
-                    d: elementOptionTextWithoutIndent
-                })
-            })
         }
     }
 }
