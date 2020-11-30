@@ -9,6 +9,14 @@ import { BaseLine, FillStrokeStyle, TextAlign, Size } from "./value";
 interface IPanterOption {
   platform?: UniPlatforms
   upx2px?: (upx: number) => number
+}
+
+interface IDrawOption {
+  /** 
+   * 会在布局结束后，绘制开始前调用此函数，
+   * 此函数支持返回一个 promise, 当 promise resolve 后
+   * mp-painter 才继续流程，可用于设置动态的 canvas 大小
+   */
   afterLayout?: (size: Size) => any
 }
 
@@ -16,21 +24,13 @@ export default class Painter {
   ctx: CanvasContext;
   upx2px: NonNullable<IPanterOption["upx2px"]>
   platform: NonNullable<IPanterOption["platform"]>
-  afterLayout: NonNullable<IPanterOption["afterLayout"]>
 
   constructor(ctx: CanvasContext, {
     platform = PLATFORM,
-    upx2px,
-    /** 
-     * 会在布局结束后，绘制开始前调用此函数，
-     * 此函数支持返回一个 promise, 当 promise resolve 后
-     * mp-painter 才继续流程，此函数可用于设置动态的 canvas 大小
-     */
-    afterLayout = () => {}
+    upx2px
   }: IPanterOption = {}){
     this.ctx = ctx;
     this.platform = platform;
-    this.afterLayout = afterLayout;
 
     this.upx2px = upx2px ?? defaultUpx2px;
     if(platform == "mp-alipay"){
@@ -38,8 +38,14 @@ export default class Painter {
     }
   }
 
-  async draw(element: BuiltInPainterElementOption){
-    let size = await this._drawObj(element);
+  async draw(elementOption: BuiltInPainterElementOption, drawOption: IDrawOption = {}){
+
+    drawOption.afterLayout ?? (drawOption.afterLayout = function(){});
+
+    let element = createElement(this, elementOption);
+    let size = await element.layout();
+    await drawOption.afterLayout(size);
+    await element.paint();
 
     if(this.platform === "h5"){
       // nothing should be done
@@ -52,17 +58,13 @@ export default class Painter {
       await delay(100);
     }
     
-    
-
     return size;
   }
 
-  async _drawObj(paintObj: BuiltInPainterElementOption){
-    let element = createElement(this, paintObj);
-    let size = await element.layout();
-    await this.afterLayout(size);
-    await element.paint();
-    return size;
+  /** 获取指定元素的尺寸 */
+  async layout(elementOption: BuiltInPainterElementOption){
+    let element = createElement(this, elementOption);
+    return await element.layout();
   }
 
   /**
