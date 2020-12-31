@@ -43,6 +43,9 @@ export class PainterTextElement extends PainterElement {
       width:      option.width      ??  void 0  ,
       textDecoration: option.textDecoration ?? "none"
     }
+
+    /** 不支持换行，应去掉换行符，否则会导致 iPhone 微信小程序中绘制位置错误 */
+    this.option.content = this.option.content.replace(/[\n\r]/g, "");
   }
   _layout(){
     let textWidth = this.option.width ?? this.painter.measureText(this.option.content, this.option.fontSize);
@@ -69,11 +72,14 @@ export class PainterTextElement extends PainterElement {
     this.painter.ctx.setFontSize(this.painter.upx2px(this.option.fontSize));
     this.painter.ctx.setTextBaseline(this.option.baseline);
     this.painter.ctx.setTextAlign(this.option.align);
+
+    console.log("before fillText:", "x=", this.elementX, "y=", this.elementY);
     this.painter.ctx.fillText(
       this.option.content,
       this.painter.upx2px(this.elementX),
       this.painter.upx2px(this.elementY)
     );
+    console.log("after fillText:", "x=", this.elementX, "y=", this.elementY);
 
     this.paintTextDecoration();
   }
