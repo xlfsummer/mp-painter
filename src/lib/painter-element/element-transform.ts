@@ -104,7 +104,7 @@ export class PainterTransformElement extends PainterElement {
             case "set-matrix": return this.painter.ctx.setTransform(
                 option.scaleX,
                 option.skewX,
-                option.scaleY,
+                option.skewY,
                 option.scaleY,
                 this.painter.upx2px(option.translateX),
                 this.painter.upx2px(option.translateY)
