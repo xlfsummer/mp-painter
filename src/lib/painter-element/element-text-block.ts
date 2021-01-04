@@ -4,6 +4,7 @@ import LineSpliterContext from "../line-spliter";
 import { PainterElement } from "./base";
 import { OmitBaseOption } from "../value";
 import { createFillStrokeStyle } from "../painter-fill-stroke/index";
+import { removeLineFeed } from "../../utils/string";
 
 export interface PainterTextBlockElementOption extends Omit<PainterTextElementOption, "type"> {
     type: "text-block",
@@ -35,6 +36,9 @@ export class PainterTextBlockElement extends PainterElement {
         color:      option.color      ??  "black"
       }
       this.lines = [];
+
+      /** 不支持换行，应去掉换行符，否则会导致 iPhone 微信小程序中测量文本宽度错误，断行位置错误 */
+      this.option.content = removeLineFeed(this.option.content);
     }
     _layout(){
       this.lines = new LineSpliterContext({

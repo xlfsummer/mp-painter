@@ -73,7 +73,12 @@ export default class Painter {
     }
   }
   
+  /** 测量文本宽度 */
   measureText(text: string, fontSize: number){
+    if(this.platform == "mp-weixin" && (text.includes("\n") || text.includes("\r"))){
+      console.warn(`mp-painter:measureText:字符串 "${text}" 中包含换行符，结果在 iPhone 上可能不准确`);
+    }
+
     if(this.platform == "mp-baidu"){
       // 百度测量的字号是以 10 为基准的，不会根据字号设置而变化
       let width = this.ctx.measureText(text).width;
@@ -87,7 +92,6 @@ export default class Painter {
         let widthScale = CHAR_WIDTH_SCALE_MAP[code - 0x20] || 1;
         return widthScaleSum + widthScale;
       }, 0) * fontSize;
-
     } else {
       this.ctx.setFontSize(fontSize);
       let width = this.ctx.measureText(text).width;
