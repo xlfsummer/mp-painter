@@ -2,8 +2,9 @@
     <view class="page">
         <view class="page-title h2">任意编辑配置试试，绘制后可通过 url 来分享！</view>
         
-        <textarea v-model="elementOptionText" class="textarea" maxlength="-1"/>
-        <button @click="update">绘制</button>
+        <textarea v-model="elementOptionText" class="textarea" maxlength="-1"/> 
+
+        <button accesskey="s" @click="update">绘制 (alt+s)</button>
 
         <view style="color: red">{{ errorMessage }}</view>
 
