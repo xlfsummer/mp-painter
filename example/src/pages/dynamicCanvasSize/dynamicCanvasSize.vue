@@ -6,8 +6,8 @@
         <button @click="updateCanvas" type="default">更新</button>
 
         <canvas canvas-id="canvas" id="canvas" class="canvas" :style="{
-            width: canvasSize.width + 'rpx',
-            height: canvasSize.height + 'rpx'
+            width: CANVAS_WIDTH + 'rpx',
+            height: canvasHeight + 'rpx'
         }"/>
 
         <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/dynamicCanvasSize/dynamicCanvasSize.vue"/>
@@ -22,10 +22,9 @@ export default {
     data(){
         return {
             text: "在这里修改文本的长度，点击更新，查看 canvas 高度变化",
-            canvasSize: {
-                width: 500,
-                height: 0
-            }
+            CANVAS_WIDTH: 500,
+            canvasHeight: 0,
+            painterTextBackgroundOption: {},
         };
     },
     computed: {
@@ -36,7 +35,7 @@ export default {
                 direction: "vertical",
                 height: "auto",
                 left: 20,
-                width: this.canvasSize.width,
+                width: this.CANVAS_WIDTH,
                 children: [
                     { // canvas 中的其它 painter 元素 1
                         type: "image",
@@ -45,17 +44,10 @@ export default {
                         height: 100,
                         src: LOCAL_IMAGE_RELATIVE_PATH
                     },
-                    { // 动态高度的多行文本
-                        type: "text-block",
-                        top: 20,
-                        width: this.canvasSize.width - 40,
-                        height: "auto",
-                        fontSize: 40,
-                        lineHeight: 60,
-                        fontStyle: "italic",
-                        color: "#333",
-                        content: this.text
-                    },
+                    // 跟随多行文本的高度变化的文本
+                    this.painterTextBackgroundOption,
+                    // 动态高度的多行文本
+                    this.painterTextBlockOption,
                     { // canvas 中的其它 painter 元素 2
                         type: "rect",
                         top: 20,
@@ -70,6 +62,19 @@ export default {
                     }
                 ]
             };
+        },
+        painterTextBlockOption(){
+            return  { 
+                type: "text-block",
+                top: 20,
+                width: this.CANVAS_WIDTH - 40,
+                height: "auto",
+                fontSize: 40,
+                lineHeight: 60,
+                fontStyle: "italic",
+                color: "#333",
+                content: this.text
+            };
         }
     },
     onReady(){
@@ -81,24 +86,46 @@ export default {
             this.text = value;
             this.updateCanvas();
         },
-        updateCanvas(){
+        async updateCanvas(){
+            await this.clearCanvas();
+
+            this.painterTextBackgroundOption = await this.getPainterTextBackgroundOption();
+
+            const painter = new Painter(uni.createCanvasContext("canvas"));
+
+            let size = await painter.layout(this.painterContent);
+
+            // 获取 painter 布局计算之后得出的高度，并更新 canvas 的高度
+            this.canvasHeight = size.height;
+
+            // 延迟 100ms, 确保 canvas 的高度已经改变
+            await new Promise(r => setTimeout(r, 100));
+
+            await painter.draw(this.painterContent);
+        },
+        async clearCanvas(){
             // 清除上一次绘制的内容
-            new Painter(uni.createCanvasContext("canvas")).draw({
+            await new Painter(uni.createCanvasContext("canvas")).draw({
                 type: "rect",
                 background: "#fff",
-                width: this.canvasSize.width,
-                height: this.canvasSize.height
+                width: this.CANVAS_WIDTH,
+                height: this.canvasHeight
             });
-
-            new Painter(uni.createCanvasContext("canvas")).draw(this.painterContent, {
-                afterLayout: async size => {
-                    // 获取 painter 布局计算之后得出的高度，并更新 canvas 的高度
-                    this.canvasSize.height = size.height;
-
-                    // 延迟 100ms, 确保 canvas 的高度已经改变
-                    await new Promise(r => setTimeout(r, 100));
-                }
-            });
+        },
+        /** @returns {import("../../../../dist/lib/painter-element/index").BuiltInPainterElementOption} */
+        async getPainterTextBackgroundOption(){
+            let textBlockSize = await new Painter(uni.createCanvasContext("canvas")).layout(
+                this.painterTextBlockOption
+            );
+            return {
+                type: "rect",
+                position: "absolute",
+                top: 150,
+                left: 40,
+                width: this.CANVAS_WIDTH - 100,
+                height: textBlockSize.height,
+                background: "#cff",
+            }
         }
     }
 }

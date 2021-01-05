@@ -11,13 +11,8 @@ interface IPanterOption {
   upx2px?: (upx: number) => number
 }
 
+/** 单次绘制选项 */
 interface IDrawOption {
-  /** 
-   * 会在布局结束后，绘制开始前调用此函数，
-   * 此函数支持返回一个 promise, 当 promise resolve 后
-   * mp-painter 才继续流程，可用于设置动态的 canvas 大小
-   */
-  afterLayout?: (size: Size) => any
 }
 
 export default class Painter {
@@ -40,11 +35,8 @@ export default class Painter {
 
   async draw(elementOption: BuiltInPainterElementOption, drawOption: IDrawOption = {}){
 
-    drawOption.afterLayout ?? (drawOption.afterLayout = function(){});
-
     let element = createElement(this, elementOption);
     let size = await element.layout();
-    await drawOption.afterLayout(size);
     await element.paint();
 
     if(this.platform === "h5"){
@@ -61,10 +53,14 @@ export default class Painter {
     return size;
   }
 
+  /** 创建元素对象 */
+  createElement(elementOption: BuiltInPainterElementOption){
+    return createElement(this, elementOption);
+  }
+
   /** 获取指定元素的尺寸 */
   async layout(elementOption: BuiltInPainterElementOption){
-    let element = createElement(this, elementOption);
-    return await element.layout();
+    return await this.createElement(elementOption).layout();
   }
 
   /**

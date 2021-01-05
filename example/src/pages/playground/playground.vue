@@ -86,20 +86,22 @@ export default {
                 + encodeURIComponent(elementOptionTextWithoutIndent)
             });
         },
-        draw(){
+        async draw(){
             this.validJson();
-            new Painter(uni.createCanvasContext("canvas-playground")).draw(this.elementOption, {
-                afterLayout: async size => {
 
-                    this.layoutMessage = `width=${size.width}, height=${size.height}`
+            const painter = new Painter(uni.createCanvasContext("canvas-playground"));
 
-                    // 获取 painter 布局计算之后得出的高度，并更新 canvas 的高度
-                    this.canvasSize.height = size.height;
+            const size = await painter.layout(this.elementOption);
 
-                    // 延迟 100ms, 确保 canvas 的高度已经改变
-                    await new Promise(r => setTimeout(r, 100));
-                }
-            });
+            this.layoutMessage = `width=${size.width}, height=${size.height}`
+
+            // 获取 painter 布局计算之后得出的高度，并更新 canvas 的高度
+            this.canvasSize.height = size.height;
+
+            // 延迟 100ms, 确保 canvas 的高度已经改变
+            await new Promise(r => setTimeout(r, 100));
+
+            await painter.draw(this.elementOption);
         }
     }
 }
