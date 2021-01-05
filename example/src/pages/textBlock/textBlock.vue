@@ -40,7 +40,7 @@ export default {
             top: 20,
             left: 15,
             width: 190,
-            content: "设置宽度，自动换行，支持中英文混排,  Sample text."
+            content: "设置宽度，自动换行，支持中英文混排, 不支持显示\n换行符\n，cool!"
         });
 
         new Painter(
