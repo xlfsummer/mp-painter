@@ -13,7 +13,7 @@
 
         <view>{{ layoutMessage }}</view>
 
-		<web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/playground/playground.vue"/>
+		<page-source-link />
     </view>
 </template>
 

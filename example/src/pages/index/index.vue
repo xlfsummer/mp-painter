@@ -22,7 +22,7 @@
 		<navigator class="link" url="/pages/dynamicCanvasSize/dynamicCanvasSize"><button type="default">动态canvas尺寸</button></navigator>
 		<navigator class="link" url="/pages/playground/playground"><button type="default">Playground</button></navigator>
 		
-		<web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/index/index.vue"/>
+		<page-source-link />
 	</view>
 </template>
 

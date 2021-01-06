@@ -1,8 +1,6 @@
 <template>
     <view class="link" @click="handleClick">
-        <slot>
-            查看当前页源代码
-        </slot>
+        <slot />
     </view>
 </template>
 
@@ -34,6 +32,6 @@ export default {
     cursor: pointer;
     font-size: 14px;
     display: block;
-    color: #fc6000;
+    color: #3f51b5;
 }
 </style>

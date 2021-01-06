@@ -8,7 +8,7 @@
 		<canvas id="canvas-clip-image" canvas-id="canvas-clip-image"
             class="canvas" style="height: 300upx"/>
 
-        <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/clip/clip.vue"/>
+        <page-source-link />
     </view>
 </template>
 

@@ -16,7 +16,7 @@
 		<canvas id="canvas-image-contain"
             canvas-id="canvas-image-contain" class="canvas" style="height: 720rpx"/>
 
-        <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/image/image.vue"/>
+        <page-source-link />
     </view>
 </template>
 

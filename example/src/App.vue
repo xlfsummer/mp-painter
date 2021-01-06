@@ -18,7 +18,7 @@
 		font-size: 20px;
 	}
 	.link {
-		margin: 15px 0;
+		padding: 15px 0;
 	}
 	.h2 {
 		color: #666;

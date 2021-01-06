@@ -15,7 +15,7 @@
         <view class="page-title h2">组合变换</view>
         <canvas id="canvas-transform-combination" canvas-id="canvas-transform-combination"
             class="canvas" style="height: 200upx"/>
-        <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/transform/transform.vue"/>
+        <page-source-link />
     </view>
 </template>
 

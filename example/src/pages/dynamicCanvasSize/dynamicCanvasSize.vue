@@ -16,7 +16,7 @@
             height: `${canvasHeight}rpx`
         }"/>
 
-        <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/dynamicCanvasSize/dynamicCanvasSize.vue"/>
+        <page-source-link />
     </view>
 </template>
 
