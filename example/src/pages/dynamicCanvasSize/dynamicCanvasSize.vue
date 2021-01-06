@@ -1,6 +1,12 @@
 <template>
     <view class="page">
-        <view class="page-title h2">动态长度的多行文本：</view>
+        <view class="page-title h2">动态获取元素尺寸</view>
+        <view>
+            对于复杂情况，元素的高度可能不确定，我们需要动态获取元素的尺寸，下面的 DEMO 展示了:
+            <view>1. 获取元素的高度来设置 canvas 尺寸</view>
+            <view>2. 为尺寸不定的元素设置背景色</view>
+        </view>
+        <br/>
         <textarea v-model="text" style="border: 1rpx solid #ddd" maxlength="-1"/>
         <br/>
         <button @click="updateCanvas" type="default">更新</button>
@@ -72,7 +78,7 @@ export default {
                 fontSize: 40,
                 lineHeight: 60,
                 fontStyle: "italic",
-                color: "#333",
+                color: "#356",
                 content: this.text
             };
         }
