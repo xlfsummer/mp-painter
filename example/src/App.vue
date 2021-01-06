@@ -11,6 +11,7 @@
 	}
 
 	.page{
+		display: flow-root;
 		padding: 0 10px;
 	}
 	.page-title {
@@ -18,7 +19,7 @@
 		font-size: 20px;
 	}
 	.link {
-		padding: 15px 0;
+		margin: 15px 0;
 	}
 	.h2 {
 		color: #666;
