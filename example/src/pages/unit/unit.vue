@@ -1,6 +1,6 @@
 <template>
     <view class="page">
-        <view class="page-title h2">以下均是 100 * 100 的矩形</view>
+        <view class="page-title h2">mp-painter 中默认的绘制单位为 rpx, 可以通过配置自定义绘制比例，以下均是 100 * 100 的矩形</view>
 
         <view class="page-title h2">默认 rpx</view>
         <canvas canvas-id="canvas-rpx" id="canvas-rpx" class="canvas" style="height: 300rpx"/>
