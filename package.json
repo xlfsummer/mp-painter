@@ -2,6 +2,7 @@
   "name": "mp-painter",
   "version": "0.2.13",
   "description": "A declarative canvas lib using with mini-program, espacially with uniapp.",
+  "keywords": ["canvas", "uniapp", "miniprogram", "poster"],
   "main": "dist/lib/painter.js",
   "types": "dist/lib/painter.d.ts",
   "scripts": {
@@ -14,7 +15,6 @@
     "type": "git",
     "url": "git+https://github.com/xlfsummer/mp-painter.git"
   },
-  "keywords": [],
   "author": "https://github.com/xlfsummer",
   "license": "ISC",
   "bugs": {
@@ -36,5 +36,9 @@
     "typescript": "^3.7.4",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11"
-  }
+  },
+  "files": [
+    "src",
+    "dist"
+  ]
 }
