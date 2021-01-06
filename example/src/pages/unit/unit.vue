@@ -12,7 +12,7 @@
         <input type="number" :value="scale" @confirm="scaleChange"  style="border: 1rpx solid #ddd" />
         <canvas canvas-id="canvas-custom" id="canvas-custom" class="canvas" style="height: 300rpx"/>
 
-        <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/unit/unit.vue"/>
+        <page-source-link />
     </view>
 </template>
 
