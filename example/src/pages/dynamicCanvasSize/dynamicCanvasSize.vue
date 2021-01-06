@@ -12,8 +12,8 @@
         <button @click="updateCanvas" type="default">更新</button>
 
         <canvas canvas-id="canvas" id="canvas" class="canvas" :style="{
-            width: CANVAS_WIDTH + 'rpx',
-            height: canvasHeight + 'rpx'
+            width: `${CANVAS_WIDTH}rpx`,
+            height: `${canvasHeight}rpx`
         }"/>
 
         <web-link href="https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages/dynamicCanvasSize/dynamicCanvasSize.vue"/>
@@ -22,13 +22,15 @@
 
 <script>
 import Painter from "../../../../dist/lib/painter.js";
+
 const LOCAL_IMAGE_RELATIVE_PATH = "../../static/demo.png";
+const CANVAS_WIDTH = 500
 
 export default {
     data(){
         return {
             text: "在这里修改文本的长度，点击更新，查看 canvas 高度变化",
-            CANVAS_WIDTH: 500,
+            CANVAS_WIDTH,
             canvasHeight: 0,
             painterTextBackgroundOption: {},
         };
@@ -41,9 +43,9 @@ export default {
                 direction: "vertical",
                 height: "auto",
                 left: 20,
-                width: this.CANVAS_WIDTH,
+                width: CANVAS_WIDTH,
                 children: [
-                    { // canvas 中的其它 painter 元素 1
+                    { // 图片元素
                         type: "image",
                         top: 20,
                         width: 100,
@@ -54,7 +56,7 @@ export default {
                     this.painterTextBackgroundOption,
                     // 动态高度的多行文本
                     this.painterTextBlockOption,
-                    { // canvas 中的其它 painter 元素 2
+                    { // 底部装饰元素
                         type: "rect",
                         top: 20,
                         width: 300,
@@ -73,7 +75,7 @@ export default {
             return  { 
                 type: "text-block",
                 top: 20,
-                width: this.CANVAS_WIDTH - 40,
+                width: CANVAS_WIDTH - 40,
                 height: "auto",
                 fontSize: 40,
                 lineHeight: 60,
@@ -99,9 +101,10 @@ export default {
 
             const painter = new Painter(uni.createCanvasContext("canvas"));
 
+            // 获取 painter 布局计算之后得出的尺寸
             let size = await painter.layout(this.painterContent);
 
-            // 获取 painter 布局计算之后得出的高度，并更新 canvas 的高度
+            // 更新 canvas 的高度
             this.canvasHeight = size.height;
 
             // 延迟 100ms, 确保 canvas 的高度已经改变
@@ -114,7 +117,7 @@ export default {
             await new Painter(uni.createCanvasContext("canvas")).draw({
                 type: "rect",
                 background: "#fff",
-                width: this.CANVAS_WIDTH,
+                width: CANVAS_WIDTH,
                 height: this.canvasHeight
             });
         },
@@ -128,7 +131,7 @@ export default {
                 position: "absolute",
                 top: 150,
                 left: 40,
-                width: this.CANVAS_WIDTH - 100,
+                width: CANVAS_WIDTH - 100,
                 height: textBlockSize.height,
                 background: "#cff",
             }
