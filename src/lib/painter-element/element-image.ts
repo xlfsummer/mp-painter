@@ -6,11 +6,9 @@ import { promisify } from "../../utils/promisify";
 import { calculateConcreteRect } from "../core/object-sizing";
 import { memorize } from "../../utils/memorize";
 
-const getImageOriginSize = memorize(async function (img: string | HTMLImageElement): Promise<Size>{
-  if(img instanceof HTMLImageElement){
-    return { width: img.naturalWidth, height: img.naturalHeight };
-  }
+import { normalizeImageResource as normalizeImageResourceH5 } from "../painter-context/context-h5";
 
+const getImageOriginSize = memorize(async function (img: string): Promise<Size>{
   try {
     let { width = 100, height = 100 } = await promisify(uni.getImageInfo)({ src: img });
     return { width, height };
@@ -18,6 +16,11 @@ const getImageOriginSize = memorize(async function (img: string | HTMLImageEleme
     console.log("mp-painter:getImageOriginSize: fail, use default size: width = 100, height = 100");
     return { width: 100, height: 100 };
   }
+});
+
+const getImageOriginSizeH5 = memorize(async function (src: string): Promise<Size>{
+  let img = await normalizeImageResourceH5(src);
+  return { width: img.naturalWidth, height: img.naturalHeight };
 });
 
 export interface PainterImageElementOption extends PainterElementOption{
@@ -34,7 +37,7 @@ export interface PainterImageElementOption extends PainterElementOption{
      * 图片的适应方式
      * - fill 拉伸图片以铺满容器
      * - contain 等比缩放，使图片刚好能完整显示出来
-     * - cover 等比缩放，使图片更好能占满容器
+     * - cover 等比缩放，使图片刚好能占满容器
      */
     objectFit?: ObjectFit;
     /**
@@ -74,7 +77,7 @@ export class PainterImageElement extends PainterElement{
         objectFit: this.option.objectFit,
         objectPosition: this.option.objectPosition
       }, 
-        await getImageOriginSize(src),
+        await (this.painter.platform == "h5" ? getImageOriginSizeH5 : getImageOriginSize)(src),
       {
         width: this.option.width,
         height: this.option.height
@@ -98,7 +101,7 @@ export class PainterImageElement extends PainterElement{
 }
 
 async function normalizeImageResource(painter: Painter, image: Pick<PainterImageElementOption, "src">):
-  Promise<undefined | string | HTMLImageElement> {
+  Promise<undefined | string> {
   let platform = painter.platform;
   /** 
    * @expample "https://resource/1573628995676.jpg" 开发者工具
@@ -136,15 +139,7 @@ async function normalizeImageResource(painter: Painter, image: Pick<PainterImage
   console.log("mp-painter:绘制图片: 下载图片文件:", image.src);
 
   if(platform == "h5"){
-    let imageHtmlElement = new Image();
-    imageHtmlElement.src = image.src;
-    return new Promise(resolve => 
-      imageHtmlElement.addEventListener(
-        "load",
-        _ => resolve(imageHtmlElement),
-        { once: true }
-      )
-    );
+    return image.src;
   }else{
     return await downloadFileToLocal(image.src).catch(err => (console.log("mp-painter:下载错误: ", err), ""));
   }

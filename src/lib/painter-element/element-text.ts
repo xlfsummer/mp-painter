@@ -70,9 +70,9 @@ export class PainterTextElement extends PainterElement {
       this.painter.setFillStyle(createFillStrokeStyle(this, this.option.color));
     }
     
-    this.painter.setFontSize(this.painter.upx2px(this.option.fontSize));
-    this.painter.setTextBaseline(this.option.baseline);
-    this.painter.setTextAlign(this.option.align);
+    this.painter.ctx.setFontSize(this.painter.upx2px(this.option.fontSize));
+    this.painter.ctx.setTextBaseline(this.option.baseline);
+    this.painter.ctx.setTextAlign(this.option.align);
     this.painter.ctx.fillText(
       this.option.content,
       this.painter.upx2px(this.elementX),

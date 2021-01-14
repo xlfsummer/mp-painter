@@ -1,18 +1,20 @@
-import Painter from "../painter";
+import { CompatableContext } from "./index";
 
-type CompatableContext = CanvasContext | CanvasRenderingContext2D;
+export function createExtendableContextClass(ctx: CompatableContext){
+    return createClassFromPrototype(createExtendableContextProto(ctx));
+}
 
-function createExtensableContextProto(ctx: CanvasRenderingContext2D): CanvasRenderingContext2D{
+export function createExtendableContextProto<T extends CompatableContext>(ctx: T): T{
 
     let descs = Object.getOwnPropertyDescriptors(Object.getPrototypeOf(ctx)) as
-        Record<keyof CanvasRenderingContext2D, PropertyDescriptor>;
+        Record<keyof T, PropertyDescriptor>;
 
     let newDescs: PropertyDescriptorMap = {};
 
     for(let _key in descs){
 
         // work around ts
-        let key = _key as keyof CanvasRenderingContext2D;
+        let key = _key as keyof T;
 
         const desc = descs[key];
         const newDesc: PropertyDescriptor = {};
@@ -38,12 +40,12 @@ function createExtensableContextProto(ctx: CanvasRenderingContext2D): CanvasRend
             newDesc.set = desc.set.bind(ctx);
         }
 
-        newDescs[key] = newDesc;
+        newDescs[key as string] = newDesc;
     }
 
     return Object.defineProperties({}, newDescs);
 }
 
-function creatClassFromPrototype<T extends object>(prototype: T) {
+function createClassFromPrototype<T extends object>(prototype: T) {
     return Object.assign(function () {}, { prototype }) as unknown as new (p: T) => T;
 }

@@ -5,6 +5,7 @@ import { CHAR_WIDTH_SCALE_MAP } from "./const";
 import { BuiltInPainterElementOption, createElement } from "./painter-element/index";
 import { upx2px as defaultUpx2px } from "../utils/upx2px";
 import { BaseLine, FillStrokeStyle, TextAlign, Size } from "./value";
+import { adaptContext, PainterContext } from "./painter-context/index";
 
 interface IPanterOption {
   platform?: UniPlatforms
@@ -16,7 +17,7 @@ interface IDrawOption {
 }
 
 export default class Painter {
-  ctx: CanvasContext;
+  ctx: PainterContext;
   upx2px: NonNullable<IPanterOption["upx2px"]>
   platform: NonNullable<IPanterOption["platform"]>
 
@@ -24,13 +25,14 @@ export default class Painter {
     platform = PLATFORM,
     upx2px
   }: IPanterOption = {}){
-    this.ctx = ctx;
     this.platform = platform;
-
+    
     this.upx2px = upx2px ?? defaultUpx2px;
     if(platform == "mp-alipay"){
       this.upx2px = (x: number) => (upx2px ?? defaultUpx2px)(x * 2);
     }
+
+    this.ctx = adaptContext(this, ctx);
   }
 
   async draw(elementOption: BuiltInPainterElementOption, drawOption: IDrawOption = {}){
@@ -105,38 +107,12 @@ export default class Painter {
         return widthScaleSum + widthScale;
       }, 0) * fontSize;
     } else {
-      this.setFontSize(fontSize);
+      this.ctx.setFontSize(fontSize);
       let width = this.ctx.measureText(text).width;
       console.debug("measureText: result of measure text \"%s\" with font size %s is %s", text, this.ctx.font, width);
       if(width) return width;
     }
     return text.length * fontSize;
-  }
-
-  setFontSize(fontSize: number){
-    if(this.platform === "h5"){
-      console.debug("set font size for h5, before is %s after is %s", this.ctx.font, this.ctx.font?.replace(/\b\w+px\b/, `${this.upx2px(fontSize)}px sans-serif`));
-      return this.ctx.font = this.ctx.font?.replace(/\b\w+px\b/, `${this.upx2px(fontSize)}px`);
-    }
-    return this.ctx.setFontSize(fontSize);
-  }
-
-  setTextBaseline(baseline: BaseLine){
-    if(this.platform === "h5"){
-      let ctx = this.ctx as unknown as CanvasRenderingContext2D;
-      return ctx.textBaseline = baseline === "normal" ? "alphabetic" : baseline;
-    }
-
-    return this.ctx.setTextBaseline(baseline);
-  }
-
-  setTextAlign(align: TextAlign) {
-    if(this.platform === "h5"){
-      let ctx = this.ctx as unknown as CanvasRenderingContext2D;
-      return ctx.textAlign = align;
-    }
-
-    return this.ctx.setTextAlign(align);
   }
 
   /** 兼容地，根据控制点和半径绘制圆弧路径 */
@@ -150,20 +126,10 @@ export default class Painter {
   }
 
   /** 兼容绘制图片 */
-  drawImage(imageResource: string | HTMLImageElement, sx: number, sy: number, sWidth: number, sHeigt: number): void
-  drawImage(imageResource: string | HTMLImageElement, sx: number, sy: number, sWidth: number, sHeigt: number, dx: number, dy: number, dWidth: number, dHeight: number): void
+  drawImage(imageResource: string, sx: number, sy: number, sWidth: number, sHeigt: number): void
+  drawImage(imageResource: string, sx: number, sy: number, sWidth: number, sHeigt: number, dx: number, dy: number, dWidth: number, dHeight: number): void
   
-  drawImage(imageResource: string | HTMLImageElement, sx: number, sy: number, sWidth: number, sHeigt: number, dx?: number, dy?: number, dWidth?: number, dHeight?: number){
-
-    // H5 中绘制
-    if(imageResource instanceof HTMLImageElement){
-      let ctx = this.ctx as unknown as CanvasRenderingContext2D;
-      if(dx && dy && dWidth && dHeight)
-        return ctx.drawImage(imageResource, sx, sy, sWidth, sHeigt, dx, dy, dWidth, dHeight);
-      else
-        return ctx.drawImage(imageResource, sx, sy, sWidth, sHeigt);
-    }
-
+  drawImage(imageResource: string, sx: number, sy: number, sWidth: number, sHeigt: number, dx?: number, dy?: number, dWidth?: number, dHeight?: number){
     // 小程序中绘制
     if(dx && dy && dWidth && dHeight){
       if(this.platform == "mp-baidu"){
