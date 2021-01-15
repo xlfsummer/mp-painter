@@ -1,8 +1,13 @@
 {
   "name": "mp-painter",
-  "version": "0.2.13",
+  "version": "1.0.0-beta.0",
   "description": "A declarative canvas lib using with mini-program, espacially with uniapp.",
-  "keywords": ["canvas", "uniapp", "miniprogram", "poster"],
+  "keywords": [
+    "canvas",
+    "uniapp",
+    "miniprogram",
+    "poster"
+  ],
   "main": "dist/lib/painter.js",
   "types": "dist/lib/painter.d.ts",
   "scripts": {
