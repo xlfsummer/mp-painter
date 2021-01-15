@@ -83,14 +83,14 @@ export class PainterImageElement extends PainterElement{
         height: this.option.height
       });
 
-      this.painter.drawImage(src, sx, sy, sw, sh,
+      this.painter.ctx.drawImageWithSrc(src, sx, sy, sw, sh,
         upx2px(dx + this.elementX),
         upx2px(dy + this.elementY),
         upx2px(dw),
         upx2px(dh)
       );
     } else {
-      this.painter.drawImage(src,
+      this.painter.ctx.drawImageWithSrc(src,
         upx2px(this.elementX),
         upx2px(this.elementY),
         upx2px(this.option.width),

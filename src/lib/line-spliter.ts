@@ -56,7 +56,7 @@ export default class LineSpliterContext {
       if(!this.currentLineText.length)
         return this.width;
       else {
-        let width = this.painter.measureText(this.currentLineText, this.fontSize);
+        let width = this.painter.ctx.measureTextWidth(this.currentLineText, this.fontSize);
         return this.width - (width || 0);
       }
     }

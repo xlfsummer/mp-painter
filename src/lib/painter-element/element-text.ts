@@ -49,7 +49,7 @@ export class PainterTextElement extends PainterElement {
     this.option.content = removeLineFeed(this.option.content);
   }
   _layout(){
-    let textWidth = this.option.width ?? this.painter.measureText(this.option.content, this.option.fontSize);
+    let textWidth = this.option.width ?? this.painter.ctx.measureTextWidth(this.option.content, this.option.fontSize);
     return {
       width: textWidth,
       height: this.option.fontSize
@@ -67,7 +67,7 @@ export class PainterTextElement extends PainterElement {
     if(inTextBlock){
       // 不重设文字的颜色，多行文本统一设置渐变填充
     } else {
-      this.painter.setFillStyle(createFillStrokeStyle(this, this.option.color));
+      this.painter.ctx.setFillStyle(createFillStrokeStyle(this, this.option.color));
     }
     
     this.painter.ctx.setFontSize(this.painter.upx2px(this.option.fontSize));

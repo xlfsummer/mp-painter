@@ -59,7 +59,7 @@ export class PainterTextBlockElement extends PainterElement {
     async paint(){
       // 这里给文本块统一设置填充，而不是每行文字单独地设置
       // 如果单独设置，则计算渐变填充坐标时会相对于每一行的文本来计算
-      this.painter.setFillStyle(createFillStrokeStyle(this, this.option.color));
+      this.painter.ctx.setFillStyle(createFillStrokeStyle(this, this.option.color));
 
       this.lines.map((line, row) => {
         let option = {

@@ -79,13 +79,13 @@ export class PainterRectagleElement extends PainterElement {
   }
 
   private applyFillStyle(){
-    this.painter.setFillStyle(createFillStrokeStyle(this, this.option.background));
+    this.painter.ctx.setFillStyle(createFillStrokeStyle(this, this.option.background));
   }
 
   private applyStrokeStyle(){
     this.painter.ctx.setLineDash(cssBorderStyleToLinePattern(this.option.borderStyle, this.option.borderWidth));
     this.painter.ctx.lineWidth = this.painter.upx2px(this.option.borderWidth);
-    this.painter.setStrokeStyle(this.option.borderColor);
+    this.painter.ctx.setStrokeStyle(this.option.borderColor);
   }
 
   private paintByRect(){
@@ -117,7 +117,7 @@ export class PainterRectagleElement extends PainterElement {
     }).paint();
 
     if(this.shouldFill){
-      this.painter.setFillStyle(createFillStrokeStyle(this, this.option.background));
+      this.painter.ctx.setFillStyle(createFillStrokeStyle(this, this.option.background));
       this.painter.ctx.fill();
     }
 

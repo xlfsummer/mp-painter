@@ -49,6 +49,13 @@ export class PainterH5Context extends createClass<CanvasRenderingContext2D>() im
         );
         super.font = super.font?.replace(/\b\w+px\b/, `${this.painter.upx2px(fontSize)}px`);
     }
+
+    measureTextWidth(text: string, fontSize: number){
+        this.setFontSize(fontSize);
+        let width = this.measureText(text).width;
+        console.debug("measureText: result of measure text \"%s\" with font size %s is %s", text, this.font, width);
+        return width ?? 0;
+    }
 }
 
 export function normalizeImageResource (src: string): Promise<HTMLImageElement> {

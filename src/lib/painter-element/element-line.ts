@@ -44,7 +44,7 @@ export class PainterLineElement extends PainterElement {
     this.painter.ctx.moveTo(...pixelFix(x1, y1, lineWidth));
     this.painter.ctx.lineTo(...pixelFix(x2, y2, lineWidth));
     this.painter.ctx.setLineDash(this.option.dashPattern.map(x => this.painter.upx2px(x)));
-    this.painter.setStrokeStyle(createFillStrokeStyle(this, this.option.color));
+    this.painter.ctx.setStrokeStyle(createFillStrokeStyle(this, this.option.color));
     this.painter.ctx.lineWidth = lineWidth;
     this.painter.ctx.stroke();
   }

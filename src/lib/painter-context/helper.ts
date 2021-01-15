@@ -47,7 +47,7 @@ export function createClass<T extends object>() {
 
     const constructor = function (this: instance, prototype: T) {
         if(!(this instanceof constructor)){
-            throw new Error("this is not instance of constructor");
+            throw new Error("mp-painter: `this` is not instance of `constructor`");
         }
 
         this.context = prototype;
