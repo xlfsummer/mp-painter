@@ -41,16 +41,10 @@ export default class Painter {
     let size = await element.layout();
     await element.paint();
 
-    if(this.platform === "h5"){
-      // nothing should be done
-    } else {
-      // debug("call context draw method");
-      await new Promise<void>(resolve => this.ctx.draw(true, resolve));
-      // debug("context draw method done");
+    await new Promise<void>(resolve => this.ctx.draw(true, resolve));
 
-      // 在 draw 的 callback 中, canvas 还没有真正绘制完成，此时 resolve 会导致文字错乱
-      await delay(100);
-    }
+    // 在 draw 的 callback 中, canvas 还没有真正绘制完成，此时 resolve 会导致文字错乱
+    await delay(100);
     
     return size;
   }

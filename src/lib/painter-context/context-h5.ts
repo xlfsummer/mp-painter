@@ -1,5 +1,5 @@
 import Painter from "../painter";
-import { BaseLine, TextAlign } from "../value";
+import { BaseLine, FillStrokeStyle, TextAlign } from "../value";
 import { createClass } from "./helper";
 import { PainterContext } from "./index";
 
@@ -11,13 +11,16 @@ export class PainterH5Context extends createClass<CanvasRenderingContext2D>() im
         super(context);
         this.painter = painter;
     }
-
-    setFillStyle(color?: string | CanvasGradient | CanvasPattern): void {
-        throw new Error("Method not implemented.");
+    draw(reserve: boolean, callback: () => void): void {
+        callback();
     }
 
-    setStrokeStyle(color?: string | CanvasGradient | CanvasPattern): void {
-        throw new Error("Method not implemented.");
+    setFillStyle(color: FillStrokeStyle): void {
+        super.fillStyle = color;
+    }
+
+    setStrokeStyle(color: FillStrokeStyle): void {
+        super.strokeStyle = color;
     }
 
     async drawImageWithSrc(imageResource: string, sx: number, sy: number, sWidth: number, sHeight: number, dx?: number, dy?: number, dWidth?: number, dHeight?: number){
@@ -30,14 +33,12 @@ export class PainterH5Context extends createClass<CanvasRenderingContext2D>() im
         }
     }
 
-    draw(){ }
-
     setTextAlign(align: TextAlign){
-        return super.textAlign = align;
+        super.textAlign = align;
     }
 
     setTextBaseline(baseline: BaseLine){
-        return super.textBaseline = baseline === "normal" ? "alphabetic" : baseline;
+        super.textBaseline = baseline === "normal" ? "alphabetic" : baseline;
     }
     
     setFontSize(fontSize: number){
@@ -46,7 +47,7 @@ export class PainterH5Context extends createClass<CanvasRenderingContext2D>() im
             super.font,
             super.font?.replace(/\b\w+px\b/, `${this.painter.upx2px(fontSize)}px sans-serif`)
         );
-        return super.font = super.font?.replace(/\b\w+px\b/, `${this.painter.upx2px(fontSize)}px`);
+        super.font = super.font?.replace(/\b\w+px\b/, `${this.painter.upx2px(fontSize)}px`);
     }
 }
 
