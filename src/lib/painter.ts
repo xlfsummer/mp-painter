@@ -133,12 +133,12 @@ export default class Painter {
     // 小程序中绘制
     if(dx && dy && dWidth && dHeight){
       if(this.platform == "mp-baidu"){
-        return this.ctx.drawImage(imageResource, dx, dy, dWidth, dHeight, sx, sy, sWidth, sHeigt);
+        return this.ctx.drawImageWithSrc(imageResource, dx, dy, dWidth, dHeight, sx, sy, sWidth, sHeigt);
       }else{
-        return this.ctx.drawImage(imageResource, sx, sy, sWidth, sHeigt, dx, dy, dWidth, dHeight);
+        return this.ctx.drawImageWithSrc(imageResource, sx, sy, sWidth, sHeigt, dx, dy, dWidth, dHeight);
       }
     }else{
-      return this.ctx.drawImage(imageResource, sx, sy, sWidth, sHeigt);
+      return this.ctx.drawImageWithSrc(imageResource, sx, sy, sWidth, sHeigt);
     }
   }
 }

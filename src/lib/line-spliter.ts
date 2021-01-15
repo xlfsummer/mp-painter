@@ -1,4 +1,5 @@
 import Painter from "./painter";
+import { PainterContext } from "./painter-context/index";
 
 interface ILineSpliterContextOption {
   fontSize: number;
@@ -12,7 +13,7 @@ export default class LineSpliterContext {
     fontSize: number;
     lineClamp: number;
     width: number;
-    ctx: CanvasContext;
+    ctx: PainterContext;
     painter: Painter;
     content: string;
     lines: string[];
