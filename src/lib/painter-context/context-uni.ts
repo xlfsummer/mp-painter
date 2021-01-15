@@ -6,7 +6,7 @@ const CanvasContext = createClass<CanvasContext>();
 
 export class PainterUniContext extends CanvasContext implements PainterContext {
 
-    painter: Painter
+    private painter: Painter
 
     constructor(painter: Painter, context: CanvasContext){
         super(context);
