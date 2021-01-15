@@ -22,9 +22,17 @@ export default {
              * "/"                   // 首页
              * "/pages/text/text"    // 文本组件
             */
-            let path = this.$route.path;
+            let path;
 
-            if(path = "/") path = "/pages/index/index";
+            // #ifdef H5
+                path = this.$route.path
+            // #endif
+
+            // #ifdef MP
+                path = "/" + getCurrentPages().find(page => page.$vm === this.$root).route
+            // #endif
+
+            if(path === "/") path = "/pages/index/index";
             
             return `https://github.com/xlfsummer/mp-painter/tree/master/example/src${path}.vue`
         }
