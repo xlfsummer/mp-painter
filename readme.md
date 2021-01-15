@@ -3,8 +3,8 @@ mp-painter
 ![npm](https://img.shields.io/npm/v/mp-painter)
 ![size](https://img.shields.io/badge/bundle%20size-17.4%20kB-brightgreen)
 ![build & deploy demo](https://github.com/xlfsummer/mp-painter/workflows/build%20&%20deploy%20demo/badge.svg)
-- 声明式地创建适用于 uniapp 和原生微信小程序的 canvas 海报
-- 目前对H5、微信、支付宝、百度端做了兼容处理，其它端还未调试过
+- 声明式地创建适用于 **Uniapp**, **原生微信小程序**, **原生H5**(beta) 的 canvas 海报
+- 目前对H5、微信、支付宝、百度端做了兼容处理，其它端未测试
 - 支持 text / rect / line / text-block / image 等对象绘制
 - 支持基于文字宽度的多行文本换行，lineClamp 控制
 - 基于 typescript 的友好代码提示
@@ -19,6 +19,9 @@ mp-painter
 ===
 ```bash
 npm install mp-painter --save
+
+# 安装 beta 版
+npm install mp-painter@next --save
 ```
 
 Hello World
@@ -35,7 +38,7 @@ import Painter from "mp-painter";
 let painter = new Painter(uni.createCanvasContext("canvas"));
 await painter.draw({
     type: "text",
-    color: "#fcc",
+    color: "#f33",
     fontSize: 60, // = 60rpx
     content: "Hello World" //绘制的文本
 });
@@ -46,4 +49,15 @@ await painter.draw({
 - 示例请查看 [在线 DEMO](http://mp-painter.xlf-summer.cn/) 及 [DEMO 源码](https://github.com/xlfsummer/mp-painter/tree/master/example/src/pages)  
 也可通过手机扫描下方二维码进入 DEMO  
 ![DEMO站点二维码](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://mp-painter.xlf-summer.cn/)
+
+- 交互式体验：将下面的代码复制到 [Playground](https://mp-painter.xlf-summer.cn/#/pages/playground/playground) , 运行并查看效果
+```json
+{
+    "type": "text",
+    "color": "#f33",
+    "fontSize": 60,
+    "content": "Hello World"
+}
+```
+
 - 推荐通过查看在线 DEMO 站点与对应 DEMO 源码的方式理解和学习本插件
