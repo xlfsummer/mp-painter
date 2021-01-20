@@ -57,4 +57,7 @@ export default class Painter {
   async layout(elementOption: BuiltInPainterElementOption){
     return await this.createElement(elementOption).layout();
   }
+
+  /** 支持将 painter 的实例保存在 this 上 */
+  toJSON(){ return "Painter Instance" }
 }
