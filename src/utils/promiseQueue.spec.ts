@@ -19,7 +19,7 @@ describe("promiseQueue", () => {
             async () => await delay(300),
         ]);
         time += Date.now();
-        expect(time).toBeCloseTo(600, -1);
+        expect(time).toBeCloseTo(600, -2);
     });
 
     it("excute one by one", async () => {

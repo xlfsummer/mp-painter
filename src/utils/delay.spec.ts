@@ -9,6 +9,6 @@ describe("delay", () => {
         let timer = -Date.now();
         await delay(1000);
         timer += Date.now()
-        expect(timer).toBeCloseTo(1000, -1);
+        expect(timer).toBeCloseTo(1000, -2);
     });
 });
