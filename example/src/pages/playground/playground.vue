@@ -11,7 +11,9 @@
 		<canvas canvas-id="canvas-playground" id="canvas-playground" class="canvas" 
         :style="{ width: canvasSize.width + 'rpx', height: canvasSize.height + 'rpx' }"/>
 
-        <view>{{ layoutMessage }}</view>
+        <view style="margin: 10px auto;">layout: {{ layoutMessage }}</view>
+
+        <button accesskey="e" @click="exportImage">导出 (alt+e)</button>
 
 		<page-source-link />
     </view>
@@ -24,10 +26,13 @@ import Painter from "../../../../dist/lib/painter";
 
 
 const defaultElementOption = /** @type {ElementOption} */(
-    { type: "container", direction: "vertical", top: 10, children: [
+    { type: "container", direction: "vertical", top: 10, left: 10, children: [
         { type: "text", fontFamily: "times", content: "Hello, World!", fontStyle: "italic", color: "#456" },
         { type: "rect", top: 5, background: "#456", width: 80, height: 3 },
-        { type: "rect", height: 20 },
+        { type: "image", src: "/static/demo.png", width: 100, height: 60, top: 10,
+          objectFit: "cover", objectPosition: ["center", "top"]
+        },
+        { type: "rect", height: 10 },
     ]}
 );
 
@@ -93,15 +98,45 @@ export default {
 
             const size = await painter.layout(this.elementOption);
 
-            this.layoutMessage = `size: width=${size.width}, height=${size.height}`
+            this.layoutMessage = `width=${size.width}, height=${size.height}`
 
             // 获取 painter 布局计算之后得出的高度，并更新 canvas 的高度
-            this.canvasSize.height = size.height;
+            this.canvasSize.height = size.height + this.elementOption.top;
 
             // 延迟 100ms, 确保 canvas 的高度已经改变
             await new Promise(r => setTimeout(r, 100));
 
             await painter.draw(this.elementOption);
+        },
+        exportImage(){
+            /**
+             * 在 uni-app:h5 中下载
+             * uni app 未在 h5 中实现 saveImageToPhotosAlbum
+             * @param {string} base64
+             */
+            const donwloadBase64 = base64 => {
+                const a = document.createElement("a");
+                a.href = base64;
+                a.download = "mp-painter-playground-export.jpg";
+                a.click();
+            }
+
+            uni.canvasToTempFilePath({
+                canvasId: "canvas-playground",
+                fileType: "jpg",
+                width: uni.upx2px(this.canvasSize.width),
+                height: uni.upx2px(this.canvasSize.height),
+                success({ tempFilePath }){
+
+                    // #ifdef H5
+                    donwloadBase64(tempFilePath)
+                    // #endif
+
+                    //# ifndef H5
+                    uni.saveImageToPhotosAlbum({ filePath: tempFilePath })
+                    // #endif
+                }
+            })
         }
     }
 }
