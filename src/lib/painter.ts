@@ -53,11 +53,11 @@ export default class Painter {
     return createElement(this, elementOption);
   }
 
-  /** 获取指定元素的尺寸 */
+  /** 获取指定元素的内部尺寸, 结果不包含元素的 left 和 top */
   async layout(elementOption: BuiltInPainterElementOption){
     return await this.createElement(elementOption).layout();
   }
 
-  /** 支持将 painter 的实例保存在 this 上 */
+  /** 兼容将 painter 实例保存在 uniapp this 上, 勿手动调用 */
   toJSON(){ return "Painter Instance" }
 }
