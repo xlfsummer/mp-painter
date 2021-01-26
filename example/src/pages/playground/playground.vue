@@ -101,7 +101,7 @@ export default {
             this.layoutMessage = `width=${size.width}, height=${size.height}`
 
             // 获取 painter 布局计算之后得出的高度，并更新 canvas 的高度
-            this.canvasSize.height = size.height + this.elementOption.top;
+            this.canvasSize.height = size.height + (this.elementOption.top || 0);
 
             // 延迟 100ms, 确保 canvas 的高度已经改变
             await new Promise(r => setTimeout(r, 100));
