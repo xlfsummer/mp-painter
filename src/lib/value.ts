@@ -13,8 +13,8 @@ export interface Rect {
 }
 
 export type BaseLine = "top" | "middle" | "bottom" | "normal";
-export type BorderRadius = number | BorderRadius4
-export type BorderRadius4 = [topLeft: number, topRight: number, bottomLeft: number, bottomRight: number]
+export type BorderRadius = number | BorderRadius4;
+export type BorderRadius4 = [topLeft: number, topRight: number, bottomLeft: number, bottomRight: number];
 export type BorderStyle = "solid" | "dashed";
 /** @example "#rrggbb" | "#rgb" | "colorName" */
 export type Color = string
@@ -33,7 +33,7 @@ export type TextAlign = "left" | "right" | "center";
 export type TextDecoration = "none" | "line-through";
 /** left-top right-top right-bottom left-bottom */
 
-export type OmitBaseOption<T> = Omit<T, keyof PainterElementOption>
+export type OmitBaseOption<T> = Omit<T, keyof PainterElementOption>;
 
 
 export function cssBorderStyleToLinePattern(borderStyle: BorderStyle, borderWidth: number){
@@ -42,4 +42,4 @@ export function cssBorderStyleToLinePattern(borderStyle: BorderStyle, borderWidt
         "solid":    [10, 0]
     };
     return map[borderStyle];
-}
+};
