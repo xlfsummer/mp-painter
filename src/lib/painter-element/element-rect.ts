@@ -94,8 +94,7 @@ export class PainterRectagleElement extends PainterElement {
       this.painter.upx2px(this.elementY),
       this.painter.upx2px(this.option.width), 
       this.painter.upx2px(this.option.height)
-    ];;
-
+    ];
 
     if(this.shouldFill){
       this.applyFillStyle();

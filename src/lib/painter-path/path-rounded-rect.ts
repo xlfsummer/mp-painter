@@ -1,5 +1,5 @@
 import { PainterPath, PainterPathOption,  } from "./base";
-import { BorderRadius } from "../value";
+import { BorderRadius, BorderRadius4 } from "../value";
 import { PainterElement } from "../painter-element/base";
 
 export interface PainterRoundedRectanglePathOption extends PainterPathOption {
@@ -26,7 +26,7 @@ export class PainterRoundedRectanglePath extends PainterPath {
 
     private assertBorderRadius(){
         if(this.normalizedBorderRadius.some(radius => radius < 0)){
-            console.warn("border radius must greater than 0, got:", this.normalizedBorderRadius.join(","));
+            console.warn("mp-painter:border radius must greater than 0, got:", this.normalizedBorderRadius.join(","));
             this.option.borderRadius = 0;
         }
     }
@@ -34,60 +34,68 @@ export class PainterRoundedRectanglePath extends PainterPath {
     paint(){
         this.reduceBorderRadius();
 
-        let [leftTopRadius, rightTopRadius, rightBottomRaidus, leftBottomRadius] = this.normalizedBorderRadius;
-        let { ctx, upx2px } = this.painter;
+        const { ctx, upx2px } = this.painter;
+        
+        const uX = upx2px(this.pathX);
+        const uY = upx2px(this.pathY);
+        const uH = upx2px(this.option.height);
+        const uW = upx2px(this.option.width);
+
+        const [
+          uTopLeftR,
+          uTopRightR,
+          uBottomRightR,
+          uBottomLeftR
+        ] = this.normalizedBorderRadius.map(r => upx2px(r));
     
         ctx.beginPath();
-    
+
+        //  ╭─────╮
+        // →│1   2|
+        //  │     |
+        //  │4   3|
+        //  ╰─────╯
+
         ctx.moveTo(
-          upx2px(this.pathX),
-          upx2px(this.pathY + leftTopRadius)
+          uX,                       uY + uTopLeftR
+        );
+
+        // top left
+        ctx.arcTo(
+          uX,                       uY,
+          uX + uTopLeftR,           uY,
+          uTopLeftR
         );
     
-        // left top
-        this.painter.ctx.arcTo(
-          upx2px(this.pathX),
-          upx2px(this.pathY),
-          upx2px(this.pathX + leftTopRadius),
-          upx2px(this.pathY),
-          upx2px(leftTopRadius)
+        // top right
+        ctx.arcTo(
+          uX + uW,                  uY,
+          uX + uW,                  uY + uTopRightR,
+          uTopRightR
         );
     
-        // right top
-        this.painter.ctx.arcTo(
-          upx2px(this.pathX + this.option.width),
-          upx2px(this.pathY),
-          upx2px(this.pathX + this.option.width),
-          upx2px(this.pathY + rightTopRadius),
-          upx2px(rightTopRadius)
+        // bottom right
+        ctx.arcTo(
+          uX + uW,                  uY + uH,
+          uX + uW - uBottomRightR,  uY + uH,
+          uBottomRightR
         );
     
-        // right bottom
-        this.painter.ctx.arcTo(
-          upx2px(this.pathX + this.option.width),
-          upx2px(this.pathY + this.option.height),
-          upx2px(this.pathX + this.option.width - rightBottomRaidus),
-          upx2px(this.pathY + this.option.height),
-          upx2px(rightBottomRaidus)
-        );
-    
-        // left bottom
-        this.painter.ctx.arcTo(
-          upx2px(this.pathX),
-          upx2px(this.pathY + this.option.height),
-          upx2px(this.pathX),
-          upx2px(this.pathY + this.option.height - leftBottomRadius),
-          upx2px(leftBottomRadius)
+        // bottom left
+        ctx.arcTo(
+          uX,                       uY + uH,
+          uX,                       uY + uH - uBottomLeftR,
+          uBottomLeftR
         )
         
         ctx.closePath();
     }
 
-    private get normalizedBorderRadius(): [number, number, number, number]{
+    private get normalizedBorderRadius(): BorderRadius4 {
         if(typeof this.option.borderRadius == "number"){
-          return Array.from({ length: 4 }).fill(this.option.borderRadius) as [number, number, number, number];
+          return Array.from({ length: 4 }).fill(this.option.borderRadius) as BorderRadius4;
         } else {
-          return [...this.option.borderRadius] as [number, number, number, number];
+          return [...this.option.borderRadius];
         }
     }
 
@@ -98,20 +106,22 @@ export class PainterRoundedRectanglePath extends PainterPath {
      * the used values of all border radii until none of them overlap.
      */
     private reduceBorderRadius(){
-        let [leftTopRadius, rightTopRadius, rightBottomRaidus, leftBottomRadius] = this.normalizedBorderRadius;
+
+        let [topLeftR, topRightR, bottomRightR, bottomLeftR] = this.normalizedBorderRadius;
+
         let f = Math.min(
         // top
-        this.option.width / (leftTopRadius + rightTopRadius),
+        this.option.width  / (topLeftR    + topRightR),
         // right
-        this.option.height / (rightTopRadius + rightBottomRaidus),
+        this.option.height / (topRightR   + bottomRightR),
         // bottom
-        this.option.width / (leftBottomRadius + rightBottomRaidus),
+        this.option.width  / (bottomLeftR + bottomRightR),
         // left
-        this.option.height / (leftTopRadius + leftBottomRadius)
+        this.option.height / (topLeftR    + bottomLeftR)
         );
 
         if(f >= 1) return;
 
-        this.option.borderRadius = this.normalizedBorderRadius.map(radius => radius * f) as [number, number, number, number];
+        this.option.borderRadius = this.normalizedBorderRadius.map(radius => radius * f) as BorderRadius4;
     }
 }

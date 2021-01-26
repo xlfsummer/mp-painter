@@ -62,7 +62,8 @@ export class PainterTextBlockElement extends PainterElement {
       this.painter.ctx.setFillStyle(createFillStrokeStyle(this, this.option.color));
 
       this.lines.map((line, row) => {
-        let option = {
+
+        const option = {
           ...this.option,
           type: "text",
           top: this.elementY + row * this.option.lineHeight,
@@ -70,8 +71,9 @@ export class PainterTextBlockElement extends PainterElement {
           position: this.position,
           content: line
         } as PainterTextElementOption
-        let t = new PainterTextElement(this.painter, option);
-        t.paint({ inTextBlock: true });
-      });
+        
+        return new PainterTextElement(this.painter, option);
+
+      }).forEach(text => text.paint({ inTextBlock: true }));
     }
   }

@@ -13,7 +13,8 @@ export interface Rect {
 }
 
 export type BaseLine = "top" | "middle" | "bottom" | "normal";
-export type BorderRadius = number | [number, number, number, number]
+export type BorderRadius = number | BorderRadius4
+export type BorderRadius4 = [topLeft: number, topRight: number, bottomLeft: number, bottomRight: number]
 export type BorderStyle = "solid" | "dashed";
 /** @example "#rrggbb" | "#rgb" | "colorName" */
 export type Color = string
