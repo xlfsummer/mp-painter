@@ -85,8 +85,21 @@ export default {
             // 移除缩进，节省空间
             const elementOptionTextWithoutIndent = JSON.stringify(this.elementOption)
 
-            uni.navigateTo({
-                url: this.$route.path 
+            let path;
+            let navigateMethod;
+
+            // #ifdef H5
+            path = this.$route.path;
+            navigateMethod = uni.navigateTo;
+            // #endif
+
+            // #ifndef H5
+            path = (pages => "/" + pages[pages.length - 1].route)(getCurrentPages());
+            navigateMethod = uni.redirectTo;
+            // #endif
+
+            navigateMethod.call(null, {
+                url: path
                 + "?d="
                 + encodeURIComponent(elementOptionTextWithoutIndent)
             });
@@ -132,7 +145,7 @@ export default {
                     donwloadBase64(tempFilePath)
                     // #endif
 
-                    //# ifndef H5
+                    // #ifndef H5
                     uni.saveImageToPhotosAlbum({ filePath: tempFilePath })
                     // #endif
                 }
