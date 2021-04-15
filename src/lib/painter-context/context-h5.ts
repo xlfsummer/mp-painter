@@ -25,9 +25,12 @@ export class PainterH5Context extends createClass<CanvasRenderingContext2D>() im
 
     async drawImageWithSrc(imageResource: string, sx: number, sy: number, sWidth: number, sHeight: number, dx?: number, dy?: number, dWidth?: number, dHeight?: number){
         let image = await normalizeImageResource(imageResource);
-
-        if(dx && dy && dWidth && dHeight){
-            super.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);    
+        if(typeof dx === "number"
+            && typeof dy === "number"
+            && typeof dWidth === "number"
+            && typeof dHeight === "number"
+        ) {
+            super.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
         } else {
             super.drawImage(image, sx, sy, sWidth, sHeight);
         }

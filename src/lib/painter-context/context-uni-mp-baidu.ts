@@ -10,7 +10,11 @@ export class PainterUniMpBaiduContext extends PainterUniContext implements Paint
     }
 
     async drawImageWithSrc(imageResource: string, sx: number, sy: number, sWidth: number, sHeigt: number, dx?: number, dy?: number, dWidth?: number, dHeight?: number){
-        if (dx && dy && dWidth && dHeight){
+        if (typeof dx === "number"
+            && typeof dy === "number"
+            && typeof dWidth === "number"
+            && typeof dHeight === "number"
+        ){
             super.drawImageWithSrc(imageResource, dx, dy, dWidth, dHeight, sx, sy, sWidth, sHeigt);
         } else {
             super.drawImageWithSrc(imageResource, sx, sy, sWidth, sHeigt);
