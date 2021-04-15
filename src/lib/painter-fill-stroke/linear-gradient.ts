@@ -2,8 +2,8 @@ import { ColorStop } from "../value";
 import { PainterGradientPatternOption, PainterGradientPatternStyle } from "./base";
 import { PainterElement } from "../painter-element/base";
 
-export interface PainterLinerGradientOption extends PainterGradientPatternOption{
-    type: "liner-gradient"
+export interface PainterLinearGradientOption extends PainterGradientPatternOption{
+    type: "linear-gradient"
     colorStops: ColorStop[],
     x1: number
     y1: number
@@ -11,9 +11,9 @@ export interface PainterLinerGradientOption extends PainterGradientPatternOption
     y2: number
 }
 
-export class PainterLinerGradientStyle extends PainterGradientPatternStyle {
-    option: PainterLinerGradientOption
-    constructor(element: PainterElement, option: PainterLinerGradientOption){
+export class PainterLinearGradientStyle extends PainterGradientPatternStyle {
+    option: PainterLinearGradientOption
+    constructor(element: PainterElement, option: PainterLinearGradientOption){
         super(element);
         this.option = option
     }

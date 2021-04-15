@@ -30,7 +30,7 @@ export default {
                 width: 500,
                 fontSize: 40,
                 color: {
-                    type: "liner-gradient",
+                    type: "linear-gradient",
                     x1: 0, x2: 500, y1: 0, y2: 280,
                     colorStops: [
                         { offset: 0, color: "red" },

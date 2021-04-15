@@ -1,8 +1,8 @@
 import { Color } from "../value";
-import { PainterLinerGradientOption, PainterLinerGradientStyle } from "./liner-gradient";
+import { PainterLinearGradientOption, PainterLinearGradientStyle } from "./linear-gradient";
 import { PainterElement } from "../painter-element/base";
 
-export type BuiltInPainterFillStrokeOption = Color | PainterLinerGradientOption;
+export type BuiltInPainterFillStrokeOption = Color | PainterLinearGradientOption;
 
 export function createFillStrokeStyle(
     element: PainterElement,
@@ -12,7 +12,7 @@ export function createFillStrokeStyle(
     if(typeof option == "string") return option;
     
     switch(option.type){
-        case "liner-gradient": return new PainterLinerGradientStyle(element, option).style;
-        default:               throw new Error("Unkwon option type");
+        case "linear-gradient": return new PainterLinearGradientStyle(element, option).style;
+        default:                throw new Error("Unkwon option type");
     }
 }

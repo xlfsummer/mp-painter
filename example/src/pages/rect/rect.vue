@@ -35,7 +35,7 @@ export default {
 
                 // test for issue #9
                 {type: "rect", top: 10, width: 200, height: 100, background: {
-                    type: "liner-gradient",
+                    type: "linear-gradient",
                     x1: 0, y1: 0, x2: 200, y2: 100,
                     colorStops: [
                         { offset: 0, color: "#44f" },
@@ -46,7 +46,7 @@ export default {
                 {type: "line", top: 30, left: 300, dx: 200, dy: 200, dashPattern: [10, 10], color: "#00f", position: "absolute" },
 
                 {type: "rect", top: 10, width: 300, height: 100, background: {
-                    type: "liner-gradient",
+                    type: "linear-gradient",
                     // 注意这里的坐标相对于元素本身
                     x1: 0, y1: 100, x2: 300, y2: 0,
                     colorStops: [
