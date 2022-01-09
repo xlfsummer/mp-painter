@@ -61,3 +61,10 @@ await painter.draw({
 ```
 
 - 推荐通过查看在线 DEMO 站点与对应 DEMO 源码的方式理解和学习本插件
+
+tips
+===
+目前，示例网址疑似被DNS污染无法访问，请在 host 中增加记录：
+```
+185.199.108.153  mp-painter.xlf-summer.cn
+```
