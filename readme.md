@@ -64,7 +64,7 @@ await painter.draw({
 
 tips
 ===
-目前，示例网址疑似被DNS污染无法访问，若要访问请在 host 中增加记录：
+目前，示例网址疑似被DNS污染无法访问，若要访问，请在 host 中增加记录：
 ```
 185.199.108.153  mp-painter.xlf-summer.cn
 ```
